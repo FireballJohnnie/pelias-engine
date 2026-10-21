@@ -9,6 +9,7 @@ Labels used throughout:
 | **measured** | Printed by a test run; the raw log is in `raw/`. |
 | **derived** | Computed from measured or published inputs; the formula is shown. |
 | **not in repo yet** | A number the README states, whose raw log is not included in this repository yet. Treat as author-stated until the log is added. |
+| **recorded** | Written in the author's run log, whose raw terminal output could not be found. Treat as author-stated until a log is added. |
 | **unverified** | A hypothesis, not tested. |
 
 Test machine: Ryzen 7 5800X3D, 4 x 16 GB DDR4-3200 (two channels), RTX 4070 12 GB on PCIe 4.0 x16, Windows 11 with WSL2 (Ubuntu 26.04.1 LTS, 48 GB given to WSL). Stock build: llama.cpp `b11399-2ca15f540`. Model: a fine-tune of Qwen3.6-35B-A3B, shown in logs as `test-model` (model files are not published).
@@ -98,16 +99,22 @@ These are ceilings. They assume the CPU and GPU shares overlap perfectly. Hit ra
 
 ---
 
-## 5. README numbers whose raw log is **not in this repo yet**
+## 5. Pinning, GPU-read and handoff tests (measured)
 
-| README statement | Label |
-|---|---|
-| 18.16 GiB of expert tensors copied into an aligned copy in 37.7 s (0.52 GB/s), byte-identical to the file | not in repo yet |
-| 120 regions pinned with `cudaHostRegister`, 0 failed, 0.82 s | not in repo yet |
-| Checksum kernel reads pinned copy at 26.2 GB/s; 0 wrong bytes in 120 matrices and 1,080 sampled rows | not in repo yet (the 26.2 GB/s figure is quoted inside the cold-path logs as "measured earlier") |
-| Resident-kernel handoff 5.05 us median, 6.17 us p99 in the engine's own handoff test | not in repo yet (the microbenchmark in section 1 is the published log; it gives 13.34 / 18.71 us with a 4 KB read) |
+Raw: `raw/gpu-read-and-handoff-tests/`. Terminal output saved from the author's runs of the engine's own tests on 2026-10-20 (the saved files are timestamped between 19:23 and 19:57 local time; the order below follows them). Paths, the user name and the model file name were replaced.
 
-The 6.17 us figure feeds the ceiling in section 4. With the microbenchmark's 18.71 us p99 instead, the 0%-hit ceiling would be 7.73 + 12.77 + 40 x 0.01871 = 21.25 ms, or 47.1 tokens/s (derived), about 2% lower.
+| File | What it is | Result |
+|---|---|---|
+| `handoff_and_host_tests.txt` | Host-only tests (miss splitter, host handoff, cold-weights reader), then the GPU handoff test (a resident kernel and a minimal stand-in CPU worker that copies the request, does 2,048 multiply-adds and posts), then the reader's tests | Handoff correctness: **ALL PASS**, every round combined, accumulator exact. Block 256 was fastest: CPU-side round trip **median 5.05 us, p90 5.64, p99 6.17, max 171.55**; GPU-side median 6.39, p99 7.84. Medians for blocks 32 / 64 / 128 / 256 / 512 / 1024: 10.93 / 7.17 / 5.40 / 5.05 / 5.06 / 5.15 us. The file ends with `FAILED`: that is the reader's real-file test, run with the literal placeholder path `/path/to/model.gguf`, which does not exist. It is not a handoff failure. |
+| `gpu_read_4layers_run1_pin_check_failed.txt` | Real-file test, 4 layers (1.95 GiB) | **FAIL.** `pin()` reported 0 of 12 regions ok because the GPU address differs from the CPU address, and this run's check required them to be identical. The file loaded and byte-verified (4.0 s, 0.52 GB/s). |
+| `gpu_read_4layers_run2_pin_ok.txt` | Same test | **ALL PASS.** 12 regions pinned in 0.30 s, 4 of 4 layers readable by the GPU; the GPU-minus-CPU address offset was constant within the run. The check now reads "the GPU address may differ from the CPU address". |
+| `gpu_read_4layers_run3_gpu_read_ok.txt` | Same test plus the GPU read | **ALL PASS.** 12 regions pinned in 0.33 s; a GPU kernel read 12 matrices (1.95 GiB) through the device pointers: 0 whole-tensor checksum mismatches, 108 sampled rows, 0 wrong; checksum-read speed 26.23 / 25.85 / 26.26 GB/s (median 26.23; includes the hash arithmetic). The offset differed from run 2 (-136887765303296 against -125428842889216 bytes), so it must never be hard-coded. |
+
+The stand-in CPU worker means the handoff numbers do not yet include a real CPU workload or other kernels in the stream (section 6). The "emulated round trip (32 host threads, NOT hardware)" line in the first file is a host-only check and says nothing about the GPU.
+
+**Full-model figures with no raw log yet.** The README's 40-layer figures come from the same test run on all 40 layers: 18.16 GiB loaded in 37.7 s (0.52 GB/s) and byte-verified, 120 regions pinned (0 failed) in 0.82 s, 40 of 40 layers readable, 120 matrices with 0 checksum mismatches, 1,080 sampled rows with 0 wrong, checksum-read 26.21 / 26.17 / 26.21 GB/s. They are recorded in the author's run log (label: **recorded**), but the raw terminal output was not found. The 4-layer runs above agree with them on load rate (0.52 GB/s) and read speed (26.2 GB/s). To close the gap: repeat the run on the full file with the output saved to a file, and add it here.
+
+The 6.17 us figure feeds the ceiling in section 4. With the microbenchmark's 18.71 us p99 (a flag plus a 4 KB read, in section 1) instead, the 0%-hit ceiling would be 7.73 + 12.77 + 40 x 0.01871 = 21.25 ms, or 47.1 tokens/s (derived), about 2% lower.
 
 ---
 

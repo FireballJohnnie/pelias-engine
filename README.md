@@ -90,7 +90,7 @@ How to read this honestly:
 
 **Test setup.** Windows 11 with WSL2 (Ubuntu 26.04.1 LTS); llama.cpp commit `2ca15f5` (4 Oct 2026); model: a fine-tune of Qwen3.6-35B-A3B in Q4_K_M GGUF (40 layers, 256 routed experts, top-8; expert tensors 18.16 GiB, **measured**); context 131,072, micro-batch 2048, KV cache q8_0.
 
-Each row below is tied to its raw log, with a label, in [`benchmarks/RESULTS.md`](benchmarks/RESULTS.md). Four rows in section 4.2 (the load time, the pinning time, the checksum-kernel check and the engine's own handoff test) have **no raw log in the repository yet**; `benchmarks/RESULTS.md` section 5 lists them.
+Each row below is tied to its raw log, with a label, in [`benchmarks/RESULTS.md`](benchmarks/RESULTS.md). The engine's own handoff test and a 4-layer run of the pin and GPU-read checks have raw logs (`benchmarks/RESULTS.md` section 5). The full 40-layer figures in section 4.2 (load time, pinning time, checksum-kernel check) are recorded in the author's run log, but their raw output has **not been found yet**.
 
 ### 4.1 Stock baseline (what Pelias is compared against) - **measured**
 
