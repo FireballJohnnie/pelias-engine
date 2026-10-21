@@ -11,7 +11,7 @@ Labels used throughout:
 | **not in repo yet** | A number the README states, whose raw log is not included in this repository yet. Treat as author-stated until the log is added. |
 | **unverified** | A hypothesis, not tested. |
 
-Test machine: Ryzen 7 5800X3D, 4 x 16 GB DDR4-3200 (two channels), RTX 4070 12 GB on PCIe 4.0 x16, Windows 11 with WSL2 (Ubuntu 24.04, 48 GB given to WSL). Stock build: llama.cpp `b11399-2ca15f540`. Model: a fine-tune of Qwen3.6-35B-A3B, shown in logs as `test-model` (model files are not published).
+Test machine: Ryzen 7 5800X3D, 4 x 16 GB DDR4-3200 (two channels), RTX 4070 12 GB on PCIe 4.0 x16, Windows 11 with WSL2 (Ubuntu 26.04.1 LTS, 48 GB given to WSL). Stock build: llama.cpp `b11399-2ca15f540`. Model: a fine-tune of Qwen3.6-35B-A3B, shown in logs as `test-model` (model files are not published).
 
 ---
 

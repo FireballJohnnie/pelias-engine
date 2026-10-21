@@ -88,7 +88,9 @@ How to read this honestly:
 
 ## 4. Results on the test machine
 
-**Test setup.** Windows 11 with WSL2 (Ubuntu 24.04); llama.cpp commit `2ca15f5` (4 Oct 2026); model: a fine-tune of Qwen3.6-35B-A3B in Q4_K_M GGUF (40 layers, 256 routed experts, top-8; expert tensors 18.16 GiB, **measured**); context 131,072, micro-batch 2048, KV cache q8_0.
+**Test setup.** Windows 11 with WSL2 (Ubuntu 26.04.1 LTS); llama.cpp commit `2ca15f5` (4 Oct 2026); model: a fine-tune of Qwen3.6-35B-A3B in Q4_K_M GGUF (40 layers, 256 routed experts, top-8; expert tensors 18.16 GiB, **measured**); context 131,072, micro-batch 2048, KV cache q8_0.
+
+Each row below is tied to its raw log, with a label, in [`benchmarks/RESULTS.md`](benchmarks/RESULTS.md). Four rows in section 4.2 (the load time, the pinning time, the checksum-kernel check and the engine's own handoff test) have **no raw log in the repository yet**; `benchmarks/RESULTS.md` section 5 lists them.
 
 ### 4.1 Stock baseline (what Pelias is compared against) - **measured**
 
@@ -243,7 +245,7 @@ The detailed list, with the checks required before a release, is in `docs/STATUS
 
 ```
 pelias-engine/
-  README.md  LICENSE  NOTICE  THIRD_PARTY_NOTICES.md  CONTRIBUTING.md  SECURITY.md  CHANGELOG.md  CITATION.cff
+  README.md  LICENSE  CITATIONS.md  NOTICE  THIRD_PARTY_NOTICES.md  CONTRIBUTING.md  SECURITY.md  CHANGELOG.md  CITATION.cff
   docs/            design, measured results, porting guide, methodology, status
   src/
     core/          splitter, handoff, weights view, cold-path kernels, CPU pool, quant geometry
@@ -260,7 +262,7 @@ pelias-engine/
     common/        shared helpers
   tests/           unit and hardware tests, CPU stand-in for the GPU API
   scripts/         numbered run-order scripts
-  benchmarks/      results, methodology, raw logs summaries
+  benchmarks/      RESULTS.md (claim-to-log ledger) and raw/ (redacted logs)
   trainer/         (later) the training engine and its patches
 ```
 
@@ -269,7 +271,7 @@ pelias-engine/
 | Item | Size | Label |
 |---|---|---|
 | Source repository, engine-only first release | existing 78 files: 828 KB; with the files still to be written, a few MB at most (mostly text) | measured + estimate |
-| Front-page files (README, LICENSE) | about 45 KB (README about 34 KB, LICENSE about 11 KB) | measured |
+| Front-page files (README, LICENSE, CITATIONS) | about 54 KB (README about 35 KB, LICENSE about 11 KB, CITATIONS about 8 KB) | measured |
 | Patched llama.cpp build (CUDA, one GPU architecture) | unmeasured; path: `du -sh` of the build directory after the first patched build | unmeasured |
 | Model file on disk (test model, Q4_K_M GGUF) | 20.22 GiB, of which 18.16 GiB are routed experts and about 2.06 GiB everything else (derived) | measured |
 | Plain-layout copy of the experts in RAM (pinned) | 18.16 GiB, in addition to whatever llama.cpp holds; if llama.cpp also keeps its own CPU-side copy, both together are about 36.3 GiB (derived) against 64 GB of RAM; pointing llama.cpp's expert tensors at the single pinned copy is an option | measured + derived |
@@ -277,7 +279,7 @@ pelias-engine/
 
 ### 9.2 Where it runs first
 
-* **Tested:** Windows 11 with WSL2 (Ubuntu 24.04), NVIDIA RTX 4070 (sm_89), x86-64. Sources and the model sit on the Windows (NTFS) side and are read through the WSL mount; build outputs sit on the WSL ext4 disk.
+* **Tested:** Windows 11 with WSL2 (Ubuntu 26.04.1 LTS), NVIDIA RTX 4070 (sm_89), x86-64. Sources and the model sit on the Windows (NTFS) side and are read through the WSL mount; build outputs sit on the WSL ext4 disk.
 * **Filesystem:** the engine copies the expert weights into RAM at start, so decode does not read the model file; any filesystem the GGUF can be read from works (design property, **unverified** beyond this machine). The load itself ran at 0.52 GB/s from the NTFS mount (**measured**); the same load from ext4 or a native Linux NVMe is **unmeasured**.
 * **Initial target:** Linux (native or WSL2), NVIDIA CUDA, x86-64. **Not supported at first:** native Windows, AMD, Intel Arc (section 5 explains what they need), macOS (unified memory already; see section 6).
 * Transparent huge pages were on for the measurements; they changed bandwidth by under 1% (**measured**), so they are optional.
@@ -295,9 +297,11 @@ pelias-engine/
 
 No novelty claim is made until this list has been reviewed against the actual projects. Known neighbours, to be compared before release (details **unverified**):
 
-* llama.cpp's expert placement flags (`--n-cpu-moe`, `--cpu-moe`) and, per project notes of 2026-10-20, a mainline expert cache option (`--moe-cache-mib`, PR #29887).
+* llama.cpp's expert placement flags (`--n-cpu-moe`, `--cpu-moe`) and an **open** llama.cpp pull request (PR #29887; open when checked on 2026-10-20, not merged) that adds an expert cache option (`--moe-cache-mib`).
 * Hybrid CPU/GPU MoE inference projects such as KTransformers, Fiddler, MoE-Infinity and the ik_llama.cpp fork.
 * llama.cpp and ggml themselves, on which the CPU kernels, the quantisation formats and the patch point depend.
+
+Links, authors and dates for each of these are in [`CITATIONS.md`](CITATIONS.md).
 
 ## 11. Licensing and third-party notices
 
@@ -328,5 +332,6 @@ The software is provided as is, without warranty (see `LICENSE`).
 
 * **The author's own work.** The research, the design and the hardware measurements are the author's. The project began as a training problem (section 1) and grew into this engine.
 * **Third-party code.** The engine patches and builds on **llama.cpp / ggml (MIT)**. Its notice will be reproduced in `THIRD_PARTY_NOTICES.md` (still to be written). Any other code copied or adapted gets the same treatment.
+* **Citations.** Every source, with its role (built on, followed in tests, related work, consulted, development tool), is in [`CITATIONS.md`](CITATIONS.md). Each entry was checked by opening the page on 2026-10-20.
 * **Models.** The model measured here is the author's own fine-tune of **Qwen3.6-35B-A3B** (Apache-2.0, checked 2026-10-20), made for private use and not distributed. The author's other private models were trained and fine-tuned from base models in the Gemma 4 family (26B A4B and 12B), Qwen3.6-35B-A3B and Qwen3-Coder (exact names and versions **to be confirmed**; base-model licences **to be checked** before release). The released base checkpoints were used only as starting points. **No model weights are part of this repository.**
 * **AI assistance.** Developed with the help of AI tools: Claude (Sonnet, Opus and Fable models, Anthropic), Gemini Pro and Gemini 4 Argon (Google; exact versions **to be confirmed**), used for coding, review, analysis and documentation. The author directed the work and ran the hardware measurements. Which tool wrote which part is **not recorded**, so no per-file claim is made.
