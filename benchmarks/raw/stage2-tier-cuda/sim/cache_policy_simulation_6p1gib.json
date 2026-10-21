@@ -1,0 +1,188 @@
+{
+  "n_decode_tokens": 121160,
+  "fit_tokens": 84503,
+  "heldout_tokens": 36657,
+  "n_moe_layers": 40,
+  "n_expert": 256,
+  "n_expert_used": 8,
+  "expert_bytes_per_layer_mean": 1904640,
+  "all_experts_gib": 18.164,
+  "budget_gib": 6.1,
+  "hit_rate_definition": "byte-weighted: bytes of picked experts found in the bank / bytes of all picked experts",
+  "bank_gib_used": 6.0998,
+  "bank_experts": 3426,
+  "bank_experts_per_layer": [
+    126,
+    110,
+    102,
+    94,
+    92,
+    88,
+    80,
+    77,
+    72,
+    72,
+    88,
+    96,
+    83,
+    80,
+    78,
+    78,
+    83,
+    85,
+    77,
+    79,
+    71,
+    70,
+    91,
+    98,
+    80,
+    82,
+    77,
+    77,
+    87,
+    92,
+    75,
+    86,
+    91,
+    83,
+    82,
+    78,
+    82,
+    92,
+    93,
+    99
+  ],
+  "insample_hit_rate_at_budget": 0.75956,
+  "heldout_hit_rate_at_budget": 0.76531,
+  "insample_hit_rate_count": 0.76001,
+  "heldout_hit_rate_count": 0.76576,
+  "heldout_detail": {
+    "tokens": 36657,
+    "hit_rate_bytes": 0.76531,
+    "hit_rate_count": 0.76576,
+    "per_layer_hit": [
+      0.6964,
+      0.6523,
+      0.6385,
+      0.6945,
+      0.7307,
+      0.6843,
+      0.7275,
+      0.7434,
+      0.7703,
+      0.7584,
+      0.7478,
+      0.7667,
+      0.7608,
+      0.7667,
+      0.8049,
+      0.7754,
+      0.772,
+      0.7855,
+      0.7735,
+      0.7718,
+      0.7952,
+      0.7695,
+      0.7921,
+      0.8034,
+      0.8019,
+      0.7995,
+      0.773,
+      0.754,
+      0.778,
+      0.8236,
+      0.757,
+      0.8081,
+      0.7933,
+      0.7644,
+      0.7751,
+      0.7931,
+      0.802,
+      0.8275,
+      0.8059,
+      0.7925
+    ],
+    "miss_per_step_hist": [
+      0.24644,
+      0.26586,
+      0.19279,
+      0.12467,
+      0.07684,
+      0.04627,
+      0.02662,
+      0.01404,
+      0.00647
+    ],
+    "steps_with_any_miss": 0.75356
+  },
+  "curve": [
+    {
+      "budget_gib": 2.0,
+      "insample": 0.42006,
+      "heldout": 0.42574
+    },
+    {
+      "budget_gib": 3.0,
+      "insample": 0.53282,
+      "heldout": 0.54082
+    },
+    {
+      "budget_gib": 4.0,
+      "insample": 0.62201,
+      "heldout": 0.62976
+    },
+    {
+      "budget_gib": 5.0,
+      "insample": 0.69453,
+      "heldout": 0.70152
+    },
+    {
+      "budget_gib": 5.6,
+      "insample": 0.73163,
+      "heldout": 0.73787
+    },
+    {
+      "budget_gib": 6.0,
+      "insample": 0.75421,
+      "heldout": 0.76015
+    },
+    {
+      "budget_gib": 8.0,
+      "insample": 0.84563,
+      "heldout": 0.8496
+    }
+  ],
+  "per_domain_heldout": {
+    "agent": {
+      "heldout_tokens": 4882,
+      "bank_from_other_domains": 0.7829,
+      "bank_from_all_fit": 0.79049,
+      "bank_from_own_domain": 0.83273
+    },
+    "code": {
+      "heldout_tokens": 11755,
+      "bank_from_other_domains": 0.73875,
+      "bank_from_all_fit": 0.7527,
+      "bank_from_own_domain": 0.76067
+    },
+    "persona": {
+      "heldout_tokens": 14771,
+      "bank_from_other_domains": 0.7651,
+      "bank_from_all_fit": 0.79934,
+      "bank_from_own_domain": 0.81171
+    },
+    "reasoning": {
+      "heldout_tokens": 5249,
+      "bank_from_other_domains": 0.65069,
+      "bank_from_all_fit": 0.67437,
+      "bank_from_own_domain": 0.73864
+    }
+  },
+  "heldout_dynamic": {
+    "lru_global_pool": 0.86498,
+    "lru_per_layer_same_slots": 0.86243,
+    "hybrid_half_static_half_lru": 0.85818,
+    "note": "caches start empty and see the held-out stream in file order; the first tokens pay warm-up misses"
+  }
+}

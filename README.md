@@ -7,8 +7,10 @@
 >
 > ¹ *Footnote. This is a goal, not a result.* There is potential for it to happen, with proper benchmarking and training, but it needs additional testing beyond the author's capabilities. While this work opens up better potential speed and accuracy for MoE models, it also has the potential to improve the overall speed and accuracy of non-MoE models. Both are **stretch goals** (**author-stated**). Today's results come from one machine and one model (Qwen3.6-35B-A3B), and this repository holds no non-MoE results. Path to find out: repeat the ledger's tests on a second MoE model with a different expert layout and on one non-MoE model, and log them in the same format.
 
-> **PRE-RELEASE DRAFT, 2026-10-20. Not published.**
-> One machine has been measured. The pieces that read and compute cold experts are built and verified on that machine; they are **not yet integrated into llama.cpp**, and the hit rate that decides the final speed has **not been measured**.
+**Author and maintainer:** John Lipka. Developed with AI assistance under his direction. Sibling repository: [pelias-trainer](https://github.com/FireballJohnnie/pelias-trainer).
+
+> **PRE-RELEASE DRAFT, updated 2026-10-21. Not published.**
+> One machine has been measured. A first llama.cpp patch (a static bank of hot experts in VRAM, the rest on the CPU; called the "tier" here) now decodes on that machine and is **measured** at about +5 to +7% over the best stock layout (section 4.5; `benchmarks/RESULTS.md` section 8). The zero-copy cold-path pieces are built and verified separately and are **not yet integrated into llama.cpp**. The hit rate is **simulated** (0.765 for a static bank at 6.1 GiB), not yet counted in a live run. The accuracy gate is **not passed** at batch 8 (section 7), and a crash for batches of 13 or more tokens is **open**. No code is in this repository yet.
 > Every number in this file carries one label: **measured** (run on the test machine, with a log), **published** (vendor or standard specification), **derived** (arithmetic on paper from labelled inputs), **estimate** (derived for hardware that has not been tested), or **unverified**.
 > No "first ever" claim is made. See *Related work*.
 
@@ -136,7 +138,7 @@ For scale, measured stock: 31.8 tokens/s (all-CPU) and 41.1 (best flags-only lay
 
 | Unknown | Path to a number |
 |---|---|
-| **Hit rate** of a profile-chosen bank on held-out text | record router choices on a held-out split (trace tools in `tools/trace`), simulate banks (`tools/sim`) |
+| **Hit rate** of a profile-chosen bank on held-out text, in a live run | simulated 0.765 for a static bank at 6.1 GiB (`benchmarks/RESULTS.md` section 8.5); next, a live hit-rate counter in the patch |
 | Overlap of the CPU and GPU shares in a real layer | end-to-end timing with the real CPU worker and the real kernel |
 | Spine linearity (is 0.59 ms per moved layer constant?) | one more `--n-cpu-moe` point |
 | Handoff with a real CPU workload and other kernels in the stream | in-stream test |
@@ -151,13 +153,19 @@ Each stage has the ceiling derived from this machine's measured inputs, and an e
 |---|---|---|---|---|---|
 | 0 | Stock llama.cpp, all experts on the CPU | - | **31.8** | - | reference |
 | 1 | Stock, `--n-cpu-moe 28` | - | **41.1** | - | same weights |
-| 2 | Hot bank in VRAM, cold experts on the CPU only (the llama.cpp patch) | 48.4 / 62.2 / 72.5 | pending | pending | pending |
+| 2 | Hot bank in VRAM, cold experts on the CPU only (the llama.cpp patch) | 48.4 / 62.2 / 72.5 | **44.3 to 44.7** in three runs (bank 6.1 GiB, context 32,768, bypass 9); matched stock 41.2 to 42.0 | 0.765 **simulated** (held-out, byte-weighted); live count **not measured** | KL 0.0106, top-1 97.13% at batch 8 (limits 0.005 / 99%): **not passed** |
 | 3 | Full Pelias with today's cold-path kernel (9.59 GB/s GPU share) | 68.0 / 88.2 / 103.5 | pending | pending | pending |
 | 4 | Full Pelias with a fast kernel (GPU share at the 21 GB/s measured in the combined run) | 76.4 / 95.0 / 108.1 | pending | pending | pending |
 
 How each ceiling is derived (same inputs as §4.3: spine 7.73 ms, 608 MB of cold experts per token, handoff 6.17 us, CPU rate 26.6 GB/s as the CPU's share in the combined run):
 * Stages 3 and 4: `1 / (spine + (1 - hit) x 608 MB / cold bandwidth + 40 x 6.17 us)`, with cold bandwidth 36.1 GB/s (26.6 + 9.59) and 47.6 GB/s (measured combined).
 * Stage 2: the same with the CPU alone reading the cold experts (26.6 GB/s) and a stream sync per layer instead of the resident handoff (40 x 94.4 us = 3.78 ms per token, measured per-layer cost); this assumes the stock scheduler pays the same per-layer cost, which is **unverified**.
+
+**Stage 2 notes** (details and raw logs: `benchmarks/RESULTS.md` section 8).
+* **Speed (measured).** Generation rate, median of three requests, in three matched pairs against stock `--n-cpu-moe 28` on the same context and settings. Mean gain of the tier over stock: +2.8 / +2.2 / +2.7 tokens/s at short / 4k / 12k context (about +5 to +7%). Two launches of the same setting differ by up to 1.4 (stock) and 1.8 (tier) tokens/s, so a smaller gain is noise.
+* **Against the ceiling (derived).** At the simulated hit rate of 0.765 the stage-2 formula gives about 59 tokens/s (spine 7.73 ms + 0.235 x 608 MB / 26.6 GB/s + 3.78 ms). The measured 44 to 47 is about 75 to 80% of that. The gap is **unexplained**.
+* **Prompt reading is slower than stock** (0.67 to 0.75 of stock at 12k context, measured). Derived reason: for each large chunk the tier copies the experts of all 40 layers to the GPU, stock only 28; 28/40 = 0.70.
+* **Where it applies.** The dual path runs only for batches of up to 8 tokens (bypass 9); larger batches take the stock path. In the tested configuration (bypass 32) every batch of 13 to 34 tokens crashed; the production setting (bypass 9) has **not** been tested for 13 to 60 tokens.
 
 ## 5. Applying it to other hardware (theory and estimates)
 
@@ -223,7 +231,8 @@ More benchmarking on other machines and models is needed before any of this is m
 
 * **Expected (derived, not yet measured):** the same quantised weights, the same router choices, and every missed expert computed either on the CPU or on the GPU (nothing is dropped) give the same output as stock llama.cpp up to floating-point order. The GPU path multiplies float activations, whereas ggml first quantises activations to Q8_K and uses an integer dot; the size of that difference is unmeasured.
 * **Checked so far (measured):** per-lane maths of the Q4_K and Q6_K kernels reproduces the dequantised weights exactly (10,240 one-hot positions per format); each of the 8 split scenarios agrees with a double-precision split-free reference inside a bound derived on paper (Higham, *Accuracy and Stability of Numerical Algorithms*, §3.1: gamma_n = n u / (1 - n u), u = 2^-24, any summation order; expf at 2 ulp). The bound is loose by four to five orders (worst error / bound 4.1e-5), so it catches wrong scales, signs and row ranges, not rounding-level drift.
-* **To do:** KL divergence of the patched server against stock logits on held-out text, then task-specific test sets.
+* **Measured (2026-10-21, one run, batch 8, 8,176 tokens):** the tier against stock, same weights: mean KL 0.0106 nats (limit 0.005), top-1 agreement 97.13% (limit 99%): **not passed** on those limits. Perplexity 4.1116 against 4.0989 (+0.31%, derived). The median token differs by only 0.0003 nats; the mean is carried by a tail (99th percentile 0.147). That shape is not what uniform rounding noise would give, but the cause is **unknown**: candidates are routing flips amplified from small numeric differences, the stock and tier runs placing different experts on the CPU, or a defect in the dual path. The design's own rule (no worse than the natural float spread between two stock runs at different `-ub`) has **not been measured**, so that definition is undecided. Details: `benchmarks/RESULTS.md` section 8.3.
+* **To do:** a control with the bank switched off (same placement), the stock-against-stock spread, the same gate at batch 16, then task-specific test sets.
 * **The quality of a served model is the quality of its GGUF.** Training, merging, quantisation and any importance matrix decide it; the engine is neutral. The Pelias trainer (being refined) therefore affects results through the weights it produces, not through the engine.
 
 ## 8. Status of every component
@@ -236,9 +245,9 @@ More benchmarking on other machines and models is needed before any of this is m
 | Doorbell handoff | built; resident ping-pong measured; in-stream with a real CPU workload **not yet** |
 | Cold-path GPU kernels (Q4_K and Q6_K only; other quant formats not written) | built; correct on synthetic data on the GPU; **speed 9.59 GB/s, to improve** |
 | CPU worker | tested against real ggml on a CPU-only build; the always-polling version is **not written** |
-| Hot bank patch for llama.cpp (cold on CPU only) | written and tested on a CPU-only build; CUDA build **not run** |
+| Hot bank patch for llama.cpp (cold on CPU only) | built for CUDA; decodes on the test machine (+5 to +7% over stock, measured); accuracy gate **not passed** at batch 8; crash for batches of 13 or more tokens **open** |
 | Cold path inside llama.cpp (device-side planning, graph ops, CPU worker, timeout fallback) | **not written** |
-| Router traces, hot-set simulation | written; **not run** |
+| Router traces, hot-set simulation | run on recorded traces: static and adaptive-cache hit rates simulated (derived); no live hit-rate counter yet |
 | Measure-anything framework and go/no-go report | planned |
 
 The detailed list, with the checks required before a release, is in `docs/STATUS.md` (not yet in this repository; it is kept in the author's development notes until release).
@@ -313,12 +322,12 @@ Links, authors and dates for each of these are in [`CITATIONS.md`](CITATIONS.md)
 
 | Item | Licence | Note |
 |---|---|---|
-| **Pelias code in this repository** | **Apache License 2.0 (proposed)** | The `LICENSE` file is the standard text. A `NOTICE` file, the copyright holder's name and SPDX headers are still to be added. |
+| **Pelias code in this repository** | **Apache License 2.0 (proposed)** | The `LICENSE` file is the standard text. Copyright holder (proposed wording): Copyright (c) 2026 John Lipka; the author confirms before release. A `NOTICE` file and SPDX headers are still to be added. |
 | llama.cpp and ggml (patch target; CPU kernels) | MIT (checked on its GitHub page, 2026-10-20) | Patches that modify llama.cpp files stay MIT with the original notices; any binary distribution must reproduce them. |
 | NVIDIA CUDA toolkit | NVIDIA's own licence | Not redistributed; users install it themselves. |
 | Model weights | not included | The base model (Qwen3.6-35B-A3B) is listed as Apache-2.0 on its Hugging Face page (checked 2026-10-20). A fine-tune carries its own terms. |
 | Trainer dependencies | **review needed** | Unsloth core is Apache-2.0, but its GitHub pages (checked 2026-10-20) show AGPL-3.0 for some optional components and LGPL-3.0 / AGPL-3.0 for `unsloth-zoo`. Any trainer code that imports or patches them needs a licence review before it is published. |
-| Name | **check needed** | "Pelias" is also the name of an unrelated open-source geocoder ([pelias/pelias](https://github.com/pelias/pelias), MIT licence, maintained by Geocode Earth; **verified 2026-10-20**). The author chose `pelias-engine` and `pelias-trainer` for the repositories; a naming and trademark check is on the release list. |
+| Name | **check needed** | "Pelias" is also the name of an unrelated open-source geocoder ([pelias/pelias](https://github.com/pelias/pelias), MIT licence, maintained by Geocode Earth; **verified 2026-10-20**). This repository has no connection to it. The author chose `pelias-engine` and `pelias-trainer` for the repositories; a naming and trademark check is on the release list. |
 
 The software is provided as is, without warranty (see `LICENSE`).
 
@@ -338,4 +347,5 @@ The software is provided as is, without warranty (see `LICENSE`).
 * **Third-party code.** The engine patches and builds on **llama.cpp / ggml (MIT)**. Its notice will be reproduced in `THIRD_PARTY_NOTICES.md` (still to be written). Any other code copied or adapted gets the same treatment.
 * **Citations.** Every source, with its role (built on, followed in tests, related work, consulted, development tool), is in [`CITATIONS.md`](CITATIONS.md). Each entry was checked by opening the page on 2026-10-20.
 * **Models.** The model measured here is the author's own fine-tune of **Qwen3.6-35B-A3B** (Apache-2.0, checked 2026-10-20), made for private use and not distributed. The author's other private models were trained and fine-tuned from base models in the Gemma 4 family (26B A4B and 12B), Qwen3.6-35B-A3B and Qwen3-Coder (exact names and versions **to be confirmed**; base-model licences **to be checked** before release). The released base checkpoints were used only as starting points. **No model weights are part of this repository.**
-* **AI assistance.** Developed with the help of AI tools: Claude (Sonnet, Opus and Fable models, Anthropic), Gemini Pro and Gemini 4 Argon (Google; exact versions **to be confirmed**), used for coding, review, analysis and documentation. The author directed the work and ran the hardware measurements. Which tool wrote which part is **not recorded**, so no per-file claim is made.
+* **Author and maintainer.** John Lipka. He owns and is responsible for what is published here, including the parts written with AI help.
+* **AI assistance.** Built with Claude (Anthropic) and Gemini (Google) as coding, review and writing assistants, under the author's direction. The author ran the hardware measurements.

@@ -1,6 +1,6 @@
 # Results ledger (engine)
 
-**Status: pre-release, private.** This page ties every number in the front-page README to the raw log it came from, with a label. Nothing here is a finished-engine result: the end-to-end Pelias run has **not** been measured yet (see "Not measured yet" at the end).
+**Status: pre-release, private.** This page ties every number in the front-page README to the raw log it came from, with a label. Nothing here is a finished-engine result: the end-to-end Pelias run has **not** been measured yet (see section 6). A first intermediate result, the hot bank in VRAM with the cold experts on the CPU, is in section 8.
 
 Labels used throughout:
 
@@ -122,9 +122,9 @@ The 6.17 us figure feeds the ceiling in section 4. With the microbenchmark's 18.
 
 | Unknown | Path |
 |---|---|
-| End-to-end tokens/s of the engine | run the stage 2 and 3 builds of the README ledger and log them here |
-| Hit rate of a profile-chosen bank on held-out text | trace router choices on a held-out split, simulate banks |
-| Accuracy against stock (KL divergence of logits) | compare engine and stock logits on the same prompts |
+| End-to-end tokens/s of the full engine (stages 3 and 4) | stage 2 is measured (section 8); run the stage 3 and 4 builds of the README ledger and log them here |
+| Hit rate of a profile-chosen bank on held-out text, in a live run | simulated 0.765 (section 8.5); add a live hit-rate counter to the patch and log it |
+| Accuracy against stock (KL divergence of logits) | one run at batch 8 does not meet the strict limits (section 8.3); still to measure: a bank-off control, the stock-against-stock spread, batch 16 |
 | Overlap of CPU and GPU shares in a real layer | time the real CPU worker and kernel together |
 | Whether the stock CPU path is compute-bound | time the CPU worker alone |
 | Spine linearity | one more `--n-cpu-moe` point |
@@ -137,3 +137,85 @@ The 6.17 us figure feeds the ceiling in section 4. With the microbenchmark's 18.
 * Copies were redacted before publication: the local project and user paths, the model's file name (replaced by `test-model` / `<project>`), and one model reply text were removed. Numbers were not altered.
 * Logs not listed here (other test and server logs) are **not** published; they are outside this engine's scope and were not reviewed for release.
 * The model files, adapters and training data are not in this repository.
+* `raw/stage2-tier-cuda/` follows the same redaction. In addition, model reply text in the speed reports was replaced by `[reply text removed]`, and the commands that produced the terminal output were cut: only their output is kept. The model's reply to the speed tool's prompts is not part of any number here.
+
+---
+
+## 8. Stage 2: the hot bank on CUDA (2026-10-21)
+
+**What ran.** A patched llama.cpp (the "tier", on `2ca15f5`) that keeps a static bank of hot experts in VRAM (about 6.1 GiB, in all 40 layers, chosen from recorded router traces) and leaves every expert on the CPU as well. For small batches each layer is computed twice, hot experts from the bank and the rest from the CPU copy, and the two results are added; for larger batches the stock path runs. The patch is not in this repository. Same machine and model as sections 1 to 2. "Stock" below is `--n-cpu-moe 28` (the best layout that left room for other GPU use).
+
+### 8.1 Matched speed comparisons (measured)
+
+Generation tokens/s, median of three requests (ranges are in the raw files); prompt tokens/s at 12k context; GPU peak is the whole card including the desktop. Raw: `raw/stage2-tier-cuda/speed/` (file stamp in the first column).
+
+| Stamp | Run | Short | 4k | 12k | Prompt at 12k | GPU peak GiB |
+|---|---|---|---|---|---|---|
+| 121851 | stock, context 32,768 | 41.2 | 42.3 | 40.2 | 419.0 | 8.4 |
+| 121147 | tier, bypass 9 | 44.3 | 44.5 | 43.4 | 279.8 | 9.0 |
+| 132536 | stock, repeat | 42.0 | 41.9 | 41.6 | 408.5 | 8.4 |
+| 132830 | tier, repeat | 44.5 | 42.7 | 45.1 | 287.7 | 8.9 |
+| 133216 | stock, `-ub 2048` | 41.9 | 42.4 | 41.8 | 1253.2 | 8.6 |
+| 133352 | tier, `-ub 2048` | 44.7 | 46.1 | 43.2 | 935.5 | 9.2 |
+
+* **Derived:** mean gain over the three pairs +2.8 / +2.2 / +2.7 tokens/s at short / 4k / 12k (about +5 to +7%). Two launches of the same setting differ by up to 1.4 (stock, 12k: 40.2 vs 41.6) and 1.8 (tier, 4k: 44.5 vs 42.7), so a gain below that is noise.
+* **Prompt reading (measured, derived reason).** Tier over stock at 12k: 0.67 and 0.70 at the default micro-batch, 0.75 at `-ub 2048`. The tier copies the experts of all 40 layers to the GPU for each large chunk; stock copies 28 layers' worth: 28/40 = 0.70.
+* **Single runs of other settings (measured, one launch each, not separable from the drift above).** Stamps 122349 (`-t 7`): 46.8 / 47.2 / 44.8. 122732 (`--poll 100`): 45.8 / 45.9 / 45.1. 123101 (context 131,072 with `-ub 2048`): 44.2 / 45.1 / 46.8, 12k range 40.9 to 47.6, GPU peak 10.6 GiB. These files share one label, so the setting of each is **recorded** from the run order and is not written inside the files.
+* **Not a valid baseline:** an older stored stock figure for 12k context (38.78) is stale; compare only with the matched runs above.
+* **Ceiling (derived).** With the simulated hit rate 0.765, spine 7.73 ms, 608 MB of cold experts per token at 26.6 GB/s (the CPU's share, section 1) and 40 x 94.4 us of per-layer sync: 1 / (7.73 + 0.235 x 22.86 + 3.78 ms) = about 59 tokens/s. Measured 44 to 47 is about 75 to 80% of it; the gap is **unexplained**.
+
+### 8.2 Gates from the author's gate script (not published)
+
+Prompt-reading regression: on hold. 12k-context target (generation at least 55 tokens/s and prompt reading at least 1,150 tokens/s): failed (best tier run 46.8 and 935.5).
+
+### 8.3 Accuracy against stock, batch 8 (measured, one run)
+
+Raw: `raw/stage2-tier-cuda/h6/`. Reference: the stock build at batch 8. Candidate: the tier build with bypass 9 and all 40 layers' experts on the CPU plus the bank. 16 chunks of 1,024 tokens, 8,176 tokens scored, Q4_K_M, KV q8_0.
+
+| Quantity | Value |
+|---|---|
+| Mean KL divergence | 0.010568 nats (standard error 0.000428); limit 0.005 |
+| Top-1 agreement | 97.126%; limit 99% |
+| Perplexity, candidate vs reference | 4.111559 vs 4.098874 (+0.31%, derived) |
+| Median / 99th / 99.9th percentile / max KL | 0.000277 / 0.146915 / 0.494696 / 1.071219 |
+
+* **Verdict.** The strict limits (placement-only changes) are **not met**. The design's own definition (no worse than the natural float spread between two stock runs at different `-ub`) is **undecided: that spread has not been measured**.
+* **The dual path ran.** `tier8.tier_stats.json`: 40 layers with the bank, 3,280 dual-path layer builds at 8 tokens. (The log line "hot bank active" is hidden at this tool's default log level.)
+* **Reading (derived, unverified).** Most tokens agree almost exactly and a small tail disagrees strongly. Uniform rounding noise would not give that shape. Possible causes: top-k routing flips amplified from tiny numeric differences (GPU and CPU round differently), different placement of experts in the two runs (28 vs 40 layers on the CPU), or a defect in the dual path. Tests to separate them: the tier build with the bank off at the same placement against the same reference; the stock build at a different `-ub` against the same reference.
+* This is batch 8, not the batch of 16 the strict definition names; the batch-16 run is blocked by the crash below.
+
+### 8.4 Crash for 13 or more tokens (measured; cause open)
+
+Setting: bypass 32 (the dual path for batches under 32 tokens), fresh server per prompt length, prompt of consecutive token ids, 2 tokens generated.
+
+| Prompt tokens | Result | Raw |
+|---|---|---|
+| 1 to 12 | pass | `terminal/crash_sweep_bypass32_tokens_1-34.txt` |
+| 13 to 34 | fail: no reply, one "illegal memory access" line each | same file |
+| 61 | pass | `terminal/hole_fix_build_and_sweep2.txt` |
+
+Lengths 35 to 60 were not tried. The production setting (bypass 9) was **not** swept at all.
+
+* **Sanitizer, before the fix** (`terminal/sanitizer_before_hole_fix_N13_N34.txt`): at 13 and at 34 tokens the first fault is a 4-byte write in the scatter variant of the activation quantiser, at an address wrapped far below its buffer (about 240 GB).
+* **A fix to that kernel was built** (negative ids skipped in both quantiser paths; the id map pre-filled with -1 and the output with 0). It did not remove the crash (`terminal/hole_fix_build_and_sweep2.txt`: 13, 16, 20, 31, 32 and 34 still fail).
+* **Sanitizer, after the fix** (`terminal/diag_h6_batch8_sanitizer_stats.txt`): at 13 tokens the first fault is now a 4-byte write inside the matrix-multiply kernel (Q4_K, tile 16), about 2.4 GB past an 8 KB buffer. At 34 tokens it is a 16-byte read in the other (non-scatter) quantiser, about 8.8 TB past a 2 MiB buffer.
+* **Dual-graph builds by token count** (same file): a 12-token prompt shows builds at 1, 2, 4 and 8 tokens and none at 12 (**unexplained**); a 61-token prompt shows 1, 2 and 4 and no dual graph at 61, as designed.
+* **The scheduler's debug print gave no output** in three attempts, so whether the cold-branch operations really run on the CPU is **unverified**.
+* **Hypotheses (unverified).** The sorted-by-expert matrix path may be fed inconsistent row maps. A leading suspect for 13 to 31 is the hot branch repeating one placeholder id several times within a token. Batches of 32 and 34 are above the bypass and should not use the dual graph, so something else may also be wrong there, or the prompt may not arrive as one batch.
+
+### 8.5 Cache-policy simulation (derived, on recorded router traces)
+
+Raw: `raw/stage2-tier-cuda/sim/cache_policy_simulation_6p1gib.json`. 121,160 decode steps: 84,503 to choose the bank, 36,657 held out. Hit rate is byte-weighted: bytes of the chosen experts found in VRAM over bytes of all chosen experts. Bank 6.1 GiB, 3,426 experts.
+
+| Policy at 6.1 GiB | Held-out hit rate |
+|---|---|
+| Static bank | 0.765 |
+| Global LRU pool | 0.865 |
+| Per-layer LRU, same slots | 0.862 |
+| Half static, half LRU | 0.858 |
+
+Static bank by size (GiB: hit rate): 2.0: 0.43, 3.0: 0.54, 4.0: 0.63, 5.0: 0.70, 5.6: 0.74, 6.0: 0.76, 8.0: 0.85. By domain with a bank from all domains: agent 0.790, code 0.753, persona 0.799, reasoning 0.674. **Caveats:** the LRU inserts on every miss, the copy traffic that costs is not counted, the caches start empty, and the split is a fixed 50/50. These are paper numbers, not runs.
+
+### 8.6 Not known yet
+
+Live hit rate; why 44 to 47 tokens/s and not 59; whether the accuracy difference is noise, placement or a defect; the cause of the crash; behaviour at 13 to 60 tokens at the production setting; the effect of the bank size (the sweep was not run).

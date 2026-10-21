@@ -1,0 +1,35 @@
+N=13 http=000
+N=34 http=000
+=== N=13
+========= Invalid __global__ write of size 4 bytes
+=========     at void quantize_mmq_q8_1<(mmq_q8_1_ds_layout)1, (bool)1>(const float *, const int *, void *, long, long, long, long, long, int, int, int)+0x9a0
+=========     by thread (0,0,0) in block (0,0,0)
+=========     Access to 0xffffffe101451e10 is out of bounds
+=========     and is 18446743833210592785 bytes after the nearest allocation at 0x1900000000 of size 2097152 bytes
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x1376c] in libcudart.so.13
+=========         Host Frame: cudaLaunchKernel [0x745b7] in libcudart.so.13
+=========         Host Frame: quantize_scatter_mmq_q8_1_cuda(float const*, int const*, void*, ggml_type, long, long, long, long, long, int, CUstream_st*) [0x4b5488] in libggml-cuda.so.0
+=========         Host Frame: ggml_cuda_mul_mat_q(ggml_backend_cuda_context&, ggml_tensor const*, ggml_tensor const*, ggml_tensor const*, ggml_tensor*) [0x35e111] in libggml-cuda.so.0
+=========         Host Frame: ggml_cuda_graph_evaluate_and_capture(ggml_backend_cuda_context*, ggml_cgraph*, bool, bool, void const*) [0x31903e] in libggml-cuda.so.0
+=========         Host Frame: ggml_backend_cuda_graph_compute(ggml_backend*, ggml_cgraph*) [0x319ae1] in libggml-cuda.so.0
+=========         Host Frame: ggml_backend_sched_graph_compute_async [0x3ba8e] in libggml-base.so.0
+=========         Host Frame: llama_context::graph_compute(ggml_cgraph*, bool) [0x216c2f] in libllama.so.0
+100
+=== N=34
+========= Invalid __global__ write of size 4 bytes
+=========     at void quantize_mmq_q8_1<(mmq_q8_1_ds_layout)1, (bool)1>(const float *, const int *, void *, long, long, long, long, long, int, int, int)+0x9a0
+=========     by thread (0,0,0) in block (0,0,0)
+=========     Access to 0xffffffe101452310 is out of bounds
+=========     and is 18446743833210594065 bytes after the nearest allocation at 0x1900000000 of size 2097152 bytes
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x1376c] in libcudart.so.13
+=========         Host Frame: cudaLaunchKernel [0x745b7] in libcudart.so.13
+=========         Host Frame: quantize_scatter_mmq_q8_1_cuda(float const*, int const*, void*, ggml_type, long, long, long, long, long, int, CUstream_st*) [0x4b5488] in libggml-cuda.so.0
+=========         Host Frame: ggml_cuda_mul_mat_q(ggml_backend_cuda_context&, ggml_tensor const*, ggml_tensor const*, ggml_tensor const*, ggml_tensor*) [0x35e111] in libggml-cuda.so.0
+=========         Host Frame: ggml_cuda_graph_evaluate_and_capture(ggml_backend_cuda_context*, ggml_cgraph*, bool, bool, void const*) [0x31903e] in libggml-cuda.so.0
+=========         Host Frame: ggml_backend_cuda_graph_compute(ggml_backend*, ggml_cgraph*) [0x319ae1] in libggml-cuda.so.0
+=========         Host Frame: ggml_backend_sched_graph_compute_async [0x3ba8e] in libggml-base.so.0
+=========         Host Frame: llama_context::graph_compute(ggml_cgraph*, bool) [0x216c2f] in libllama.so.0

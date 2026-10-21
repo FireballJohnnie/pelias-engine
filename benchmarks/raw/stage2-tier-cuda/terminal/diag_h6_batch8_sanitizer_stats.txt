@@ -1,0 +1,69 @@
+##### 0. is the fix in the binary? (source time vs library time)
+2026-10-21 16:19:45.307972795 ~/llama-pelias-tier/build-wsl/bin/libggml-cuda.so
+2026-10-21 16:19:45.307972795 ~/llama-pelias-tier/build-wsl/bin/libggml-cuda.so.0
+2026-10-21 16:19:45.315972794 ~/llama-pelias-tier/build-wsl/bin/libggml-cuda.so.0.25.3
+2026-10-21 16:19:28.662924339 ~/llama-pelias-tier/ggml/src/ggml-cuda/mmq.cu
+##### 1. H6 at batch 8, bypass 9 (reference from the production build, then the tier build)
+VRAM in use before launch: 499 MiB
+reference file will be about 3.8 GiB (free on that disk: 79.1 GiB)
+running: <llama.cpp>/build-wsl/bin/llama-perplexity -m ~/models/test-model-Q4_K_M.gguf -f <project>/dataset/calibration-text.txt -c 1024 -b 1024 -ub 1024 --chunks 16 -ngl 99 --n-cpu-moe 28 -fa on --cache-type-k q8_0 --cache-type-v q8_0 -b 8 -ub 8 --kl-divergence-base <project>/logs/moe_trace/kl/tier_ref8.logits.bin
+reference saved: <project>/logs/moe_trace/kl/tier_ref8.logits.bin (3.78 GiB)
+next: python sim/kl_gate.py compare --label <name> --base tier_ref8 [--bin ... --extra ...]
+running: ~/llama-pelias-tier/build-wsl/bin/llama-perplexity -m ~/models/test-model-Q4_K_M.gguf -f <project>/dataset/calibration-text.txt -c 1024 -b 1024 -ub 1024 --chunks 16 -ngl 99 --n-cpu-moe 28 -fa on --cache-type-k q8_0 --cache-type-v q8_0 -b 8 -ub 8 --n-cpu-moe 40 --fit off --kl-divergence --kl-divergence-base <project>/logs/moe_trace/kl/tier_ref8.logits.bin
+mean KL 0.010568 nats, top-1 agreement 97.13%, 8176 tokens scored; wrote <project>/logs/moe_trace/kl/tier8_vs_tier_ref8.json
+next: python lib/gates.py h6 --kl <project>/logs/moe_trace/kl/tier8_vs_tier_ref8.json
+bank line:
+dual graphs: {"layers_with_bank":40,"dual_layer_builds_by_n_tokens":{"1":160,"2":40,"8":3280}}
+[gate H6] FAIL
+   mean KL divergence 0.010568 nats (limit 0.005), top-1 agreement 97.13% (need >= 99%)
+   scored on 8176 tokens; reference = tier_ref8, candidate = tier8
+   limits are for placement-only changes (same weights); a re-quantized or retrained file is judged against the Q8_0 reference instead
+##### 2. sanitizer on the fixed build (first error only)
+VRAM in use before launch: 457 MiB
+sanitizer N=13 http=000
+=== N=13
+========= Invalid __global__ write of size 4 bytes
+=========     at void mul_mat_q<(ggml_type)12, (int)16, (bool)0, (ggml_prec)30>(const char *, const int *, const int *, const int *, float *, float *, const float *, uint3, int, int, int, int, int, ui
+=========     by thread (2,0,0) in block (0,0,0)
+=========     Access to 0x11ae31c880 is out of bounds
+=========     and is 2435318657 bytes after the nearest allocation at 0x111d09a500 of size 8192 bytes
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: void launch_mul_mat_q<(ggml_type)12, 16, false, (ggml_prec)30>(ggml_backend_cuda_context&, mmq_args const&, CUstream_st*) [0xbd96ab] in libggml-cuda.so.0
+=========         Host Frame: ggml_cuda_mul_mat_q(ggml_backend_cuda_context&, ggml_tensor const*, ggml_tensor const*, ggml_tensor const*, ggml_tensor*) [0x35e2ff] in libggml-cuda.so.0
+=========         Host Frame: ggml_cuda_graph_evaluate_and_capture(ggml_backend_cuda_context*, ggml_cgraph*, bool, bool, void const*) [0x31903e] in libggml-cuda.so.0
+=========         Host Frame: ggml_backend_cuda_graph_compute(ggml_backend*, ggml_cgraph*) [0x319ae1] in libggml-cuda.so.0
+=========         Host Frame: ggml_backend_sched_graph_compute_async [0x3ba8e] in libggml-base.so.0
+=========         Host Frame: llama_context::graph_compute(ggml_cgraph*, bool) [0x216c2f] in libllama.so.0
+=========         Host Frame: llama_context::process_ubatch(llama_ubatch const&, llm_graph_type, llama_memory_context_i*, ggml_status&) [0x21a8e2] in libllama.so.0
+=========         Host Frame: llama_context::decode(llama_batch_ext const&) [0x223189] in libllama.so.0
+=========         Host Frame: std::_Function_handler<void (), server_context_impl::decode(int&, int)::{lambda()#1}>::_M_invoke(std::_Any_data const&) [0x17f3b1] in libllama-server-impl.so
+VRAM in use before launch: 457 MiB
+sanitizer N=34 http=000
+=== N=34
+========= Invalid __global__ read of size 16 bytes
+=========     at void quantize_mmq_q8_1<(mmq_q8_1_ds_layout)0, (bool)0>(const float *, const int *, void *, long, long, long, long, long, int, int, int)+0x3c0
+=========     by thread (0,0,0) in block (69,0,0)
+=========     Access to 0x810fe37e980 is out of bounds
+=========     and is 8761701296513 bytes after the nearest allocation at 0x1900000000 of size 2097152 bytes
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: cuLaunchKernel [0x3d79fa] in libcuda.so.1.1
+=========         Host Frame:  [0x1376c] in libcudart.so.13
+=========         Host Frame: cudaLaunchKernel [0x745b7] in libcudart.so.13
+=========         Host Frame: quantize_mmq_q8_1_cuda(float const*, int const*, void*, ggml_type, long, long, long, long, long, long, long, long, CUstream_st*) [0x4b4f17] in libggml-cuda.so.0
+=========         Host Frame: ggml_cuda_mul_mat_q(ggml_backend_cuda_context&, ggml_tensor const*, ggml_tensor const*, ggml_tensor const*, ggml_tensor*) [0x35e3fb] in libggml-cuda.so.0
+=========         Host Frame: ggml_cuda_graph_evaluate_and_capture(ggml_backend_cuda_context*, ggml_cgraph*, bool, bool, void const*) [0x31903e] in libggml-cuda.so.0
+=========         Host Frame: ggml_backend_cuda_graph_compute(ggml_backend*, ggml_cgraph*) [0x319ae1] in libggml-cuda.so.0
+=========         Host Frame: ggml_backend_sched_graph_compute_async [0x3ba8e] in libggml-base.so.0
+=========         Host Frame: llama_context::graph_compute(ggml_cgraph*, bool) [0x216c2f] in libllama.so.0
+##### 3. where do the nodes run? (N=13)
+VRAM in use before launch: 459 MiB
+sched N=13 http=000
+log lines 327, SPLIT 0, node lines 0, cold_down mentions 0
+##### 4. dual-graph build stats (does 61 tokens build dual graphs?)
+VRAM in use before launch: 462 MiB
+N=12 http=200
+N=12 dual builds: {"layers_with_bank":40,"dual_layer_builds_by_n_tokens":{"1":200,"2":40,"4":40,"8":40}}
+VRAM in use before launch: 459 MiB
+N=61 http=200
+N=61 dual builds: {"layers_with_bank":40,"dual_layer_builds_by_n_tokens":{"1":200,"2":40,"4":40}}
+##### DONE. folder: ~/p1/diag_20261021_165056

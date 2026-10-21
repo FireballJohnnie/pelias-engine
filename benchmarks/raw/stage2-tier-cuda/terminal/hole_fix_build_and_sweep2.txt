@@ -1,0 +1,30 @@
+EDIT OK
+35 <backup>/2026-10-21/finish3_cuda_hole_fix/cuda_hole_fix.patch
+[100%] Built target llama-perplexity
+
+Built. Checking the three programs:
+  ok   ~/llama-pelias-tier/build-wsl/bin/llama-server   (libraries not found: 0)
+  ok   ~/llama-pelias-tier/build-wsl/bin/llama-quantize   (libraries not found: 0)
+  ok   ~/llama-pelias-tier/build-wsl/bin/llama-perplexity   (libraries not found: 0)
+
+Next:  $PY <trainer-script> export --adapter <the phase-2 run>/final
+tokens=12 http=200 bank=1 illegal=0
+tokens=13 http=000 bank=1 illegal=1
+tokens=16 http=000 bank=1 illegal=1
+tokens=20 http=000 bank=1 illegal=1
+tokens=31 http=000 bank=1 illegal=1
+tokens=32 http=000 bank=1 illegal=1
+tokens=34 http=000 bank=1 illegal=1
+tokens=61 http=200 bank=1 illegal=0
+ nodes: total=0 on_CPU=0 on_CUDA=0
+ nodes: total=0 on_CPU=0 on_CUDA=0
+=== SWEEP2 SUMMARY ===
+tokens=12 http=200 bank=1 illegal=0
+tokens=13 http=000 bank=1 illegal=1
+tokens=16 http=000 bank=1 illegal=1
+tokens=20 http=000 bank=1 illegal=1
+tokens=31 http=000 bank=1 illegal=1
+tokens=32 http=000 bank=1 illegal=1
+tokens=34 http=000 bank=1 illegal=1
+tokens=61 http=200 bank=1 illegal=0
+sweep still shows failures: H6 skipped
