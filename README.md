@@ -3,6 +3,10 @@
 **Two-path expert serving for Mixture-of-Experts models on split-memory PCs (CPU RAM + discrete GPU).**
 *Goal: make a machine whose memory is split across two buses behave, for MoE decoding, like one memory pool driven at the DRAM controller's full rate.*
 
+> **End goal:** to make Pelias (this engine and its trainer) universal for every LLM that uses a Mixture-of-Experts architecture.¹
+>
+> ¹ *Footnote. This is a goal, not a result.* There is potential for it to happen, with proper benchmarking and training, but it needs additional testing beyond the author's capabilities. While this work opens up better potential speed and accuracy for MoE models, it also has the potential to improve the overall speed and accuracy of non-MoE models. Both are **stretch goals** (**author-stated**). Today's results come from one machine and one model (Qwen3.6-35B-A3B), and this repository holds no non-MoE results. Path to find out: repeat the ledger's tests on a second MoE model with a different expert layout and on one non-MoE model, and log them in the same format.
+
 > **PRE-RELEASE DRAFT, 2026-10-20. Not published.**
 > One machine has been measured. The pieces that read and compute cold experts are built and verified on that machine; they are **not yet integrated into llama.cpp**, and the hit rate that decides the final speed has **not been measured**.
 > Every number in this file carries one label: **measured** (run on the test machine, with a log), **published** (vendor or standard specification), **derived** (arithmetic on paper from labelled inputs), **estimate** (derived for hardware that has not been tested), or **unverified**.
