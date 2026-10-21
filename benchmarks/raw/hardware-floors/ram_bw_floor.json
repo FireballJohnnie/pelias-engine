@@ -1,0 +1,23 @@
+{
+  "buffer_gib": 7.70312,
+  "expert_bytes": 1900000,
+  "layers_simulated": 17,
+  "topk": 8,
+  "results": [
+    {"page_mode": "4KB_pages", "threads": 4, "stream_gb_s": 43.6047, "expert_gb_s": 45.8073, "anon_huge_kb": 0},
+    {"page_mode": "4KB_pages", "threads": 6, "stream_gb_s": 42.654, "expert_gb_s": 44.1418, "anon_huge_kb": 0},
+    {"page_mode": "4KB_pages", "threads": 7, "stream_gb_s": 42.2307, "expert_gb_s": 43.4045, "anon_huge_kb": 0},
+    {"page_mode": "4KB_pages", "threads": 8, "stream_gb_s": 41.9492, "expert_gb_s": 42.3438, "anon_huge_kb": 0},
+    {"page_mode": "4KB_pages", "threads": 12, "stream_gb_s": 41.0777, "expert_gb_s": 40.861, "anon_huge_kb": 0},
+    {"page_mode": "4KB_pages", "threads": 16, "stream_gb_s": 40.4015, "expert_gb_s": 36.0562, "anon_huge_kb": 0},
+    {"page_mode": "2MB_hugepages", "threads": 4, "stream_gb_s": 43.7651, "expert_gb_s": 44.8629, "anon_huge_kb": 8077312},
+    {"page_mode": "2MB_hugepages", "threads": 6, "stream_gb_s": 43.394, "expert_gb_s": 43.2689, "anon_huge_kb": 8077312},
+    {"page_mode": "2MB_hugepages", "threads": 7, "stream_gb_s": 42.5479, "expert_gb_s": 43.1085, "anon_huge_kb": 8077312},
+    {"page_mode": "2MB_hugepages", "threads": 8, "stream_gb_s": 42.4377, "expert_gb_s": 42.7131, "anon_huge_kb": 8077312},
+    {"page_mode": "2MB_hugepages", "threads": 12, "stream_gb_s": 41.2705, "expert_gb_s": 41.2401, "anon_huge_kb": 8077312},
+    {"page_mode": "2MB_hugepages", "threads": 16, "stream_gb_s": 40.4427, "expert_gb_s": 37.1413, "anon_huge_kb": 8077312}
+  ],
+  "best_stream_gb_s": 43.7651,
+  "best_expert_gb_s": 45.8073,
+  "checksum": 0
+}

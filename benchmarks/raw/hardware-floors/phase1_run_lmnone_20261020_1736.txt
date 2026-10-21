@@ -1,0 +1,5 @@
+[moe_track] run 'lmnone': extras = --load-mode none  (expert flags: --n-cpu-moe 28)
+[moe_track] WARNING: 11165 MiB of GPU memory is in use before the server starts (another program?). Peak-VRAM numbers will include it.
+no background server recorded (for one running in a window, press Ctrl-C there)
+[moe_track] port 8012 is still in use after 60s
+[moe_track] ERROR: something still listens on port 8012; stop it first (llama --status)

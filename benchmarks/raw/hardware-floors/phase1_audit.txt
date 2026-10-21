@@ -1,0 +1,47 @@
+=== Phase 1a audit (read-only) 2026-10-20 17:41:41 ===
+--- transparent huge pages ---
+enabled: always [madvise] never
+defrag:  always defer defer+madvise [madvise] never
+AnonHugePages:         0 kB
+ShmemHugePages:        0 kB
+FileHugePages:    122880 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+--- .wslconfig (Windows side) ---
+# <windows-home>/.wslconfig
+[wsl2]
+memory=48GB
+processors=16
+swap=48GB
+swapFile=<d-drive-project>\\wsl_swap.vhdx
+localhostForwarding=true
+
+[experimental]
+autoMemoryReclaim=disabled
+sparseVhd=false
+--- locked-memory limit (pinned memory) ---
+ulimit -l: 65536
+--- cpu ---
+CPU(s):                                  16
+Model name:                              AMD Ryzen 7 5800X3D 8-Core Processor
+Thread(s) per core:                      2
+Core(s) per socket:                      8
+L3 cache:                                96 MiB (1 instance)
+--- memory ---
+               total        used        free      shared  buff/cache   available
+Mem:           48175         958       45885           6        1775       47217
+Swap:          49152           0       49151
+--- servers running ---
+none
+--- gpu ---
+name, memory.used [MiB], memory.total [MiB], pcie.link.gen.current, pcie.link.width.current
+NVIDIA GeForce RTX 4070, 1257 MiB, 12282 MiB, 4, 16
+
+--- how to read this ---
+THP 'always': 2 MB pages are used for large anonymous allocations. 'madvise': only programs that ask; llama.cpp does not,
+so --load-mode none (which loads into ordinary anonymous memory) will use 4 KB pages. 'never': no huge pages.
+If THP is not 'always', changing it is NOT done by this script. It needs root or a Windows-side .wslconfig kernel line
+(restarts WSL, affects everything, effect on the WSL2 kernel unverified). Test 1b/1c first: if they gain enough, skip it.

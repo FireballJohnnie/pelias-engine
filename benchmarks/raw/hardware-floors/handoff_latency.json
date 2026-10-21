@@ -1,0 +1,28 @@
+{
+  "revision": 2,
+  "iterations": 2000,
+  "rounds": 4000,
+  "cpu_layers_assumed": 28,
+  "handoff_mode_used": "kick",
+  "handoff_us_per_layer": 94.396,
+  "handoff_ms_per_layer": 0.094396,
+  "handoff_ms_per_token_40_layers": 3.77584,
+  "handoff_ms_per_token_cpu_layers": 2.64309,
+  "handoff_resident_rtt_us": 13.345,
+  "handoff_resident_rtt_p99_us": 18.705,
+  "resident_floor_met_20us": true,
+  "launch_batching_suspected": true,
+  "cpu_wait_timeouts": 1,
+  "modes": {
+    "empty_launch": {"median_us": 33.081, "p90_us": 35.747, "p99_us": 52.789, "max_us": 70.189, "mean_us": 33.9539, "samples": 2000, "ran": true, "cpu_timeouts": 0, "gpu_spin_timeouts": 0, "visible_after_sync": false},
+    "query_idle": {"median_us": 0.11, "p90_us": 0.12, "p99_us": 0.121, "max_us": 0.872, "mean_us": 0.113271, "samples": 1000, "ran": true, "cpu_timeouts": 0, "gpu_spin_timeouts": 0, "visible_after_sync": false},
+    "launch_after_plain": {"median_us": 0, "p90_us": 0, "p99_us": 0, "max_us": 0, "mean_us": 0, "samples": 0, "ran": true, "cpu_timeouts": 1, "gpu_spin_timeouts": 0, "visible_after_sync": true},
+    "launch_after_kick": {"median_us": 94.396, "p90_us": 100.598, "p99_us": 123.01, "max_us": 148.648, "mean_us": 95.7766, "samples": 2000, "ran": true, "cpu_timeouts": 0, "gpu_spin_timeouts": 0, "visible_after_sync": false},
+    "launch_after_loop": {"median_us": 93.545, "p90_us": 99.917, "p99_us": 126.577, "max_us": 1009.58, "mean_us": 95.8137, "samples": 2000, "ran": true, "cpu_timeouts": 0, "gpu_spin_timeouts": 0, "visible_after_sync": false},
+    "launch_after": {"median_us": 94.396, "p90_us": 100.598, "p99_us": 123.01, "max_us": 148.648, "mean_us": 95.7766, "samples": 2000, "ran": true, "cpu_timeouts": 0, "gpu_spin_timeouts": 0, "visible_after_sync": false},
+    "spin_wait": {"median_us": 46.166, "p90_us": 54.202, "p99_us": 73.267, "max_us": 140.692, "mean_us": 48.2864, "samples": 2000, "ran": true, "cpu_timeouts": 0, "gpu_spin_timeouts": 0, "visible_after_sync": false},
+    "copy_roundtrip": {"median_us": 174.997, "p90_us": 185.567, "p99_us": 207.899, "max_us": 760.241, "mean_us": 170.174, "samples": 2000, "ran": true, "cpu_timeouts": 0, "gpu_spin_timeouts": 0, "visible_after_sync": false},
+    "pingpong_flag": {"median_us": 3.356, "p90_us": 3.577, "p99_us": 8.667, "max_us": 17.522, "mean_us": 3.54722, "samples": 3800, "ran": true, "cpu_timeouts": 0, "gpu_spin_timeouts": 0, "visible_after_sync": false},
+    "pingpong_4k": {"median_us": 13.345, "p90_us": 13.535, "p99_us": 18.705, "max_us": 33.252, "mean_us": 13.5504, "samples": 3800, "ran": true, "cpu_timeouts": 0, "gpu_spin_timeouts": 0, "visible_after_sync": false}
+  }
+}

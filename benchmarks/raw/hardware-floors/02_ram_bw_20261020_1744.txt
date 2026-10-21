@@ -1,0 +1,1 @@
+llama-server is running; stop it first (llama --stop) or pass --force. Results would be distorted.

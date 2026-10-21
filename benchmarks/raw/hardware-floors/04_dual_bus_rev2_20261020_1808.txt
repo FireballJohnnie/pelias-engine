@@ -1,0 +1,9 @@
+[2d] CPU alone (7 threads)           45.89 GB/s
+[2d] GPU zero-copy alone              26.11 GB/s
+[2d] H2D copy alone                   26.21 GB/s
+[2d] all three at once               CPU  25.34 + zero-copy  11.58 + H2D  11.58 =  48.50 GB/s (1.06x CPU alone)
+[2d] CPU + H2D copies only           CPU  24.12 + H2D  25.84 =  49.95 GB/s (1.09x CPU alone; CPU keeps 53%)
+[2d] CPU + zero-copy only            CPU  26.56 + zero-copy  21.06 =  47.62 GB/s (1.04x CPU alone; CPU keeps 58%)
+[2d] ceiling floors (CPU + zero-copy): combined >= 43 GB/s: YES (>= 40: YES)   CPU share >= 17 GB/s: YES   PCIe alone >= 24 GB/s: YES
+[2d] note: phase_7a_greenlight asks for combined >= 1.25x CPU alone = 57.4 GB/s; dual-channel DDR4-3200 peaks at 51.2 GB/s, so that test can only pass if the CPU alone reads far below the memory limit
+[2d] wrote <project>/logs/floors/dual_bus_contention.json

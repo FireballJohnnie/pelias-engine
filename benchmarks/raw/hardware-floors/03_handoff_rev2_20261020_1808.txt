@@ -1,0 +1,15 @@
+[2c] empty_launch        median    33.08 us  p90    35.75  p99    52.79  max     70.19   (2000 samples, CPU timeouts 0, GPU spin timeouts 0)   <- floor of every sync-based mode
+[2c] query_idle          median     0.11 us  p90     0.12  p99     0.12  max      0.87   (1000 samples, CPU timeouts 0, GPU spin timeouts 0)   <- cost of one cudaStreamQuery
+[2c] launch_after_plain  median     0.00 us  p90     0.00  p99     0.00  max      0.00   (0 samples, CPU timeouts 1, GPU spin timeouts 0)   <- TIMED OUT, but the flag was there after the sync: the launch was queued, not started
+[2c] launch_after_kick   median    94.40 us  p90   100.60  p99   123.01  max    148.65   (2000 samples, CPU timeouts 0, GPU spin timeouts 0)
+[2c] launch_after_loop   median    93.54 us  p90    99.92  p99   126.58  max   1009.58   (2000 samples, CPU timeouts 0, GPU spin timeouts 0)
+[2c] sync-based handoff used for 'handoff_us_per_layer': kick
+[2c] spin_wait           median    46.17 us  p90    54.20  p99    73.27  max    140.69   (2000 samples, CPU timeouts 0, GPU spin timeouts 0)   (one kick)
+[2c] copy_roundtrip      median   175.00 us  p90   185.57  p99   207.90  max    760.24   (2000 samples, CPU timeouts 0, GPU spin timeouts 0)
+[2c] pingpong_flag       median     3.36 us  p90     3.58  p99     8.67  max     17.52   (3800 samples, CPU timeouts 0, GPU spin timeouts 0)   <- one resident kernel, no launch/sync per round
+[2c] pingpong_4k         median    13.34 us  p90    13.54  p99    18.71  max     33.25   (3800 samples, CPU timeouts 0, GPU spin timeouts 0)   <- same + GPU reads the 4 KB the CPU wrote: the number the <20 us target is about
+[2c] per-token cost with 28 CPU-path layers (sync-based): 2.643 ms median, 3.444 ms p99
+[2c] per-token cost with 40 layers handing off through a resident kernel: 0.534 ms median, 0.748 ms p99
+[2c] floor check (<= 20 us median, <= 50 us p99): MET
+[2c] note: 1 CPU-side waits timed out in total (see the per-mode lines); a mode with timeouts has no valid numbers
+[2c] wrote <project>/logs/floors/handoff_latency.json

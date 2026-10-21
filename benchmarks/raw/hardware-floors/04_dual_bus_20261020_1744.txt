@@ -1,0 +1,6 @@
+[2d] CPU alone (7 threads)           42.43 GB/s
+[2d] GPU zero-copy alone              26.13 GB/s
+[2d] H2D copy alone                   26.22 GB/s
+[2d] all three at once               CPU  25.43 + zero-copy  11.61 + H2D  11.61 =  48.65 GB/s (1.15x CPU alone)
+[2d] CPU + H2D copies only           CPU  23.36 + H2D  25.75 =  49.11 GB/s (1.16x CPU alone; CPU keeps 55%)
+[2d] wrote <project>/logs/floors/dual_bus_contention.json

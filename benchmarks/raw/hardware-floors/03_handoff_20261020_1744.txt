@@ -1,0 +1,7 @@
+[2c] empty launch+sync   median   53.80 us  p99  234.41 us
+[2c] launch_after        median    0.00 us  p99    0.00 us   <- use this (per CPU-path layer)
+[2c] spin_wait           median    0.00 us  p99    0.00 us   (GPU spin timeouts: 0)
+[2c] copy_roundtrip      median  222.21 us  p99  282.58 us
+[2c] per-token cost with 28 CPU-path layers (launch_after): 0.000 ms median, 0.000 ms p99
+[2c] WARNING: 2 CPU-side waits timed out; treat the numbers as invalid
+[2c] wrote <project>/logs/floors/handoff_latency.json

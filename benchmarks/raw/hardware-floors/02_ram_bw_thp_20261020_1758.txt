@@ -1,0 +1,14 @@
+[2b] buffer 7.70 GiB = 17 layers x 256 experts x 1900000 B (slot 1900544 B); 6 tokens x 17 layers x top-8
+[2b] 4KB_pages      threads= 4  stream  43.60 GB/s   expert-pattern  45.81 GB/s   (huge-page-backed: 0 kB)
+[2b] 4KB_pages      threads= 6  stream  42.65 GB/s   expert-pattern  44.14 GB/s   (huge-page-backed: 0 kB)
+[2b] 4KB_pages      threads= 7  stream  42.23 GB/s   expert-pattern  43.40 GB/s   (huge-page-backed: 0 kB)
+[2b] 4KB_pages      threads= 8  stream  41.95 GB/s   expert-pattern  42.34 GB/s   (huge-page-backed: 0 kB)
+[2b] 4KB_pages      threads=12  stream  41.08 GB/s   expert-pattern  40.86 GB/s   (huge-page-backed: 0 kB)
+[2b] 4KB_pages      threads=16  stream  40.40 GB/s   expert-pattern  36.06 GB/s   (huge-page-backed: 0 kB)
+[2b] 2MB_hugepages  threads= 4  stream  43.77 GB/s   expert-pattern  44.86 GB/s   (huge-page-backed: 8077312 kB)
+[2b] 2MB_hugepages  threads= 6  stream  43.39 GB/s   expert-pattern  43.27 GB/s   (huge-page-backed: 8077312 kB)
+[2b] 2MB_hugepages  threads= 7  stream  42.55 GB/s   expert-pattern  43.11 GB/s   (huge-page-backed: 8077312 kB)
+[2b] 2MB_hugepages  threads= 8  stream  42.44 GB/s   expert-pattern  42.71 GB/s   (huge-page-backed: 8077312 kB)
+[2b] 2MB_hugepages  threads=12  stream  41.27 GB/s   expert-pattern  41.24 GB/s   (huge-page-backed: 8077312 kB)
+[2b] 2MB_hugepages  threads=16  stream  40.44 GB/s   expert-pattern  37.14 GB/s   (huge-page-backed: 8077312 kB)
+[2b] wrote <project>/logs/floors/ram_bw_floor.json

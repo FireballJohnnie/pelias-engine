@@ -1,0 +1,68 @@
+[moe_track] run 'lmnone': extras = --load-mode none  (expert flags: --n-cpu-moe 28)
+no background server recorded (for one running in a window, press Ctrl-C there)
+started in the background (pid 5527); loads in about 2 min 20 s; log: <project>/logs/server_Q4_K_M_1741.log
+[moe_track] waiting for the model to load (about 2.5 minutes)
+# 2026-10-20 17:43:34  label q4km-ncmoe28-lmnone-ctx131k-ub2048
+# command line of the running server (launch-parity record):
+5527 /mnt/c/llama.cpp/build-wsl/bin/llama-server -m <project>/gguf/test-model-Q4_K_M.gguf --alias test-model --host 127.0.0.1 --port 8012 --jinja -np 1 -c 32768 -n -1 --no-context-shift -ngl 99 --n-cpu-moe 28 --flash-attn on --cache-type-k q8_0 --cache-type-v q8_0 --reasoning-format deepseek --chat-template-kwargs {"enable_thinking":true} --temp 1.0 --top-p 0.95 --top-k 20 --min-p 0.0 -c 131072 -ub 2048 --load-mode none -lv 4
+# server log: <project>/logs/server_Q4_K_M_1741.log
+# load-log lines about buffers, threads and listening (log wording is not guaranteed; read, do not parse):
+9:0.00.265.702 I cmn  common_param: system_info: n_threads = 8 (n_threads_batch = 8) / 16 | CUDA : ARCHS = 890 | USE_GRAPHS = 1 | FA_QUANTS = q4_0-q4_0,q8_0-q8_0,f16-f16,bf16-bf16 | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | AVX2 = 1 | F16C = 1 | FMA = 1 | BMI2 = 1 | LLAMAFILE = 1 | OPENMP = 1 | REPACK = 1 | 
+188:0.14.490.787 I load_tensors:        CUDA0 model buffer size =  7014.90 MiB
+189:0.14.490.788 I load_tensors:    CUDA_Host model buffer size = 13160.81 MiB
+210:1.48.964.560 I llama_context:  CUDA_Host  output buffer size =     0.95 MiB
+211:1.48.972.985 I llama_kv_cache:      CUDA0 KV buffer size =  1360.00 MiB
+215:1.49.003.592 I llama_memory_recurrent:      CUDA0 RS buffer size =    62.81 MiB
+222:1.49.562.973 I sched_reserve:      CUDA0 compute buffer size =  1176.14 MiB
+223:1.49.562.997 I sched_reserve:  CUDA_Host compute buffer size =   544.34 MiB
+226:1.49.563.284 I cmn          init: llama threadpool init, n_threads = 8
+230:1.49.820.091 I srv    load_model: initializing, n_slots = 1, n_ctx_slot = 131072, kv_unified = 'false'
+257:1.49.835.628 I srv  llama_server: listening on http://127.0.0.1:8012
+[check] /health -> HTTP 200 {"status": "ok"}
+[check] n_ctx 131072; chat template present: True
+[check] thinking off: finish=stop, 14 tokens, 40.3 tok/s, reasoning 0 chars, answer 44 chars
+        answer starts: [reply text removed]
+[check] thinking on : finish=stop, 211 tokens, 41.4 tok/s, reasoning 469 chars, answer 219 chars
+        answer starts: [reply text removed]
+
+check: the server answers in both modes and the template behaves
+[speed] http://127.0.0.1:8012; file test-model-Q4_K_M.gguf; context 131072; depths [0, 4000, 12000]; 2 warm-up + 3 measured requests per depth; up to 256 new tokens each
+[warm-up 1/2] 60 prompt tokens, 64 new tokens, 41.0 tokens/s
+[warm-up 2/2] 60 prompt tokens, 64 new tokens, 42.3 tokens/s
+[speed] depth short: filler of 0 tokens (none)
+[depth short #1] prompt     61 tok at   165.1 tok/s, wait   0.4s, generated   65 tok at   42.2 tok/s
+[depth short #2] prompt     61 tok at   152.1 tok/s, wait   0.4s, generated  176 tok at   41.7 tok/s
+[depth short #3] prompt     61 tok at   161.2 tok/s, wait   0.4s, generated  256 tok at   41.6 tok/s
+[speed] depth 4000: filler of 3955 tokens (counted by the server)
+[depth 4000  #1] prompt   4027 tok at  2075.0 tok/s, wait   2.0s, generated  118 tok at   41.5 tok/s
+[depth 4000  #2] prompt   4027 tok at  2076.3 tok/s, wait   2.0s, generated  131 tok at   40.9 tok/s
+[depth 4000  #3] prompt   4027 tok at  2075.5 tok/s, wait   2.0s, generated   67 tok at   41.7 tok/s
+[speed] depth 12000: filler of 11941 tokens (counted by the server)
+[depth 12000 #1] prompt  12014 tok at  2103.1 tok/s, wait   5.7s, generated  169 tok at   40.5 tok/s
+[depth 12000 #2] prompt  12014 tok at  2101.7 tok/s, wait   5.7s, generated  256 tok at   39.9 tok/s
+[depth 12000 #3] prompt  12014 tok at  2112.3 tok/s, wait   5.7s, generated  162 tok at   40.4 tok/s
+
+====================================================================================================
+SPEED   label=q4km-ncmoe28-lmnone-ctx131k-ub2048   file=test-model-Q4_K_M.gguf   context 131072   sampling temp 1.0 top-p 0.95 top-k 20
+note: Q4_K_M, KV q8_0, ctx 131072, ub 2048, n-cpu-moe 28, extras: --load-mode none
+warm-up requests (not counted): 41.0, 42.3 tokens/s
+GPU memory in use (whole card, includes the desktop): before the first request 10.5 GiB, highest seen 10.6 GiB, of 12.0 GiB
+
+depth      prompt tok     prompt tok/s     wait for 1st token generation tok/s (median, range)   reps
+short              61            161.2                  0.4 s            41.7  (41.6-42.2)    3/3
+4000             4027           2075.5                  2.0 s            41.5  (40.9-41.7)    3/3
+12000           12014           2103.1                  5.7 s            40.4  (39.9-40.5)    3/3
+
+Read it as: generation tok/s is how fast the answer streams; prompt tok/s and the wait for the first token are what a client with a long prompt feels.
+[speed] saved to <project>/logs/speed_server/20261020_174340_q4km-ncmoe28-lmnone-ctx131k-ub2048.json and <project>/logs/speed_server/20261020_174340_q4km-ncmoe28-lmnone-ctx131k-ub2048.txt
+[moe_track] result: <project>/logs/speed_server/20261020_174340_q4km-ncmoe28-lmnone-ctx131k-ub2048.json
+[gate P1] PASS
+   generation, short prompt: 41.14 -> 41.72  (+1.4%)
+   generation at 12k depth: 38.78 -> 40.44  (+4.3%)
+   prompt reading at 12k: 1192.45 -> 2103.05  (+76.4%)
+   generation spread at depth 0: baseline 0.3%, candidate 1.3% (a gain smaller than this is noise)
+   generation spread at depth 12000: baseline 5.5%, candidate 1.6% (a gain smaller than this is noise)
+   GPU peak 10.59 GiB (limit 11.2)
+   improved by >= 5.0%: ['prompt reading at 12k']; regressed by >= 3.0%: none
+   keep this change
+[moe_track] P1 PASS: keep 'lmnone'. Next change goes on top of it.
