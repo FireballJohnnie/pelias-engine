@@ -130,7 +130,7 @@ The 6.17 us figure feeds the ceiling in section 4. With the microbenchmark's 18.
 | Spine linearity | one more `--n-cpu-moe` point |
 | Wider-load cold-path kernel | rewrite and re-run section 3 |
 | Whether the helper-deduplication patch is still needed after the quantiser fix (section 8.4) | rebuild without `mm_ids_dedup.patch` and repeat the crash sweep and the batch-16 accuracy run |
-| Why `--load-mode none` costs decode speed on the tier build, and why prompt reading at bypass 9 differs between launches (301 to 1,680 tokens/s, section 8.7) | write the launch settings into the speed file; repeat 3 launches per setting |
+| Why `--load-mode none` costs decode speed on the tier build (46.9 against 52.4 tokens/s short at bypass 9, different launches, section 8.6) | repeat 3 launches per setting; write the launch settings into the speed file |
 | Stock path at chunks of 25 to 31 tokens, and the cause of the step between 24 and 32 (section 8.8) | sweep chunks 25 to 31; read the scheduler's offload rule |
 
 ---
@@ -239,14 +239,14 @@ Raw: `raw/stage2-tier-cuda/speed/20261022_*` and `raw/stage2-tier-cuda/hot-sets/
 | 8.5 | 131550 | 55.7 | 52.9 | 53.4 | 11.4 | 0.865 |
 
 * **Trend (measured, one launch each):** generation rises with the bank, short from 44.2 to 55.7 over 6.1 to 8.5 GiB.
-* **Noise is larger than section 8.1 stated.** Two launches of the 6.1 GiB setting differ by 3.5 at short (44.2 vs 47.7). Two further launches of the 7.5 GiB setting (stamps 132648: 50.1 / 47.7 / 45.0 and 132907: 46.9 / 44.3 / 45.4) differ from the table's 7.5 run by up to 5.5 at short. A single step of 0.5 GiB is therefore not separable; the trend over 2.4 GiB is.
-* **Prompt reading at bypass 9 differs between launches:** 300 to 306 tokens/s at 12k in the table, but 668.0 (stamp 132648) and 1,680.3 (stamp 132907) in the two later 7.5 GiB launches. The cause is **unexplained**; the launch settings of those two are not recorded in the files.
+* **Noise is larger than section 8.1 stated.** Two launches labelled 6.1 GiB differ by 3.5 at short (44.2 vs 47.7; the settings of the first are not confirmed). A single step of 0.5 GiB is therefore not separable; the trend over 2.4 GiB is.
+* **Two more 7.5 GiB launches with other settings** (the settings are in the gauntlet console output, not in the speed files; stamps in the raw `speed/` folder): 132648, `--load-mode none -t 6 -tb 8`: 50.1 / 47.7 / 45.0 generation, 668.0 prompt tokens/s at 12k, peak 10.44 GiB. 132907, `--load-mode none -ub 2048 -t 6 -tb 8`: 46.9 / 44.3 / 45.4, **1,680.3** prompt tokens/s at 12k, peak 10.67 GiB; the script's gate P1 **passed** on this one (generation +14% short, +17% at 12k, prompt reading +41% against its stored baseline, which section 8.2 calls stale at 12k). The rows in the table above ran with the default load and micro-batch (about 300 prompt tokens/s); this is inferred from the rate, not written in the files.
 
 ### 8.7 Bypass value (measured; raw output not kept for the crossover)
 
 * **Bank path against stock path by chunk size, after the fix.** The bank path is faster up to a chunk of 24 tokens, ties from 32, and the stock path's time rises from 250 to 403 ms between chunks of 24 and 32. The cause of that step is an **estimate**: the scheduler's rule for offloading batches of 32 or more tokens to the GPU. Chunks of 25 to 31 were not measured.
 * **Consequence:** raising the bypass above 32 gains nothing in these runs. Bypass 32 is the largest useful value found.
-* **Bypass 32 with `-ub 2048` and the 7.5 GiB set** (section 8.2): generation 53.5 / 53.0 / 49.0 tokens/s, prompt reading 921 tokens/s at 12k. The bypass-9 launch with the same set reached 1,680 tokens/s once (section 8.6); which is typical is **unmeasured**.
+* **Bypass 32 with `-ub 2048` and the 7.5 GiB set** (section 8.2): generation 53.5 / 53.0 / 49.0 tokens/s, prompt reading 921 tokens/s at 12k. Bypass 9 with `--load-mode none -ub 2048` reached 1,680 prompt tokens/s with generation 46.9 / 45.4 (section 8.6), the only P1 pass so far. Bypass 32 with `--load-mode none -ub 2048` has **not been run**.
 
 ### 8.8 Stock layout, micro-batch, load mode and threads (measured, one launch each)
 
@@ -271,4 +271,4 @@ Stock build, context 131,072, KV q8_0, `-ub 2048` unless noted. Generation token
 
 ### 8.9 Not known yet
 
-Live hit rate (only simulated figures exist); why 44 to 55 tokens/s and not the ceiling (section 8.1); whether the helper-deduplication patch is needed; the mechanism of the decode cost of `--load-mode none` on the tier build; why prompt reading at bypass 9 varies between 300 and 1,680 tokens/s; the stock path at chunks of 25 to 31 and the cause of the step at 32; the chunk-size behaviour of the production setting above 61 tokens (not swept).
+Live hit rate (only simulated figures exist); why 44 to 55 tokens/s and not the ceiling (section 8.1); whether the helper-deduplication patch is needed; the mechanism of the decode cost of `--load-mode none` on the tier build; whether bypass 32 with `--load-mode none -ub 2048` passes P1; the stock path at chunks of 25 to 31 and the cause of the step at 32; the chunk-size behaviour of the production setting above 61 tokens (not swept).
