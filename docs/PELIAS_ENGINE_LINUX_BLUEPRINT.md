@@ -85,7 +85,7 @@ pelias-engine/
     gpu/expert_q4k.cu  expert_q6k.cu  bank.cu  zerocopy.cu  handoff.cu                   E5/E6
     gpu/spine/attention.cu  deltanet.cu  norm.cu  router.cu  lm_head.cu                 E7
     mem/host_alloc_linux.cpp  host_alloc_wsl.cpp  probe.cpp  vram_plan.cpp              E2/E11
-    model/arch_qwen3_moe.cpp                                                           E3
+    model/arch_moe.cpp                                                                E3
     main.cpp                    command line: serve, bench, trace, probe                  E8
   tools/                        offline, Python
     collect_trace.py  export_hot_set.py  kl_gate.py  speed.py  repack_gguf.py (later)   E3 (reused)
