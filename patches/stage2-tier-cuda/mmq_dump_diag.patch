@@ -1,0 +1,88 @@
+diff --git a/ggml/src/ggml-cuda/mmq.cu b/ggml/src/ggml-cuda/mmq.cu
+--- a/ggml/src/ggml-cuda/mmq.cu
++++ b/ggml/src/ggml-cuda/mmq.cu
+@@ -258,6 +258,84 @@
+         CUDA_CHECK(cudaGetLastError());
+     }
+ 
++    // pelias-tier DIAGNOSTIC (env PELIAS_MMID_DUMP=1): copy the helper outputs to the host and check them. Slow; for crash hunting only.
++    // Prints one summary line for the first calls and for every call with an anomaly; full detail for the first 3 anomalies.
++    if (getenv("PELIAS_MMID_DUMP") != nullptr && ne12 >= 9) {
++        static int dump_call = 0;
++        static int detail_budget = 3;
++        cudaStreamCaptureStatus cap = cudaStreamCaptureStatusNone;
++        cudaStreamIsCapturing(stream, &cap);
++        if (cap == cudaStreamCaptureStatusNone) {
++            const int call = dump_call++;
++            const int64_t n_ids = ne12*n_expert_used;
++            std::vector<int32_t> h_ids(n_ids), h_src1(ne_get_rows), h_dst(ne_get_rows), h_bnd(ne02 + 1);
++            cudaError_t err = cudaMemcpy2DAsync(h_ids.data(), n_expert_used*sizeof(int32_t), ids->data, ids->nb[1],
++                n_expert_used*sizeof(int32_t), ne12, cudaMemcpyDeviceToHost, stream);
++            if (err == cudaSuccess) { err = cudaMemcpyAsync(h_src1.data(), ids_src1.get(), ne_get_rows*sizeof(int32_t), cudaMemcpyDeviceToHost, stream); }
++            if (err == cudaSuccess) { err = cudaMemcpyAsync(h_dst.data(), ids_dst.get(), ne_get_rows*sizeof(int32_t), cudaMemcpyDeviceToHost, stream); }
++            if (err == cudaSuccess) { err = cudaMemcpyAsync(h_bnd.data(), expert_bounds.get(), (ne02 + 1)*sizeof(int32_t), cudaMemcpyDeviceToHost, stream); }
++            if (err == cudaSuccess) { err = cudaStreamSynchronize(stream); }
++            if (err != cudaSuccess) {
++                fprintf(stderr, "MMID_DUMP call %d: CUDA error before or at this call: %s (ne12=%lld ne02=%lld n_used=%lld src0=%s)\n",
++                    call, cudaGetErrorString(err), (long long) ne12, (long long) ne02, (long long) n_expert_used, ggml_type_name(src0->type));
++            } else {
++                int ids_bad = 0, ids_neg = 0, rep_tok = 0;
++                for (int64_t it = 0; it < ne12; ++it) {
++                    bool rep = false;
++                    for (int64_t i = 0; i < n_expert_used; ++i) {
++                        const int32_t v = h_ids[it*n_expert_used + i];
++                        if (v < 0) { ids_neg++; } else if (v >= ne02) { ids_bad++; }
++                        for (int64_t j = 0; j < i; ++j) { rep = rep || h_ids[it*n_expert_used + j] == v; }
++                    }
++                    rep_tok += rep ? 1 : 0;
++                }
++                const int64_t total = h_bnd[ne02];
++                int mono_bad = 0, nonempty = 0, dst_bad = 0;
++                for (int64_t e = 0; e < ne02; ++e) {
++                    if (h_bnd[e + 1] < h_bnd[e]) { mono_bad++; continue; }
++                    if (h_bnd[e + 1] > h_bnd[e]) { nonempty++; }
++                    for (int64_t r = h_bnd[e]; r < h_bnd[e + 1]; ++r) {
++                        if (r < 0 || r >= ne_get_rows) { dst_bad++; continue; }
++                        if (h_dst[r] < 0 || h_dst[r] >= ne_get_rows) { dst_bad++; }
++                    }
++                }
++                const int64_t sis1_d = nb12 / nb11;
++                const int64_t src1_lim = dedup_bcast ? ne_get_rows : (ne12 - 1)*sis1_d + ne11;
++                int src1_neg = 0, src1_ok = 0, src1_bad = 0, holes = 0;
++                for (int64_t r = 0; r < ne_get_rows; ++r) {
++                    const int32_t v = h_src1[r];
++                    if (v == -1) { src1_neg++; if (!dedup_bcast && r < total) { holes++; } }
++                    else if (v >= 0 && v < src1_lim) { src1_ok++; }
++                    else { src1_bad++; }
++                }
++                const bool anomaly = ids_bad || ids_neg || mono_bad || dst_bad || src1_bad || holes || total > ne_get_rows;
++                if (call < 4 || anomaly) {
++                    fprintf(stderr, "MMID_DUMP call %d src0=%s dedup=%d ne12=%lld n_used=%lld ne02=%lld | ids: bad=%d neg=%d rep_tokens=%d | bounds: total=%lld/%lld nonempty=%d nonmono=%d | src1: ok=%d neg=%d bad=%d holes_in_range=%d | dst_bad_in_ranges=%d%s\n",
++                        call, ggml_type_name(src0->type), (int) dedup_bcast, (long long) ne12, (long long) n_expert_used, (long long) ne02,
++                        ids_bad, ids_neg, rep_tok, (long long) total, (long long) ne_get_rows, nonempty, mono_bad,
++                        src1_ok, src1_neg, src1_bad, holes, dst_bad, anomaly ? "  <-- ANOMALY" : "");
++                }
++                if (anomaly && detail_budget > 0) {
++                    detail_budget--;
++                    for (int64_t it = 0; it < ne12 && it < 12; ++it) {
++                        fprintf(stderr, "  ids[tok %lld]:", (long long) it);
++                        for (int64_t i = 0; i < n_expert_used; ++i) { fprintf(stderr, " %d", h_ids[it*n_expert_used + i]); }
++                        fprintf(stderr, "\n");
++                    }
++                    int shown = 0;
++                    for (int64_t e = 0; e < ne02 && shown < 40; ++e) {
++                        if (h_bnd[e + 1] != h_bnd[e]) { fprintf(stderr, "  bounds expert %lld: [%d, %d)\n", (long long) e, h_bnd[e], h_bnd[e + 1]); shown++; }
++                    }
++                    fprintf(stderr, "  src1 map:");
++                    for (int64_t r = 0; r < ne_get_rows && r < 96; ++r) { fprintf(stderr, " %d", h_src1[r]); }
++                    fprintf(stderr, "\n  dst map:");
++                    for (int64_t r = 0; r < ne_get_rows && r < 96; ++r) { fprintf(stderr, " %d", h_dst[r]); }
++                    fprintf(stderr, "\n");
++                }
++            }
++        }
++    }
++
+     const size_t nbytes_src1_q8_1 = ne12*n_expert_used*ne10_padded * y_block_size/y_values_per_block +
+         ggml_cuda_mmq_get_J_max(src0->type, fallback, cc, ne12) * sizeof(block_q8_1_mmq);
+     ggml_cuda_pool_alloc<char> src1_q8_1(ctx.pool(), nbytes_src1_q8_1);

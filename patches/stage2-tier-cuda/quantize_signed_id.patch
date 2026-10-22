@@ -1,0 +1,14 @@
+diff --git a/ggml/src/ggml-cuda/quantize.cu b/ggml/src/ggml-cuda/quantize.cu
+--- a/ggml/src/ggml-cuda/quantize.cu
++++ b/ggml/src/ggml-cuda/quantize.cu
+@@ -477,7 +477,9 @@
+     } else {
+         const int64_t i2  = blockIdx.z % ne2;
+         const int64_t i3  = blockIdx.z / ne2;
+-        const int64_t i01 = ids ? ids[blockIdx.x] : blockIdx.x;
++        // pelias-tier: ids[] is int32 and blockIdx.x is unsigned, so the plain ?: converts an id of -1 to 4294967295 (unsigned) before it is widened;
++        // the check below then never fires and the row 4294967295 is read. Widen each side to int64 first.
++        const int64_t i01 = ids ? (int64_t) ids[blockIdx.x] : (int64_t) blockIdx.x;
+         if (i01 < 0) { return; } // pelias-tier: unused compact row
+         base_idx = i3*s03 + i2*s02 + i01*s01;
+     }

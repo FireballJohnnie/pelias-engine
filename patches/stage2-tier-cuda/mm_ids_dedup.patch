@@ -1,0 +1,37 @@
+diff --git a/ggml/src/ggml-cuda/mmid.cu b/ggml/src/ggml-cuda/mmid.cu
+--- a/ggml/src/ggml-cuda/mmid.cu
++++ b/ggml/src/ggml-cuda/mmid.cu
+@@ -49,7 +49,14 @@
+             int iex_used = -1; // The index at which the expert is used, if any.
+             for (int iex = threadIdx.x; iex < n_expert_used; iex += warp_size) {
+                 const int expert_used = ids[it*si1 + iex];
+-                nex_prev += expert_used < expert;
++                // pelias-tier: a token row may name the same expert more than once (the tier maps every hot-bank miss to the all-zero slot 0).
++                // Only the first occurrence in a row gets a compact row, so only the first occurrence may be counted in the expert bounds;
++                // otherwise the bounds contain empty rows that the matrix-multiply kernel reads and writes through unset ids_dst entries.
++                bool repeated = false;
++                for (int j = 0; j < iex; ++j) {
++                    repeated = repeated || ids[it*si1 + j] == expert_used;
++                }
++                nex_prev += expert_used < expert && !repeated;
+                 if (expert_used == expert) {
+                     iex_used = iex;
+                 }
+@@ -75,7 +82,16 @@
+             const int expert_used = (neu_padded == n_expert_used || iex < n_expert_used) && it < n_tokens ?
+                 ids[it*si1 + iex] : INT_MAX;
+             const int iex_used = expert_used == expert ? iex : -1;
+-            nex_prev += expert_used < expert;
++
++            // pelias-tier: same rule as in the generic path above: count each (token, expert) pair once. A lane is a repeat if a lower lane
++            // of the same token holds the same expert id (shfl_up by d reaches lane-d, which is inside this token's group when iex >= d).
++            bool repeated = false;
++#pragma unroll
++            for (int d = 1; d < neu_padded; ++d) {
++                const int other = __shfl_up_sync(0xFFFFFFFF, expert_used, d, warp_size);
++                repeated = repeated || (iex >= d && other == expert_used);
++            }
++            nex_prev += expert_used < expert && !repeated;
+ 
+             // Whether the threads at this token position have used the expert:
+             const int it_compact_add_self = warp_reduce_any<neu_padded>(iex_used != -1);

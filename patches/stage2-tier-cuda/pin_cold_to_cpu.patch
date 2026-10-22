@@ -1,0 +1,40 @@
+--- ~/p1/llama-graph.cpp.before_pin	2026-10-21 11:42:34.161346797 -0400
++++ src/llama-graph.cpp	2026-10-21 11:42:34.171876624 -0400
+@@ -2427,28 +2427,30 @@
+     cb(ids_cold, "pelias_ids_cold", il);
+ 
+     // one branch: up/gate (or the merged gate_up), SwiGLU, down  ->  [n_embd, n_used, n_tok], not yet weighted
+-    auto branch = [&](ggml_tensor * w_up, ggml_tensor * w_gate, ggml_tensor * w_gate_up, ggml_tensor * w_down, ggml_tensor * ids) {
++    auto branch = [&](ggml_tensor * w_up, ggml_tensor * w_gate, ggml_tensor * w_gate_up, ggml_tensor * w_down, ggml_tensor * ids, bool pin_cpu) {
++        // pelias-tier: the cold branch carries -1 ids that only the CPU kernel understands; never let the scheduler give it to the GPU
++        auto pin = [&](ggml_tensor * t) { if (pin_cpu && t && sched && backend_cpu) { ggml_backend_sched_set_tensor_backend(sched, t, backend_cpu); } return t; };
+         ggml_tensor * gate = nullptr;
+         ggml_tensor * up   = nullptr;
+         if (w_gate_up) {
+-            ggml_tensor * gu = build_lora_mm_id(w_gate_up, cur, ids);                        // [2*n_ff, n_used, n_tok]
++            ggml_tensor * gu = pin(build_lora_mm_id(w_gate_up, cur, ids));                        // [2*n_ff, n_used, n_tok]
+             const int64_t n_ff = gu->ne[0] / 2;
+             gate = ggml_view_3d(ctx0, gu, n_ff, gu->ne[1], gu->ne[2], gu->nb[1], gu->nb[2], 0);
+             up   = ggml_view_3d(ctx0, gu, n_ff, gu->ne[1], gu->ne[2], gu->nb[1], gu->nb[2], n_ff * gu->nb[0]);
+         } else {
+-            up   = build_lora_mm_id(w_up,   cur, ids);                                        // [n_ff, n_used, n_tok]
+-            gate = build_lora_mm_id(w_gate, cur, ids);
++            up   = pin(build_lora_mm_id(w_up,   cur, ids));                                        // [n_ff, n_used, n_tok]
++            gate = pin(build_lora_mm_id(w_gate, cur, ids));
+         }
+         ggml_tensor * act = ggml_swiglu_split(ctx0, gate, up);
+-        return build_lora_mm_id(w_down, act, ids);                                            // [n_embd, n_used, n_tok]
++        return pin(build_lora_mm_id(w_down, act, ids));                                            // [n_embd, n_used, n_tok]
+     };
+ 
+     // hot branch first (GPU), then the cold branch (CPU); the original tensors are the model's own
+-    ggml_tensor * ex_hot = branch(pt->up, pt->gate, pt->gate_up, pt->down, ids_hot);
++    ggml_tensor * ex_hot = branch(pt->up, pt->gate, pt->gate_up, pt->down, ids_hot, false);
+     cb(ex_hot, "ffn_moe_hot_down", il);
+     ggml_build_forward_expand(gf, ex_hot);
+ 
+-    ggml_tensor * ex_cold = branch(pt->orig_up, pt->orig_gate, pt->orig_gate_up, pt->orig_down, ids_cold);
++    ggml_tensor * ex_cold = branch(pt->orig_up, pt->orig_gate, pt->orig_gate_up, pt->orig_down, ids_cold, true);
+     cb(ex_cold, "ffn_moe_cold_down", il);
+     ggml_build_forward_expand(gf, ex_cold);
+ 

@@ -1,0 +1,4 @@
+{
+  "layers_with_bank": 40,
+  "dual_layer_builds_by_n_tokens": {"1": 160, "2": 40, "16": 3280}
+}

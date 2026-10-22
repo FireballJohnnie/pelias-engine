@@ -1,0 +1,35 @@
+diff --git a/ggml/src/ggml-cuda/mmq.cu b/ggml/src/ggml-cuda/mmq.cu
+index 43603bb8a..1d3532687 100644
+--- a/ggml/src/ggml-cuda/mmq.cu
++++ b/ggml/src/ggml-cuda/mmq.cu
+@@ -239,6 +239,10 @@ void ggml_cuda_mul_mat_q(
+     ggml_cuda_pool_alloc<int32_t> ids_src1(ctx.pool(), ne_get_rows);
+     ggml_cuda_pool_alloc<int32_t> ids_dst(ctx.pool(), ne_get_rows);
+     ggml_cuda_pool_alloc<int32_t> expert_bounds(ctx.pool(), ne02 + 1);
++    // pelias-tier: ids naming no expert of src0 (the tier writes -1 for 'this branch does nothing') are never written by mm_ids_helper;
++    // pre-fill the id map with -1 (the quantizer skips it) and the output with 0 so such slots contribute exact zeros
++    CUDA_CHECK(cudaMemsetAsync(ids_src1.get(), 0xFF, ne_get_rows*sizeof(int32_t), stream));
++    CUDA_CHECK(cudaMemsetAsync(dst_d, 0, ggml_nbytes(dst), stream));
+ 
+     // gate/up activations are broadcast across experts (ne11 == 1): quantize each token once and
+     // scatter to its slots. ids_src1 then holds the inverse map (token slot -> compact row).
+diff --git a/ggml/src/ggml-cuda/quantize.cu b/ggml/src/ggml-cuda/quantize.cu
+index 935b2bf4b..bcea3a62f 100644
+--- a/ggml/src/ggml-cuda/quantize.cu
++++ b/ggml/src/ggml-cuda/quantize.cu
+@@ -478,6 +478,7 @@ static __global__ void quantize_mmq_q8_1(
+         const int64_t i2  = blockIdx.z % ne2;
+         const int64_t i3  = blockIdx.z / ne2;
+         const int64_t i01 = ids ? ids[blockIdx.x] : blockIdx.x;
++        if (i01 < 0) { return; } // pelias-tier: unused compact row
+         base_idx = i3*s03 + i2*s02 + i01*s01;
+     }
+ 
+@@ -526,6 +527,7 @@ static __global__ void quantize_mmq_q8_1(
+         int64_t ib;
+         if constexpr (scatter) {
+             const int64_t i = ids[(int64_t) blockIdx.x * n_expert_used + slot];
++            if (i < 0) { continue; } // pelias-tier: slot without a compact row
+             ib = k_block*ne1 + i;
+         } else {
+             const int64_t ib0 = blockIdx.z*((int64_t)gridDim.x*gridDim.y*blockDim.x/QK8_1); // first block of channel

@@ -1,0 +1,36 @@
+0.05.275.096 I slot print_timing: id  0 | task 2 | prompt eval time =     146.42 ms /     8 tokens (   18.30 ms per token,    54.64 tokens per second)
+0.05.275.120 I slot print_timing: id  0 | task 2 |        eval time =       0.00 ms /     1 tokens (    0.00 ms per token,     0.00 tokens per second)
+0.05.275.121 I slot print_timing: id  0 | task 2 |       total time =     146.42 ms /     9 tokens
+0.05.275.122 I slot print_timing: id  0 | task 2 |    graphs reused =          1
+0.05.275.154 I slot      release: id  0 | task 2 | stop processing: n_tokens = 8, truncated = 0
+0.05.284.875 I slot get_availabl: id  0 | task -1 | selected slot by LCP similarity, f_sim_best = 1.000 (> 0.100 thold), f_keep = 1.000
+0.05.284.921 I slot launch_slot_: id  0 | task 5 | processing task, is_child = 0
+0.05.404.672 I slot print_timing: id  0 | task 5 | prompt eval time =     119.72 ms /     8 tokens (   14.96 ms per token,    66.82 tokens per second)
+0.05.404.695 I slot print_timing: id  0 | task 5 |        eval time =       0.00 ms /     1 tokens (    0.00 ms per token,     0.00 tokens per second)
+0.05.404.696 I slot print_timing: id  0 | task 5 |       total time =     119.72 ms /     9 tokens
+0.05.404.697 I slot print_timing: id  0 | task 5 |    graphs reused =          1
+0.05.404.727 I slot      release: id  0 | task 5 | stop processing: n_tokens = 8, truncated = 0
+0.05.429.300 I slot get_availabl: id  0 | task -1 | selected slot by LCP similarity, f_sim_best = 0.615 (> 0.100 thold), f_keep = 1.000
+0.05.429.351 I slot launch_slot_: id  0 | task 8 | processing task, is_child = 0
+~/llama-pelias-tier/ggml/src/ggml-cuda/ggml-cuda.cu:109: CUDA error
+0.05.645.309 E CUDA error: an illegal memory access was encountered
+0.05.645.327 E   current device: 0, in function ggml_backend_cuda_synchronize at ~/llama-pelias-tier/ggml/src/ggml-cuda/ggml-cuda.cu:2602
+0.05.645.328 E   cudaStreamSynchronize(cuda_ctx->stream())
+~/llama-pelias-tier/build-wsl/bin/libggml-base.so.0(+0x1c376) [0x763946541376]
+~/llama-pelias-tier/build-wsl/bin/libggml-base.so.0(ggml_print_backtrace+0x20d) [0x7639465417fd]
+~/llama-pelias-tier/build-wsl/bin/libggml-base.so.0(ggml_abort+0x166) [0x7639465419e6]
+~/llama-pelias-tier/build-wsl/bin/libggml-cuda.so.0(_Z15ggml_cuda_errorPKcS0_S0_iS0_+0xb5) [0x7639411029a5]
+~/llama-pelias-tier/build-wsl/bin/libggml-cuda.so.0(+0x30b938) [0x76394110b938]
+~/llama-pelias-tier/build-wsl/bin/libggml-base.so.0(ggml_backend_sched_graph_compute_async+0x3fc) [0x7639465605dc]
+~/llama-pelias-tier/build-wsl/bin/libllama.so.0(_ZN13llama_context13graph_computeEP11ggml_cgraphb+0xa0) [0x763945416c30]
+~/llama-pelias-tier/build-wsl/bin/libllama.so.0(_ZN13llama_context14process_ubatchERK12llama_ubatch14llm_graph_typeP22llama_memory_context_iR11ggml_status+0x133) [0x76394541a8e3]
+~/llama-pelias-tier/build-wsl/bin/libllama.so.0(_ZN13llama_context6decodeERK15llama_batch_ext+0x46a) [0x76394542318a]
+~/llama-pelias-tier/build-wsl/bin/libllama-server-impl.so(_ZNSt17_Function_handlerIFvvEZN19server_context_impl6decodeERiiEUlvE_E9_M_invokeERKSt9_Any_data+0x52) [0x76394677f3b2]
+~/llama-pelias-tier/build-wsl/bin/libllama-server-impl.so(_ZN12server_queue14yield_to_queueEOSt8functionIFvvEE+0xa9) [0x76394672f3f9]
+~/llama-pelias-tier/build-wsl/bin/libllama-server-impl.so(_ZN19server_context_impl6decodeERii+0x1bf) [0x76394678feff]
+~/llama-pelias-tier/build-wsl/bin/libllama-server-impl.so(_ZN19server_context_impl12update_slotsEv+0x5d2) [0x763946791bf2]
+~/llama-pelias-tier/build-wsl/bin/libllama-server-impl.so(_ZN12server_queue10start_loopEl+0x138) [0x763946733538]
+~/llama-pelias-tier/build-wsl/bin/libllama-server-impl.so(_Z12llama_serverR13common_paramsiPPc+0x469c) [0x7639466e248c]
+~/llama-pelias-tier/build-wsl/bin/libllama-server-impl.so(_Z12llama_serveriPPc+0x112b) [0x7639466e405b]
+/usr/lib/x86_64-linux-gnu/libc.so.6(+0x2a601) [0x763945e2a601]
+/usr/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0x88) [0x763945e2a718]

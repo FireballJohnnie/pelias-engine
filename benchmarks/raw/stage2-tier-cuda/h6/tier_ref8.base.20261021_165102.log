@@ -1,0 +1,34 @@
+0.00.112.551 W DEPRECATED: argument '-b' specified multiple times, use comma-separated values instead (only last value will be used)
+0.00.112.573 W DEPRECATED: argument '-ub' specified multiple times, use comma-separated values instead (only last value will be used)
+0.00.871.479 W llama_model_loader: tensor overrides to CPU are used with mmap enabled - consider using --load-mode none for better performance
+0.00.918.182 W model has unused tensor blk.40.attn_norm.weight (size = 8192 bytes) -- ignoring
+0.00.918.205 W model has unused tensor blk.40.post_attention_norm.weight (size = 8192 bytes) -- ignoring
+0.00.918.211 W model has unused tensor blk.40.attn_q.weight (size = 9437184 bytes) -- ignoring
+0.00.918.214 W model has unused tensor blk.40.attn_k.weight (size = 589824 bytes) -- ignoring
+0.00.918.216 W model has unused tensor blk.40.attn_v.weight (size = 860160 bytes) -- ignoring
+0.00.918.225 W model has unused tensor blk.40.attn_output.weight (size = 4718592 bytes) -- ignoring
+0.00.918.227 W model has unused tensor blk.40.attn_q_norm.weight (size = 1024 bytes) -- ignoring
+0.00.918.229 W model has unused tensor blk.40.attn_k_norm.weight (size = 1024 bytes) -- ignoring
+0.00.918.232 W model has unused tensor blk.40.ffn_gate_inp.weight (size = 2097152 bytes) -- ignoring
+0.00.918.234 W model has unused tensor blk.40.ffn_down_exps.weight (size = 220200960 bytes) -- ignoring
+0.00.918.251 W model has unused tensor blk.40.ffn_gate_exps.weight (size = 150994944 bytes) -- ignoring
+0.00.918.254 W model has unused tensor blk.40.ffn_up_exps.weight (size = 150994944 bytes) -- ignoring
+0.00.918.257 W model has unused tensor blk.40.ffn_gate_inp_shexp.weight (size = 8192 bytes) -- ignoring
+0.00.918.259 W model has unused tensor blk.40.ffn_gate_shexp.weight (size = 589824 bytes) -- ignoring
+0.00.918.261 W model has unused tensor blk.40.ffn_up_shexp.weight (size = 589824 bytes) -- ignoring
+0.00.918.264 W model has unused tensor blk.40.ffn_down_shexp.weight (size = 860160 bytes) -- ignoring
+0.00.918.267 W model has unused tensor blk.40.nextn.eh_proj.weight (size = 4718592 bytes) -- ignoring
+0.00.918.270 W model has unused tensor blk.40.nextn.enorm.weight (size = 8192 bytes) -- ignoring
+0.00.918.272 W model has unused tensor blk.40.nextn.hnorm.weight (size = 8192 bytes) -- ignoring
+0.00.918.279 W model has unused tensor blk.40.nextn.shared_head_norm.weight (size = 8192 bytes) -- ignoring
+0.01.828.934 I cmn          init: llama threadpool init, n_threads = 8
+0.01.946.470 I 
+0.01.946.582 I system_info: n_threads = 8 (n_threads_batch = 8) / 16 | CUDA : ARCHS = 890 | USE_GRAPHS = 1 | FA_QUANTS = q4_0-q4_0,q8_0-q8_0,f16-f16,bf16-bf16 | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | AVX2 = 1 | F16C = 1 | FMA = 1 | BMI2 = 1 | LLAMAFILE = 1 | OPENMP = 1 | REPACK = 1 | 
+0.01.951.499 I perplexity: saving all logits to <project>/logs/moe_trace/kl/tier_ref8.logits.bin
+0.01.951.528 I perplexity: tokenizing the input ..
+0.02.242.724 I perplexity: tokenization took 291.193 ms
+0.02.242.836 I perplexity: calculating perplexity over 16 chunks, n_ctx=1024, batch_size=8, n_seq=1
+0.11.321.097 I perplexity: 8.86 seconds per pass - ETA 2.35 minutes
+[1]22.5026,[2]4.9291,[3]3.4617,[4]2.9177,[5]4.4189,[6]3.5389,[7]3.8080,[8]3.5625,[9]3.2744,[10]3.8179,[11]4.2667,[12]4.7472,[13]4.5810,[14]4.4311,[15]4.4865,[16]4.1141,
+2.24.984.218 I Final estimate: PPL = 4.1141 +/- 0.13574
+

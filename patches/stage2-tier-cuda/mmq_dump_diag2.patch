@@ -1,0 +1,31 @@
+diff --git a/ggml/src/ggml-cuda/mmq.cu b/ggml/src/ggml-cuda/mmq.cu
+--- a/ggml/src/ggml-cuda/mmq.cu
++++ b/ggml/src/ggml-cuda/mmq.cu
+@@ -310,6 +310,27 @@
+                 }
+                 const bool anomaly = ids_bad || ids_neg || mono_bad || dst_bad || src1_bad || holes || total > ne_get_rows;
+                 if (call < 4 || anomaly) {
++                    const int64_t ts1 = ggml_type_size(src1->type);
++                    const int64_t s01_d = src1->nb[1] / ts1;
++                    int64_t max_i01 = -1;
++                    for (int64_t r = 0; r < ne_get_rows; ++r) { if (h_src1[r] > max_i01 && h_src1[r] < (1 << 30)) { max_i01 = h_src1[r]; } }
++                    fprintf(stderr, "  GEOM call %d: src1 type=%s ne=[%lld %lld %lld %lld] nb=[%lld %lld %lld %lld] nbytes=%lld data=%p | dst ne=[%lld %lld %lld %lld] nb=[%lld %lld %lld %lld] nbytes=%lld data=%p | ids ne=[%lld %lld] nb=[%lld %lld] data=%p | ids_src1=%p ids_dst=%p bounds=%p | ne10=%lld ne10_padded=%lld s01=%lld max_row=%lld need_bytes=%lld%s\n",
++                        call, ggml_type_name(src1->type),
++                        (long long) src1->ne[0], (long long) src1->ne[1], (long long) src1->ne[2], (long long) src1->ne[3],
++                        (long long) src1->nb[0], (long long) src1->nb[1], (long long) src1->nb[2], (long long) src1->nb[3],
++                        (long long) ggml_nbytes(src1), (const void *) src1->data,
++                        (long long) dst->ne[0], (long long) dst->ne[1], (long long) dst->ne[2], (long long) dst->ne[3],
++                        (long long) dst->nb[0], (long long) dst->nb[1], (long long) dst->nb[2], (long long) dst->nb[3],
++                        (long long) ggml_nbytes(dst), (const void *) dst->data,
++                        (long long) ids->ne[0], (long long) ids->ne[1], (long long) ids->nb[0], (long long) ids->nb[1], (const void *) ids->data,
++                        (const void *) ids_src1.get(), (const void *) ids_dst.get(), (const void *) expert_bounds.get(),
++                        (long long) ne10, (long long) ne10_padded, (long long) s01_d, (long long) max_i01,
++                        (long long) (dedup_bcast ? 0 : (max_i01*s01_d + ne10)*ts1),
++                        (!dedup_bcast && (max_i01*s01_d + ne10)*ts1 > (int64_t) ggml_nbytes(src1)) ? "  <-- READ PAST src1" : "");
++                    fprintf(stderr, "  valid src1 entries (row:value), first 16:");
++                    int shown_v = 0;
++                    for (int64_t r = 0; r < ne_get_rows && shown_v < 16; ++r) { if (h_src1[r] != -1) { fprintf(stderr, " %lld:%d", (long long) r, h_src1[r]); shown_v++; } }
++                    fprintf(stderr, "\n");
+                     fprintf(stderr, "MMID_DUMP call %d src0=%s dedup=%d ne12=%lld n_used=%lld ne02=%lld | ids: bad=%d neg=%d rep_tokens=%d | bounds: total=%lld/%lld nonempty=%d nonmono=%d | src1: ok=%d neg=%d bad=%d holes_in_range=%d | dst_bad_in_ranges=%d%s\n",
+                         call, ggml_type_name(src0->type), (int) dedup_bcast, (long long) ne12, (long long) n_expert_used, (long long) ne02,
+                         ids_bad, ids_neg, rep_tok, (long long) total, (long long) ne_get_rows, nonempty, mono_bad,

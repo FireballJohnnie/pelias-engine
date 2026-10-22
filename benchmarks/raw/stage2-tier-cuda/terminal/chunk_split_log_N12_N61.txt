@@ -1,0 +1,12 @@
+== N=12
+0.03.005.469 I slot   operator(): id  0 | task 0 | new prompt, n_ctx_slot = 32768, n_keep = 0, task.n_tokens = 12
+0.03.005.472 I slot   operator(): id  0 | task 0 | cached n_tokens = 0, memory_seq_rm [0, end)
+0.03.157.752 I slot   operator(): id  0 | task 0 | cached n_tokens = 8, memory_seq_rm [8, end)
+0.03.196.503 I slot create_check: id  0 | task 0 | created context checkpoint 1 of 32 (pos_min = 7, pos_max = 7, n_tokens = 8, size = 62.813 MiB)
+0.03.316.197 I slot      release: id  0 | task 0 | stop processing: n_tokens = 13, truncated = 0
+== N=61
+0.03.002.804 I slot   operator(): id  0 | task 0 | new prompt, n_ctx_slot = 32768, n_keep = 0, task.n_tokens = 61
+0.03.002.807 I slot   operator(): id  0 | task 0 | cached n_tokens = 0, memory_seq_rm [0, end)
+0.04.012.305 I slot   operator(): id  0 | task 0 | cached n_tokens = 57, memory_seq_rm [57, end)
+0.04.051.400 I slot create_check: id  0 | task 0 | created context checkpoint 1 of 32 (pos_min = 56, pos_max = 56, n_tokens = 57, size = 62.813 MiB)
+0.04.171.569 I slot      release: id  0 | task 0 | stop processing: n_tokens = 62, truncated = 0
