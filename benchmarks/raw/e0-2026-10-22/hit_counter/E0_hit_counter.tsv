@@ -1,0 +1,4 @@
+variant	gen_short	gen_4k	gen_12k	prompt_12k	peak_GiB	P1	G3	log
+e0hits_r1	43.1	42.7	44.8	2251.6	10.6	PASS	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/E0_hit_counter_e0hits_r1_20261022_225502.log
+e0hits_r2	45.3	41.4	40.7	2244.5	10.7	PASS	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/E0_hit_counter_e0hits_r2_20261022_225642.log
+e0hits_r3	45.1	44.7	42.9	2215.7	10.6	PASS	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/E0_hit_counter_e0hits_r3_20261022_225823.log

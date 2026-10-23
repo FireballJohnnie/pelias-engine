@@ -1,0 +1,2 @@
+ctx0: prompt tokens 19, generated 300, first token after 250 ms, mean 27.4 tok/s (tokens 9..), gap ms p50 36.50 p90 39.19 p99 41.68 max 42.95
+ctx12000: prompt tokens 11667, generated 300, first token after 4929 ms, mean 30.4 tok/s (tokens 9..), gap ms p50 32.56 p90 36.39 p99 39.70 max 46.98

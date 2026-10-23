@@ -138,8 +138,8 @@ For scale, measured stock: 31.8 tokens/s (all-CPU) and 41.1 (best flags-only lay
 
 | Unknown | Path to a number |
 |---|---|
-| **Hit rate** of a profile-chosen bank on held-out text, in a live run | simulated 0.765 for a static bank at 6.1 GiB (`benchmarks/RESULTS.md` section 8.5); next, a live hit-rate counter in the patch |
-| Overlap of the CPU and GPU shares in a real layer | end-to-end timing with the real CPU worker and the real kernel |
+| **Hit rate** of a profile-chosen bank on held-out text, in a live run | live count on the gauntlet's prompts: 0.775 to 0.779 for the 7.0 GiB bank (simulated 0.806), `benchmarks/RESULTS.md` section 9.1; the held-out text count is still to do |
+| Overlap of the CPU and GPU shares in a real layer | measured in the llama.cpp tier: none, the layers run in sequence, and the handoff costs at least 4.6 to 5.0 ms per token (`benchmarks/RESULTS.md` section 9.2); the engine's own shares are still to do |
 | Spine linearity (is 0.59 ms per moved layer constant?) | one more `--n-cpu-moe` point |
 | Handoff with a real CPU workload and other kernels in the stream | in-stream test |
 | Whether the stock CPU path is compute-bound (§3) | time the CPU worker alone |
@@ -153,7 +153,7 @@ Each stage has the ceiling derived from this machine's measured inputs, and an e
 |---|---|---|---|---|---|
 | 0 | Stock llama.cpp, all experts on the CPU | - | **31.8** | - | reference |
 | 1 | Stock, `--n-cpu-moe 28` | - | **41.1** | - | same weights |
-| 2 | Hot bank in VRAM, cold experts on the CPU only (the llama.cpp patch) | 48.4 / 62.2 / 72.5 | **44.3 to 44.7** in three runs (bank 6.1 GiB, context 32,768, bypass 9); matched stock 41.2 to 42.0. Later single launches: 7.5 GiB bank, bypass 32, `-ub 2048`: **53.5** short, 49.0 at 12k (stock 41.9 / 41.8); bank 8.5 GiB, bypass 9: 55.7 / 53.4 at 12k | 0.765 **simulated** (held-out, byte-weighted); live count **not measured** | KL 0.0106, top-1 97.13% at batch 8 (limits 0.005 / 99%): **not passed**; stock at batch 16 against the same reference: KL 0.0174, top-1 96.49% |
+| 2 | Hot bank in VRAM, cold experts on the CPU only (the llama.cpp patch) | 48.4 / 62.2 / 72.5 | **44.3 to 44.7** in three runs (bank 6.1 GiB, context 32,768, bypass 9); matched stock 41.2 to 42.0. Later single launches: 7.5 GiB bank, bypass 32, `-ub 2048`: **53.5** short, 49.0 at 12k (stock 41.9 / 41.8); bank 8.5 GiB, bypass 9: 55.7 / 53.4 at 12k | 0.765 **simulated** (held-out, byte-weighted); live count on the gauntlet's prompts: **0.775 to 0.779** for the 7.0 GiB bank (section 4.4) | KL 0.0106, top-1 97.13% at batch 8 (limits 0.005 / 99%): **not passed**; stock at batch 16 against the same reference: KL 0.0174, top-1 96.49% |
 | 3 | Full Pelias with today's cold-path kernel (9.59 GB/s GPU share) | 68.0 / 88.2 / 103.5 | pending | pending | pending |
 | 4 | Full Pelias with a fast kernel (GPU share at the 21 GB/s measured in the combined run) | 76.4 / 95.0 / 108.1 | pending | pending | pending |
 

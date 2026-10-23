@@ -123,9 +123,9 @@ The 6.17 us figure feeds the ceiling in section 4. With the microbenchmark's 18.
 | Unknown | Path |
 |---|---|
 | End-to-end tokens/s of the full engine (stages 3 and 4) | stage 2 is measured (section 8); run the stage 3 and 4 builds of the README ledger and log them here |
-| Hit rate of a profile-chosen bank on held-out text, in a live run | simulated 0.765 at 6.1 GiB and 0.827 at 7.5 GiB (sections 8.5, 8.7); add a live hit-rate counter to the patch and log it |
+| Hit rate of a profile-chosen bank on held-out text, in a live run | measured live on the gauntlet's prompts: 0.775 to 0.779 for the 7.0 GiB bank, against 0.806 simulated (section 9.1); still to do: the same count on the held-out text |
 | Accuracy against stock, decision on the limit | measured (section 8.3): the strict limits are not met even by stock at another batch size; the tier is inside that spread at batch 8 and 16. Open: which definition the author adopts (strict or float spread) |
-| Overlap of CPU and GPU shares in a real layer | time the real CPU worker and kernel together |
+| Overlap of CPU and GPU shares in a real layer | measured in the llama.cpp tier (section 9.2): no overlap, the layers run in sequence; still to do: the engine's own CPU and GPU shares |
 | Whether the stock CPU path is compute-bound | time the CPU worker alone |
 | Spine linearity | one more `--n-cpu-moe` point |
 | Wider-load cold-path kernel | rewrite and re-run section 3 |
@@ -271,4 +271,19 @@ Stock build, context 131,072, KV q8_0, `-ub 2048` unless noted. Generation token
 
 ### 8.9 Not known yet
 
-Live hit rate (only simulated figures exist); why 44 to 55 tokens/s and not the ceiling (section 8.1); whether the helper-deduplication patch is needed; the mechanism of the decode cost of `--load-mode none` on the tier build; whether bypass 32 with `--load-mode none -ub 2048` passes P1; the stock path at chunks of 25 to 31 and the cause of the step at 32; the chunk-size behaviour of the production setting above 61 tokens (not swept).
+Live hit rate on held-out text (section 9.1 has it on the gauntlet's prompts); the cause of the gap to the ceiling is now broken down for the tier build (section 9.2) but the 7.4 against 7.73 ms spine question is open; whether the helper-deduplication patch is needed; the mechanism of the decode cost of `--load-mode none` on the tier build; whether bypass 32 with `--load-mode none -ub 2048` passes P1; the stock path at chunks of 25 to 31 and the cause of the step at 32; the chunk-size behaviour of the production setting above 61 tokens (not swept).
+
+---
+
+## 9. E0 measurements (2026-10-22; raw files in `raw/e0-2026-10-22/`)
+
+Reference cell: 7.0 GiB bank, bypass 32, `-ub 4096`, WSL2, overclocked GPU (`raw/e0-2026-10-22/machine_state/MACHINE_STATE.md`). Speeds in section 9.2 come from the author's streaming client and are lower than the gauntlet's.
+
+### 9.1 Live hit rate (measured)
+Three runs, 40 layers: 0.7753, 0.7760 and 0.7793 for single-token steps (0.55 to 0.63 million selections each); 0.733 for batches of 2 to 31 tokens (20,160 selections, small sample). Simulated held-out rate for this bank: 0.806 (section 8.6). Lowest layers 0 to 2 (0.61 to 0.65), highest layer 20 (0.90 to 0.92). Counted on the gauntlet's own prompts, not on held-out text. Speed columns of these runs are invalid.
+
+### 9.2 Per-token timeline (measured; breakdown derived)
+Timer-free median gap between tokens: 26.3 ms at short context and 23.3 ms at 12k (client). The timer costs 5.7 and 4.8 ms per token; CUDA graphs off costs about 4.5 ms more. With the timer on, one token is cold experts on the CPU 10.1 | 6.6 ms, GPU compute 6.6 | 7.6 ms, sync and copy beyond GPU compute 10.75 | 9.45 ms, copy back 2.3 | 2.2 ms (short | 12k). The parts add up to the wall time, and the layers run strictly in sequence, so there is no CPU and GPU overlap in this graph [DERIVED]. Timer-free sync-and-copy handoff is at least 5.0 | 4.6 ms per token (model: 0.25) and cold-expert time is 6.6 to 10.1 ms (model: 2.9). At the live hit rate the model gives 10.8 ms (92 tok/s); the timer-free measured time is about 24.6 ms [DERIVED]. Full table and caveats: `raw/e0-2026-10-22/README.md`.
+
+### 9.3 KL gate rerun (measured)
+All seven H6 configurations reproduced the 18:44 results exactly (mean KL, standard error, top-1, perplexity). The strict limits are still not met by any tier configuration; the float-spread ruling stands.
