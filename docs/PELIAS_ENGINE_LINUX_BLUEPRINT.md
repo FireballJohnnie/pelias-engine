@@ -162,9 +162,9 @@ One code base and one binary serve both. WSL2 is Linux, so a Linux engine runs t
 
 | Decision | Why it blocks | Needed by |
 | --- | --- | --- |
-| H6 definition: strict limit or float-spread reading | Sets the accuracy pass limit for every phase from E3 | E3 |
-| VRAM ceiling: 10.4, 10.9 or 11.2 GiB | Caps the bank size and the E9 planner | E5 |
-| Fate of the six loose patches and the base tier patch | Decides what is carried into the engine as reference | E2 |
+| H6 definition: strict limit or float-spread reading (RULED 2026-10-22: float-spread governs; strict KL 0.005 / top-1 99% is reported for information only) | Sets the accuracy pass limit for every phase from E3 | E3 |
+| VRAM ceiling: 10.4, 10.9 or 11.2 GiB (RULED 2026-10-22: 10.9 GiB) | Caps the bank size and the E9 planner | E5 |
+| Fate of the six loose patches and the base tier patch (RULED 2026-10-22: carry mm_ids_dedup, quantize_signed_id, cuda_hole_fix and pin_cold_to_cpu; drop mmq_dump_diag and mmq_dump_diag2) | Decides what is carried into the engine as reference | E2 |
 | The 7.4 ms split discrepancy (author ruling 2026-10-22: re-derive from E0 per-token timers; until then the ceiling is shown as a range 88.2 to 90.9 tok/s [DERIVED]) | One of the inputs to the spine time | E0 |
 | Hit-rate counter and per-token timer patches (measurement builds, in a copy of the tree) | Needed to measure the assumed inputs | E0 |
 | CUDA minimum version and GPU architectures beyond 89 | Fixes the build matrix and the generality goal | E2 |
