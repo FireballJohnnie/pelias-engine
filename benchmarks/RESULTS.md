@@ -287,3 +287,7 @@ Timer-free median gap between tokens: 26.3 ms at short context and 23.3 ms at 12
 
 ### 9.3 KL gate rerun (measured)
 All seven H6 configurations reproduced the 18:44 results exactly (mean KL, standard error, top-1, perplexity). The strict limits are still not met by any tier configuration; the float-spread ruling stands.
+
+### 9.4 Windows-native run of the tier build (2026-10-23, first runs; raw files in `raw/windows-native-2026-10-23/`)
+The same reference cell run as a Windows program (MSVC 14.44, nvcc 13.4; the WSL builds used gcc and nvcc 13.0.88). Two launches, same client as section 9.2: 47.3 and 46.8 tok/s at short context, 53.7 and 54.1 at 12k, against 37.9 and 42.1 for the WSL timer-off cell (one launch). Prefill at 12k is the same (4875 and 4871 ms against 4911 ms), so the difference is in decode: about 5.2 ms per token, the size of the WSL handoff estimate in section 9.2 [DERIVED, consistent, not proven]. Gap tail lighter on Windows (p99 about 25 ms against 32 ms). Whole-GPU memory with the server up: 11,020 MiB, idle 551 MiB. Not scored against the gates (the gauntlet is Linux-only); needs three launches per side before it is a claim.
+
