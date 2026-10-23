@@ -1,0 +1,6 @@
+variant	gen_short	gen_4k	gen_12k	prompt_12k	peak_GiB	P1	G3	log
+b61	44.7	46.7	47.3	299.5	8.9	HOLD	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/P_bank_size_bypass9_b61_20261022_185612.log
+b70	49.1	48.3	45.9	296.1	9.8	HOLD	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/P_bank_size_bypass9_b70_20261022_185936.log
+b75	51.8	52.5	51.2	299.9	10.3	HOLD	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/P_bank_size_bypass9_b75_20261022_190306.log
+b80	51.8	52.5	49.1	285.2	10.8	HOLD	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/P_bank_size_bypass9_b80_20261022_190635.log
+b85	51.8	53.7	50.7	298.9	11.3	HOLD	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/P_bank_size_bypass9_b85_20261022_191010.log

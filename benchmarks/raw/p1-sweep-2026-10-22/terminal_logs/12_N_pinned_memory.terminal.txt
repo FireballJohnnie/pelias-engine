@@ -1,0 +1,18 @@
+### N_pinned_memory / pinned_on   start 18:04:07
+    spec : tier:n=40,bypass=32,cap=7800,hot=/mnt/c/AI/Stuart/Creator/logs/pelias_hot_set_b7.5.txt
+    flags: -t 6 -tb 8 --load-mode none -ub 2048
+    gen 49.9 / 45.1 / 49.0 tok/s (short/4k/12k)   prompt@12k 1669.1 tok/s   peak 10.5 GiB   P1 PASS   G3 FAIL
+
+### N_pinned_memory / pinned_off   start 18:05:39
+    spec : tier:n=40,bypass=32,cap=7800,hot=/mnt/c/AI/Stuart/Creator/logs/pelias_hot_set_b7.5.txt
+    flags: -t 6 -tb 8 --load-mode none -ub 2048
+    env  : GGML_CUDA_NO_PINNED=1
+    gen 48.3 / 51.5 / 46.4 tok/s (short/4k/12k)   prompt@12k 810.5 tok/s   peak 10.5 GiB   P1 HOLD   G3 FAIL
+
+=== N_pinned_memory: summary (saved in /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/N_pinned_memory.tsv; full logs in /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results)
+variant     gen_short  gen_4k  gen_12k  prompt_12k  peak_GiB  P1    G3    log
+pinned_on   49.9       45.1    49.0     1669.1      10.5      PASS  FAIL  /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/N_pinned_memory_pinned_on_20261022_180407.log
+pinned_off  48.3       51.5    46.4     810.5       10.5      HOLD  FAIL  /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/N_pinned_memory_pinned_off_20261022_180539.log
+no llama-server running
+317 MiB, 12282 MiB
+The server on port 8012 is STOPPED. Start it again with:  llama --serve --stuart-creator --bg

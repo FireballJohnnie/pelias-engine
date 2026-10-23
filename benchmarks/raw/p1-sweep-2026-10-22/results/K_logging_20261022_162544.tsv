@@ -1,0 +1,5 @@
+variant	gen_short	gen_4k	gen_12k	prompt_12k	peak_GiB	bank_layers	dual_builds	server_log
+lv4_verbose1	51.3	46.7	42.9	1653.4	10.7	40	{"1":960,"2":80,"4":480,"9":40}	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/K_server_lv4_verbose1_20261022_162544.log
+lv3_verbose1	44.1	45.1	43.5	1650.2	10.7	40	{"1":920,"2":80,"4":480,"9":40}	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/K_server_lv3_verbose1_20261022_162724.log
+lv3_verbose0	46.7	47.1	44.9	1662.0	10.7	40	{"1":960,"2":80,"4":480,"9":40}	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/K_server_lv3_verbose0_20261022_162902.log
+lv1_verbose0	48.1	45.7	45.2	1653.9	10.7	40	{"1":960,"2":80,"4":480,"9":40}	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/K_server_lv1_verbose0_20261022_163043.log

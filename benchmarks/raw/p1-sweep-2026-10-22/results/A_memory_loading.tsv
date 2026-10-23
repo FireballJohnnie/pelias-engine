@@ -1,0 +1,11 @@
+variant	gen_short	gen_4k	gen_12k	prompt_12k	peak_GiB	P1	G3	log
+default_load	51.9	50.1	45.9	870.9	10.7	HOLD	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/A_memory_loading_default_load_20261022_155419.log
+load_none	47.7	50.2	47.6	1665.7	10.6	PASS	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/A_memory_loading_load_none_20261022_155554.log
+no_mmap	FAILED	-	-	-	-	-	-	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/A_memory_loading_no_mmap_20261022_155731.log
+mlock	FAILED	-	-	-	-	-	-	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/A_memory_loading_mlock_20261022_155731.log
+default_load	52.6	51.7	48.3	928.9	10.7	HOLD	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/A_memory_loading_default_load_20261022_163223.log
+load_none	46.5	46.0	48.2	1669.7	10.7	PASS	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/A_memory_loading_load_none_20261022_163408.log
+lm_mmap	49.5	47.6	49.3	876.7	10.7	HOLD	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/A_memory_loading_lm_mmap_20261022_163558.log
+lm_mlock	47.4	47.6	46.9	1680.1	10.7	PASS	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/A_memory_loading_lm_mlock_20261022_163740.log
+lm_mmap_mlock	49.2	47.7	47.7	862.8	10.7	HOLD	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/A_memory_loading_lm_mmap_mlock_20261022_163928.log
+lm_dio	47.6	45.9	47.5	1667.2	10.7	PASS	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/A_memory_loading_lm_dio_20261022_164116.log

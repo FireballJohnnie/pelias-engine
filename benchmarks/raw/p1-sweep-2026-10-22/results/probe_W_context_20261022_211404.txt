@@ -1,0 +1,68 @@
+## kernel
+6.18.54.1-microsoft-standard-WSL2
+## gpu
+driver_version, pcie.link.gen.current, pcie.link.gen.max, pcie.link.width.current, pcie.link.width.max, power.limit [W], clocks.max.sm [MHz], clocks.max.memory [MHz]
+617.42, 4, 4, 16, 16, 200.00 W, 3120 MHz, 10501 MHz
+
+==============NVSMI LOG==============
+
+Timestamp                                              : Thu Oct 22 21:14:04 2026
+Driver Version                                         : 617.42 [Deprecated; will be removed in CUDA 14.0. Use KMD Version instead]
+CUDA Version                                           : 13.4 [Deprecated; will be removed in CUDA 14.0. Use CUDA UMD Version instead]
+KMD Version                                            : 617.42
+CUDA UMD Version                                       : 13.4
+
+Attached GPUs                                          : 1
+GPU 00000000:07:00.0
+    FB Memory Usage
+        Total                                          : 12282 MiB
+        Reserved                                       : 272 MiB
+        Used                                           : 11434 MiB
+        Free                                           : 577 MiB
+    BAR1 Memory Usage
+        Total                                          : 16384 MiB
+        Used                                           : 0 MiB
+        Free                                           : 16384 MiB
+    Conf Compute Protected Memory Usage
+        Total                                          : N/A
+        Used                                           : N/A
+        Free                                           : N/A
+
+## cpu
+CPU(s):                                  16
+Model name:                              AMD Ryzen 7 5800X3D 8-Core Processor
+Thread(s) per core:                      2
+Core(s) per socket:                      8
+L2 cache:                                4 MiB (8 instances)
+L3 cache:                                96 MiB (1 instance)
+     16 avx2
+     16 bmi2
+     16 f16c
+     16 fma
+## memory
+               total        used        free      shared  buff/cache   available
+Mem:           48111       22583        1340       19297       44218       25527
+Swap:          49152         124       49027
+NAME     TYPE      SIZE   USED PRIO
+/dev/sdc partition  48G 124.8M   -2
+/sys/kernel/mm/transparent_hugepage/enabled: [always] madvise never
+/sys/kernel/mm/transparent_hugepage/defrag: always defer defer+madvise [madvise] never
+MemAvailable:   26133084 kB
+AnonHugePages:   1603584 kB
+HugePages_Total:       0
+Hugepagesize:       2048 kB
+swappiness 60  overcommit 0  ulimit-l 65536
+## build
+set(CMAKE_CUDA_COMPILER_VERSION "13.0.88")
+CMAKE_BUILD_TYPE:STRING=Release
+CMAKE_CUDA_ARCHITECTURES:UNINITIALIZED=89
+GGML_CCACHE:BOOL=ON
+GGML_CCACHE_FOUND:FILEPATH=/usr/bin/ccache
+GGML_CUDA_FA:BOOL=ON
+GGML_CUDA_FA_ALL_QUANTS:BOOL=OFF
+GGML_CUDA_FA_QUANTS:STRING=q4_0-q4_0;q8_0-q8_0;f16-f16;bf16-bf16
+GGML_CUDA_GRAPHS:BOOL=ON
+GGML_NATIVE:BOOL=ON
+	libcudart.so.13 => /usr/local/cuda/targets/x86_64-linux/lib/libcudart.so.13 (0x000074465f400000)
+	libcublas.so.13 => /usr/local/cuda/targets/x86_64-linux/lib/libcublas.so.13 (0x000074465be00000)
+	libcublasLt.so.13 => /usr/local/cuda/targets/x86_64-linux/lib/libcublasLt.so.13 (0x0000744635600000)

@@ -1,0 +1,37 @@
+  STOP: rerun with --drop-unsupported to remove the parity flags it does not know
+This stops the llama-server on port 8012 and leaves it stopped when the last variant ends.
+
+=== tier-n40-hotashotsetb7.5-by32 (tier:n=40,bypass=32,cap=7800,hot=/mnt/c/AI/Stuart/Creator/logs/pelias_hot_set_b7.5.txt) ===
+  binary: /home/user/llama-pelias-tier/build-wsl/bin/llama-server
+  reference command: the production command saved 2026-10-21 12:18:38
+  changed  --model: /mnt/c/AI/Stuart/Creator/gguf/stuart-creator-Q4_K_M.gguf  ->  /home/user/models/stuart-creator-Q4_K_M.gguf
+  added    --fit off
+  added    --mlock (on)
+  added    --n-cpu-moe 40
+  added    --threads 6
+  added    --threads-batch 8
+  added    --ubatch-size 2048
+  added    --verbosity 4
+  removed  --override-tensor .ffn_.*_exps.=CPU
+  unchanged: 18 flags
+  note: Phase 6: the expert files stay in RAM exactly as in the control; the bank is an extra copy of the hot experts in VRAM (cap 7800 MiB). Batches of fewer than 32 tokens use bank + RAM, larger ones take the stock path
+  note: the log line 'pelias-tier: hot bank active for N layers' proves the bank exists; 'running without a hot bank' means it was refused and the run is a plain control
+  env: PELIAS_HOT_SET=/mnt/c/AI/Stuart/Creator/logs/pelias_hot_set_b7.5.txt PELIAS_TIER_BYPASS_N=32 PELIAS_TIER_MAX_MIB=7800 PELIAS_TIER_VERBOSE=1
+  asking the binary which flags it knows ...
+  this binary does not list: --mlock
+
+The production server is STOPPED. Start it again with:  llama --serve --stuart-creator --bg
+
+variant                                        status              gen  gen12k  pre12k   VRAM    P1    G3        KL   top1
+--------------------------------------------------------------------------------------------------------------------------
+prod-n28                                       measured           41.9    41.8    1253   8.60  PASS    no         -      -
+tier-n40-hot-by32                              check failed          -       -       -      -     -     -         -      -
+tier-n40-hot-by9                               measured           47.7    46.7     301   9.02    no    no         -      -
+tier-n40-hotashotsetb7.0-by32                  measured           48.6    45.1    1670  10.16  PASS    no         -      -
+tier-n40-hotashotsetb7.0-by9                   measured           45.5    46.2    1673  10.17  PASS    no         -      -
+tier-n40-hotashotsetb7.5-by32                  measured           47.7    47.6    1666  10.65  PASS    no         -      -
+tier-n40-hotashotsetb7.5-by9                   measured           46.9    45.4    1680  10.67  PASS    no         -      -
+tier-n40-hotashotsetb8.0-by32                  measured           49.2    47.8    1666  11.17  PASS    no         -      -
+tier-n40-hotashotsetb8.0-by9                   measured           48.5    48.6    1663  11.17  PASS    no         -      -
+tier-n40-hotashotsetb8.5-by9                   measured           55.7    53.4     304  11.45    no    no         -      -
+gen = tok/s short prompt, gen12k / pre12k = generation / prompt reading at 12k context; VRAM = GiB peak; KL from sim/kl_gate.py (blank until run)

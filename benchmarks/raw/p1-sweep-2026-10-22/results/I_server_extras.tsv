@@ -1,0 +1,5 @@
+variant	gen_short	gen_4k	gen_12k	prompt_12k	peak_GiB	P1	G3	log
+base	47.3	47.8	46.9	1675.7	10.7	PASS	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/I_server_extras_base_20261022_174638.log
+ctxcp2	47.3	47.7	46.5	1657.6	10.7	PASS	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/I_server_extras_ctxcp2_20261022_174816.log
+ctxcp8	46.8	46.6	46.8	1660.0	10.7	PASS	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/I_server_extras_ctxcp8_20261022_175000.log
+reuse_5d	47.6	47.1	46.3	1659.1	10.7	PASS	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/I_server_extras_reuse_5d_20261022_175141.log

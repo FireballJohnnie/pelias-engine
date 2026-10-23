@@ -1,0 +1,8 @@
+variant	gen_short	gen_4k	gen_12k	prompt_12k	reps_short/4k/12k	peak_GiB	bank_layers	speed_log
+base	50.8	51.2	46.8	1673.7	3/3 3/3 3/3	10.6	40	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/J_speed_base_20261022_180747.log
+greedy	43.1	44.7	45.0	1665.7	3/3 3/3 3/3	10.5	40	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/J_speed_greedy_20261022_180859.log
+no_truncate	47.4	44.9	47.7	1678.5	3/3 3/3 3/3	10.5	40	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/J_speed_no_truncate_20261022_181021.log
+topk40_minp	51.0	48.4	50.5	1681.9	3/3 3/3 3/3	10.5	40	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/J_speed_topk40_minp_20261022_181134.log
+ignore_eos	50.8	51.3	47.8	1675.9	3/3 3/3 3/3	10.5	40	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/J_speed_ignore_eos_20261022_181423.log
+penalties	49.8	47.8	46.8	1670.6	3/3 3/3 3/3	10.5	40	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/J_speed_penalties_20261022_181617.log
+base_again	49.1	50.3	47.3	1674.4	3/3 3/3 3/3	10.5	40	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/J_speed_base_again_20261022_181757.log

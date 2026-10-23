@@ -1,0 +1,29 @@
+Terminal output of the P1 test sweep, 2026-10-22 (WSL2, RTX 4070, llama.cpp tier build), cut per script from two pasted terminal sessions.
+Raw text, unedited; only split by script. The 'Shell cwd was reset' tool note was dropped. Per-launch logs and result tables are separate (p1_tests/results).
+O (patch isolation) terminal output was not pasted; its results are in O_patch_isolation.tsv and its logs.
+
+source sweep-1 = K,A,C,D,E,F,G,H,I,L,M,N,J,B  sha256 8e93d6f1d295c48f989eadae9a3a5f8891879f531f84db53603181db0c0815b9  lines 497
+source sweep-2 = R,U,T,P,Q,S,V                 sha256 68e47dae82a4f73a5d849588e32b3beeb0e9cb4b580c8fa70b539c83f32af587  lines 707
+
+file	source	first_line	last_line	lines
+01_K_logging.terminal.txt	sweep-1	4	26	23
+02_A_memory_loading.terminal.txt	sweep-1	28	72	45
+03_C_threads.terminal.txt	sweep-1	75	133	59
+04_D_batch_sizes.terminal.txt	sweep-1	146	180	35
+05_E_layout.terminal.txt	sweep-1	182	204	23
+06_F_kv_attention.terminal.txt	sweep-1	206	228	23
+07_G_scheduler_offload.terminal.txt	sweep-1	230	260	31
+08_H_machine_state.terminal.txt	sweep-1	262	287	26
+09_I_server_extras.terminal.txt	sweep-1	289	317	29
+10_L_speculative_mtp.terminal.txt	sweep-1	319	341	23
+11_M_cuda_graphs.terminal.txt	sweep-1	343	360	18
+12_N_pinned_memory.terminal.txt	sweep-1	362	379	18
+13_J_sampling_output.terminal.txt	sweep-1	381	416	36
+14_B_hot_set_content.terminal.txt	sweep-1	418	497	80
+15_R_p1_grid_load_none.terminal.txt	sweep-2	3	49	47
+16_U_crash_sweep.terminal.txt	sweep-2	50	64	15
+17_T_kl_gate.terminal.txt	sweep-2	66	115	50
+18_P_bank_size_bypass9.terminal.txt	sweep-2	117	151	35
+19_Q_bypass32_default_load.terminal.txt	sweep-2	153	169	17
+20_S_stock_layout_ub_load.terminal.txt	sweep-2	171	656	486
+21_V_bypass_latency_by_length.terminal.txt	sweep-2	657	707	51

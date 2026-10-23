@@ -1,0 +1,3 @@
+variant	gen_short	gen_4k	gen_12k	prompt_12k	peak_GiB	P1	G3	log
+graphs_on	52.8	51.8	48.5	1677.8	10.5	PASS	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/M_cuda_graphs_graphs_on_20261022_180100.log
+graphs_off	38.1	42.4	41.4	1675.1	10.4	HOLD	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/M_cuda_graphs_graphs_off_20261022_180228.log

@@ -1,0 +1,3 @@
+variant	gen_short	gen_4k	gen_12k	prompt_12k	peak_GiB	P1	G3	log
+b75_by32	52.6	50.0	51.3	888.8	10.5	HOLD	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/Q_bypass32_default_load_b75_by32_20261022_191342.log
+b80_by32	52.7	53.7	51.3	842.2	11.0	HOLD	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/Q_bypass32_default_load_b80_by32_20261022_191517.log

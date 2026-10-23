@@ -1,0 +1,15 @@
+0.00.059.838 W Setting 'enable_thinking' via --chat-template-kwargs is deprecated. Use --reasoning on / --reasoning off instead.
+Received second interrupt, terminating immediately.
+/home/user/llama-pelias-tier/ggml/src/ggml-cuda/ggml-cuda.cu:109: CUDA error
+1.35.702.224 E CUDA error: driver shutting down
+1.35.702.244 E   current device: -1, in function ~ggml_backend_cuda_buffer_context at /home/user/llama-pelias-tier/ggml/src/ggml-cuda/ggml-cuda.cu:732
+1.35.702.246 E   cudaFree(dev_ptr)
+/home/user/llama-pelias-tier/build-wsl/bin/libggml-base.so.0(+0x1c376) [0x7578ebb32376]
+/home/user/llama-pelias-tier/build-wsl/bin/libggml-base.so.0(ggml_print_backtrace+0x20d) [0x7578ebb327fd]
+/home/user/llama-pelias-tier/build-wsl/bin/libggml-base.so.0(ggml_abort+0x166) [0x7578ebb329e6]
+/home/user/llama-pelias-tier/build-wsl/bin/libggml-cuda.so.0(_Z15ggml_cuda_errorPKcS0_S0_iS0_+0xb5) [0x7578e6102a65]
+/home/user/llama-pelias-tier/build-wsl/bin/libggml-cuda.so.0(+0x302bd3) [0x7578e6102bd3]
+/home/user/llama-pelias-tier/build-wsl/bin/libggml-base.so.0(ggml_backend_buffer_free+0x1c) [0x7578ebb4af5c]
+/home/user/llama-pelias-tier/build-wsl/bin/libllama.so.0(+0x306de6) [0x7578ea306de6]
+/usr/lib/x86_64-linux-gnu/libc.so.6(__cxa_finalize+0xc2) [0x7578eac47e62]
+/home/user/llama-pelias-tier/build-wsl/bin/libllama.so.0(+0xec987) [0x7578ea0ec987]

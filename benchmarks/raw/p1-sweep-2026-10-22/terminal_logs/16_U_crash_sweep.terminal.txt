@@ -1,0 +1,15 @@
+bypass 32, hot set /mnt/c/AI/Stuart/Creator/logs/pelias_hot_set.txt, cap 6400 MiB, lengths: 8 9 10 12 13 16 20 31 32 34 40 61   (logs in /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/U_sweep_by32_20261022_184223)
+tokens=8 http=200 illegal=0 dual={"layers_with_bank":40,"dual_layer_builds_by_n_tokens":{"1":200,"2":40,"4":80}}
+tokens=9 http=200 illegal=0 dual={"layers_with_bank":40,"dual_layer_builds_by_n_tokens":{"1":200,"2":40,"4":40,"5":40}}
+tokens=10 http=200 illegal=0 dual={"layers_with_bank":40,"dual_layer_builds_by_n_tokens":{"1":200,"2":40,"4":40,"6":40}}
+tokens=12 http=200 illegal=0 dual={"layers_with_bank":40,"dual_layer_builds_by_n_tokens":{"1":200,"2":40,"4":40,"8":40}}
+tokens=13 http=200 illegal=0 dual={"layers_with_bank":40,"dual_layer_builds_by_n_tokens":{"1":200,"2":40,"4":40,"9":40}}
+tokens=16 http=200 illegal=0 dual={"layers_with_bank":40,"dual_layer_builds_by_n_tokens":{"1":200,"2":40,"4":40,"12":40}}
+tokens=20 http=200 illegal=0 dual={"layers_with_bank":40,"dual_layer_builds_by_n_tokens":{"1":200,"2":40,"4":40,"16":40}}
+tokens=31 http=200 illegal=0 dual={"layers_with_bank":40,"dual_layer_builds_by_n_tokens":{"1":200,"2":40,"4":40,"27":40}}
+tokens=32 http=200 illegal=0 dual={"layers_with_bank":40,"dual_layer_builds_by_n_tokens":{"1":200,"2":40,"4":40,"28":40}}
+tokens=34 http=200 illegal=0 dual={"layers_with_bank":40,"dual_layer_builds_by_n_tokens":{"1":200,"2":40,"4":40,"30":40}}
+tokens=40 http=200 illegal=0 dual={"layers_with_bank":40,"dual_layer_builds_by_n_tokens":{"1":200,"2":40,"4":40}}
+tokens=61 http=200 illegal=0 dual={"layers_with_bank":40,"dual_layer_builds_by_n_tokens":{"1":200,"2":40,"4":40}}
+
+summary file: /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/U_sweep_by32_20261022_184223/summary.txt   (http=200 and illegal=0 means pass)

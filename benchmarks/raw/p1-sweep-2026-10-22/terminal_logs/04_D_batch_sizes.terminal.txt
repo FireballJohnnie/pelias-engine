@@ -1,0 +1,35 @@
+### D_batch_sizes / base_ub2048   start 17:08:14
+    spec : tier:n=40,bypass=32,cap=7800,hot=/mnt/c/AI/Stuart/Creator/logs/pelias_hot_set_b7.5.txt
+    flags: -t 6 -tb 8 --load-mode none -ub 2048
+    gen 48.4 / 46.4 / 46.1 tok/s (short/4k/12k)   prompt@12k 1675.7 tok/s   peak 10.6 GiB   P1 PASS   G3 FAIL
+
+### D_batch_sizes / ub512   start 17:09:55
+    spec : tier:n=40,bypass=32,cap=7800,hot=/mnt/c/AI/Stuart/Creator/logs/pelias_hot_set_b7.5.txt
+    flags: -t 6 -tb 8 --load-mode none -ub 512
+    gen 49.5 / 44.6 / 46.8 tok/s (short/4k/12k)   prompt@12k 663.1 tok/s   peak 10.4 GiB   P1 HOLD   G3 FAIL
+
+### D_batch_sizes / ub1024   start 17:12:08
+    spec : tier:n=40,bypass=32,cap=7800,hot=/mnt/c/AI/Stuart/Creator/logs/pelias_hot_set_b7.5.txt
+    flags: -t 6 -tb 8 --load-mode none -ub 1024
+    gen 45.7 / 47.2 / 47.4 tok/s (short/4k/12k)   prompt@12k 1092.9 tok/s   peak 10.5 GiB   P1 HOLD   G3 FAIL
+
+### D_batch_sizes / b4096_ub2048   start 17:13:57
+    spec : tier:n=40,bypass=32,cap=7800,hot=/mnt/c/AI/Stuart/Creator/logs/pelias_hot_set_b7.5.txt
+    flags: -t 6 -tb 8 --load-mode none -b 4096 -ub 2048
+    gen 47.9 / 47.2 / 44.2 tok/s (short/4k/12k)   prompt@12k 1666.8 tok/s   peak 10.6 GiB   P1 PASS   G3 FAIL
+
+### D_batch_sizes / b4096_ub4096   start 17:15:30
+    spec : tier:n=40,bypass=32,cap=7800,hot=/mnt/c/AI/Stuart/Creator/logs/pelias_hot_set_b7.5.txt
+    flags: -t 6 -tb 8 --load-mode none -b 4096 -ub 4096
+    gen 46.3 / 49.0 / 49.7 tok/s (short/4k/12k)   prompt@12k 2261.0 tok/s   peak 11.2 GiB   P1 HOLD   G3 FAIL
+
+=== D_batch_sizes: summary (saved in /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/D_batch_sizes.tsv; full logs in /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results)
+variant       gen_short  gen_4k  gen_12k  prompt_12k  peak_GiB  P1    G3    log
+base_ub2048   48.4       46.4    46.1     1675.7      10.6      PASS  FAIL  /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/D_batch_sizes_base_ub2048_20261022_170814.log
+ub512         49.5       44.6    46.8     663.1       10.4      HOLD  FAIL  /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/D_batch_sizes_ub512_20261022_170955.log
+ub1024        45.7       47.2    47.4     1092.9      10.5      HOLD  FAIL  /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/D_batch_sizes_ub1024_20261022_171208.log
+b4096_ub2048  47.9       47.2    44.2     1666.8      10.6      PASS  FAIL  /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/D_batch_sizes_b4096_ub2048_20261022_171357.log
+b4096_ub4096  46.3       49.0    49.7     2261.0      11.2      HOLD  FAIL  /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/D_batch_sizes_b4096_ub4096_20261022_171530.log
+no llama-server running
+470 MiB, 12282 MiB
+The server on port 8012 is STOPPED. Start it again with:  llama --serve --stuart-creator --bg

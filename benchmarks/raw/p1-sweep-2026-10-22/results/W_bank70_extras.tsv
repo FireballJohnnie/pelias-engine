@@ -1,0 +1,16 @@
+variant	gen_short	gen_4k	gen_12k	prompt_12k	peak_GiB	P1	G3	log
+b70_base_r1	44.7	45.9	44.9	1664.1	10.0	PASS	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/W_bank70_extras_b70_base_r1_20261022_210958.log
+b70_ub4096_r1	47.8	44.0	45.5	2250.8	10.7	PASS	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/W_bank70_extras_b70_ub4096_r1_20261022_211145.log
+b70_mtp2_r1	62.7	52.1	55.4	1620.0	11.2	PASS	PASS	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/W_bank70_extras_b70_mtp2_r1_20261022_211317.log
+b70_mtp3_r1	47.8	45.7	47.8	1621.8	11.2	HOLD	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/W_bank70_extras_b70_mtp3_r1_20261022_211616.log
+b70_mtp3_ub4096_r1	49.7	47.7	48.2	1169.0	11.6	HOLD	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/W_bank70_extras_b70_mtp3_ub4096_r1_20261022_211940.log
+b70_base_r2	49.9	45.9	46.7	1679.4	10.0	PASS	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/W_bank70_extras_b70_base_r2_20261022_212303.log
+b70_ub4096_r2	46.9	50.1	47.0	2267.7	10.7	PASS	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/W_bank70_extras_b70_ub4096_r2_20261022_212441.log
+b70_mtp2_r2	44.4	52.8	55.8	1590.5	11.2	PASS	PASS	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/W_bank70_extras_b70_mtp2_r2_20261022_212612.log
+b70_mtp3_r2	52.9	45.1	56.4	1646.6	11.2	HOLD	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/W_bank70_extras_b70_mtp3_r2_20261022_212900.log
+b70_mtp3_ub4096_r2	51.0	44.9	51.7	1195.7	11.6	HOLD	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/W_bank70_extras_b70_mtp3_ub4096_r2_20261022_213206.log
+b70_base_r3	46.1	44.6	44.7	1663.2	10.0	PASS	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/W_bank70_extras_b70_base_r3_20261022_213530.log
+b70_ub4096_r3	51.9	45.7	45.5	2245.9	10.6	PASS	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/W_bank70_extras_b70_ub4096_r3_20261022_213703.log
+b70_mtp2_r3	51.6	45.1	51.0	1614.7	11.2	HOLD	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/W_bank70_extras_b70_mtp2_r3_20261022_213833.log
+b70_mtp3_r3	48.6	55.0	54.5	1630.2	11.2	HOLD	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/W_bank70_extras_b70_mtp3_r3_20261022_214128.log
+b70_mtp3_ub4096_r3	47.2	42.2	52.2	1188.6	11.6	HOLD	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/W_bank70_extras_b70_mtp3_ub4096_r3_20261022_214440.log

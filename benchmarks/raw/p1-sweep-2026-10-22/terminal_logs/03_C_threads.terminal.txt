@@ -1,0 +1,59 @@
+### C_threads / base_t6_tb8   start 16:48:38
+    spec : tier:n=40,bypass=32,cap=7800,hot=/mnt/c/AI/Stuart/Creator/logs/pelias_hot_set_b7.5.txt
+    flags: -t 6 -tb 8 --load-mode none -ub 2048
+    gen 47.2 / 49.8 / 51.1 tok/s (short/4k/12k)   prompt@12k 1678.9 tok/s   peak 10.7 GiB   P1 PASS   G3 FAIL
+
+### C_threads / t5_tb8   start 16:50:17
+    spec : tier:n=40,bypass=32,cap=7800,hot=/mnt/c/AI/Stuart/Creator/logs/pelias_hot_set_b7.5.txt
+    flags: -t 5 -tb 8 --load-mode none -ub 2048
+    gen 48.6 / 47.2 / 45.7 tok/s (short/4k/12k)   prompt@12k 1660.5 tok/s   peak 10.7 GiB   P1 PASS   G3 FAIL
+
+### C_threads / t7_tb8   start 16:51:49
+    spec : tier:n=40,bypass=32,cap=7800,hot=/mnt/c/AI/Stuart/Creator/logs/pelias_hot_set_b7.5.txt
+    flags: -t 7 -tb 8 --load-mode none -ub 2048
+    gen 46.1 / 44.4 / 45.8 tok/s (short/4k/12k)   prompt@12k 1655.4 tok/s   peak 10.7 GiB   P1 PASS   G3 FAIL
+
+### C_threads / t6_tb6   start 16:53:27
+    spec : tier:n=40,bypass=32,cap=7800,hot=/mnt/c/AI/Stuart/Creator/logs/pelias_hot_set_b7.5.txt
+    flags: -t 6 -tb 6 --load-mode none -ub 2048
+    gen 46.0 / 47.6 / 46.8 tok/s (short/4k/12k)   prompt@12k 1680.8 tok/s   peak 10.7 GiB   P1 PASS   G3 FAIL
+
+### C_threads / t6_tb10   start 16:55:09
+    spec : tier:n=40,bypass=32,cap=7800,hot=/mnt/c/AI/Stuart/Creator/logs/pelias_hot_set_b7.5.txt
+    flags: -t 6 -tb 10 --load-mode none -ub 2048
+    gen 48.8 / 45.9 / 47.2 tok/s (short/4k/12k)   prompt@12k 1662.1 tok/s   peak 10.7 GiB   P1 PASS   G3 FAIL
+
+### C_threads / t6_tb12   start 16:56:36
+    spec : tier:n=40,bypass=32,cap=7800,hot=/mnt/c/AI/Stuart/Creator/logs/pelias_hot_set_b7.5.txt
+    flags: -t 6 -tb 12 --load-mode none -ub 2048
+    gen 45.2 / 45.7 / 47.1 tok/s (short/4k/12k)   prompt@12k 1662.8 tok/s   peak 10.7 GiB   P1 PASS   G3 FAIL
+
+### C_threads / poll0   start 16:58:27
+    spec : tier:n=40,bypass=32,cap=7800,hot=/mnt/c/AI/Stuart/Creator/logs/pelias_hot_set_b7.5.txt
+    flags: -t 6 -tb 8 --load-mode none -ub 2048 --poll 0
+    gen 49.9 / 46.0 / 50.1 tok/s (short/4k/12k)   prompt@12k 1677.6 tok/s   peak 10.7 GiB   P1 PASS   G3 FAIL
+
+### C_threads / poll100   start 17:00:12
+    spec : tier:n=40,bypass=32,cap=7800,hot=/mnt/c/AI/Stuart/Creator/logs/pelias_hot_set_b7.5.txt
+    flags: -t 6 -tb 8 --load-mode none -ub 2048 --poll 100
+    gen 47.3 / 47.7 / 47.3 tok/s (short/4k/12k)   prompt@12k 1673.1 tok/s   peak 10.7 GiB   P1 PASS   G3 FAIL
+
+### C_threads / prio2   start 17:01:42
+    spec : tier:n=40,bypass=32,cap=7800,hot=/mnt/c/AI/Stuart/Creator/logs/pelias_hot_set_b7.5.txt
+    flags: -t 6 -tb 8 --load-mode none -ub 2048 --prio 2
+    gen 17.8 / 17.7 / 16.7 tok/s (short/4k/12k)   prompt@12k 1672.1 tok/s   peak 10.7 GiB   P1 HOLD   G3 FAIL
+
+=== C_threads: summary (saved in /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/C_threads.tsv; full logs in /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results)
+variant      gen_short  gen_4k  gen_12k  prompt_12k  peak_GiB  P1    G3    log
+base_t6_tb8  47.2       49.8    51.1     1678.9      10.7      PASS  FAIL  /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/C_threads_base_t6_tb8_20261022_164838.log
+t5_tb8       48.6       47.2    45.7     1660.5      10.7      PASS  FAIL  /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/C_threads_t5_tb8_20261022_165017.log
+t7_tb8       46.1       44.4    45.8     1655.4      10.7      PASS  FAIL  /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/C_threads_t7_tb8_20261022_165149.log
+t6_tb6       46.0       47.6    46.8     1680.8      10.7      PASS  FAIL  /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/C_threads_t6_tb6_20261022_165327.log
+t6_tb10      48.8       45.9    47.2     1662.1      10.7      PASS  FAIL  /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/C_threads_t6_tb10_20261022_165509.log
+t6_tb12      45.2       45.7    47.1     1662.8      10.7      PASS  FAIL  /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/C_threads_t6_tb12_20261022_165636.log
+poll0        49.9       46.0    50.1     1677.6      10.7      PASS  FAIL  /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/C_threads_poll0_20261022_165827.log
+poll100      47.3       47.7    47.3     1673.1      10.7      PASS  FAIL  /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/C_threads_poll100_20261022_170012.log
+prio2        17.8       17.7    16.7     1672.1      10.7      HOLD  FAIL  /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/C_threads_prio2_20261022_170142.log
+no llama-server running
+483 MiB, 12282 MiB
+The server on port 8012 is STOPPED. Start it again with:  llama --serve --stuart-creator --bg

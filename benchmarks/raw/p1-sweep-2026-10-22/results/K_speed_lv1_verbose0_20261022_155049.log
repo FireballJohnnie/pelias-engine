@@ -1,0 +1,29 @@
+[speed] http://127.0.0.1:8012; file stuart-creator-Q4_K_M.gguf; context 32768; depths [0, 4000, 12000]; 2 warm-up + 3 measured requests per depth; up to 256 new tokens each
+[warm-up 1/2] 60 prompt tokens, 64 new tokens, 51.9 tokens/s
+[warm-up 2/2] 60 prompt tokens, 64 new tokens, 42.5 tokens/s
+[speed] depth short: filler of 0 tokens (none)
+[depth short #1] prompt     61 tok at   134.4 tok/s, wait   0.5s, generated  256 tok at   47.8 tok/s
+[depth short #2] prompt     61 tok at   125.0 tok/s, wait   0.5s, generated   54 tok at   44.9 tok/s
+[depth short #3] prompt     61 tok at   133.8 tok/s, wait   0.5s, generated  129 tok at   49.7 tok/s
+[speed] depth 4000: filler of 3955 tokens (counted by the server)
+[depth 4000  #1] prompt   4027 tok at  1620.6 tok/s, wait   2.5s, generated  256 tok at   44.8 tok/s
+[depth 4000  #2] prompt   4027 tok at  1605.5 tok/s, wait   2.5s, generated  256 tok at   44.9 tok/s
+[depth 4000  #3] prompt   4027 tok at  1634.2 tok/s, wait   2.5s, generated  138 tok at   47.4 tok/s
+[speed] depth 12000: filler of 11941 tokens (counted by the server)
+[depth 12000 #1] prompt  12014 tok at  1651.9 tok/s, wait   7.3s, generated   64 tok at   43.5 tok/s
+[depth 12000 #2] prompt  12014 tok at  1670.1 tok/s, wait   7.2s, generated  256 tok at   44.7 tok/s
+[depth 12000 #3] prompt  12014 tok at  1660.9 tok/s, wait   7.3s, generated  193 tok at   46.3 tok/s
+
+====================================================================================================
+SPEED   label=K-lv1_verbose0   file=stuart-creator-Q4_K_M.gguf   context 32768   sampling temp 1.0 top-p 0.95 top-k 20
+note: K logging test: -lv 1, PELIAS_TIER_VERBOSE=0; tier 7.5 GiB set, bypass 32, --load-mode none -ub 2048 -t 6 -tb 8
+warm-up requests (not counted): 51.9, 42.5 tokens/s
+GPU memory in use (whole card, includes the desktop): before the first request 10.6 GiB, highest seen 10.7 GiB, of 12.0 GiB
+
+depth      prompt tok     prompt tok/s     wait for 1st token generation tok/s (median, range)   reps
+short              61            133.8                  0.5 s            47.8  (44.9-49.7)    3/3
+4000             4027           1620.6                  2.5 s            44.9  (44.8-47.4)    3/3
+12000           12014           1660.9                  7.3 s            44.7  (43.5-46.3)    3/3
+
+Read it as: generation tok/s is how fast the answer streams; prompt tok/s and the wait for the first token are what a client with a long prompt feels.
+[speed] saved to /mnt/c/AI/Stuart/Creator/logs/speed_server/20261022_155114_K-lv1_verbose0.json and /mnt/c/AI/Stuart/Creator/logs/speed_server/20261022_155114_K-lv1_verbose0.txt

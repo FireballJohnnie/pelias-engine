@@ -1,0 +1,103 @@
+This stops the llama-server on port 8012 and leaves it stopped when the last variant ends.
+
+=== tier-n40-hotashotsetb7.0-by32 (tier:n=40,bypass=32,cap=7300,hot=/mnt/c/AI/Stuart/Creator/logs/pelias_hot_set_b7.0.txt) ===
+  binary: /home/user/llama-pelias-tier/build-wsl/bin/llama-server
+  reference command: the production command saved 2026-10-21 12:18:38
+  changed  --model: /mnt/c/AI/Stuart/Creator/gguf/stuart-creator-Q4_K_M.gguf  ->  /home/user/models/stuart-creator-Q4_K_M.gguf
+  added    --fit off
+  added    --load-mode none
+  added    --n-cpu-moe 40
+  added    --threads 6
+  added    --threads-batch 8
+  added    --ubatch-size 2048
+  added    --verbosity 4
+  removed  --override-tensor .ffn_.*_exps.=CPU
+  unchanged: 18 flags
+  note: Phase 6: the expert files stay in RAM exactly as in the control; the bank is an extra copy of the hot experts in VRAM (cap 7300 MiB). Batches of fewer than 32 tokens use bank + RAM, larger ones take the stock path
+  note: the log line 'pelias-tier: hot bank active for N layers' proves the bank exists; 'running without a hot bank' means it was refused and the run is a plain control
+  env: PELIAS_HOT_SET=/mnt/c/AI/Stuart/Creator/logs/pelias_hot_set_b7.0.txt PELIAS_TIER_BYPASS_N=32 PELIAS_TIER_MAX_MIB=7300 PELIAS_TIER_VERBOSE=1
+  asking the binary which flags it knows ...
+  stopping the production server (this frees the GPU) ...
+  server healthy after 20 s; GPU memory in use 10173 MiB
+  hot bank active: 40 layers, 7094 MiB
+[check] /health -> HTTP 200 {"status": "ok"}
+[check] n_ctx 32768; chat template present: True
+[check] thinking off: finish=stop, 28 tokens, 45.2 tok/s, reasoning 0 chars, answer 119 chars
+        answer starts: Hello! I'm Stuart, an AI systems engineer and fellow traveler in Stuart-AIOS. What are we building or looking at today?
+[check] thinking on : finish=stop, 191 tokens, 52.0 tok/s, reasoning 429 chars, answer 170 chars
+        answer starts: I'm Stuart: the principal systems architect of Stuart-AIOS, an AI assistant running locally. Call me Stuart; I don't tak
+
+check: the server answers in both modes and the template behaves
+[speed] http://127.0.0.1:8012; file stuart-creator-Q4_K_M.gguf; context 32768; depths [0, 4000, 12000]; 2 warm-up + 3 measured requests per depth; up to 256 new tokens each
+[warm-up 1/2] 60 prompt tokens, 64 new tokens, 48.5 tokens/s
+[warm-up 2/2] 60 prompt tokens, 64 new tokens, 47.8 tokens/s
+[speed] depth short: filler of 0 tokens (none)
+[depth short #1] prompt     61 tok at   136.5 tok/s, wait   0.5s, generated   49 tok at   49.9 tok/s
+[depth short #2] prompt     61 tok at   130.1 tok/s, wait   0.5s, generated  200 tok at   50.7 tok/s
+[depth short #3] prompt     61 tok at   138.0 tok/s, wait   0.5s, generated  256 tok at   47.9 tok/s
+[speed] depth 4000: filler of 3955 tokens (counted by the server)
+[depth 4000  #1] prompt   4027 tok at  1606.1 tok/s, wait   2.5s, generated  256 tok at   45.9 tok/s
+[depth 4000  #2] prompt   4027 tok at  1640.0 tok/s, wait   2.5s, generated  111 tok at   45.9 tok/s
+[depth 4000  #3] prompt   4027 tok at  1631.7 tok/s, wait   2.5s, generated  207 tok at   50.5 tok/s
+[speed] depth 12000: filler of 11941 tokens (counted by the server)
+[depth 12000 #1] prompt  12014 tok at  1683.7 tok/s, wait   7.2s, generated  107 tok at   47.1 tok/s
+[depth 12000 #2] prompt  12014 tok at  1679.4 tok/s, wait   7.2s, generated  218 tok at   46.7 tok/s
+[depth 12000 #3] prompt  12014 tok at  1678.6 tok/s, wait   7.2s, generated  180 tok at   45.5 tok/s
+
+====================================================================================================
+SPEED   label=tier-n40-hotashotsetb7.0-by32   file=stuart-creator-Q4_K_M.gguf   context 32768   sampling temp 1.0 top-p 0.95 top-k 20
+note: tier-n40-hotashotsetb7.0-by32: tier 2ca15f5; --n-cpu-moe 40 --fit off -lv 4
+warm-up requests (not counted): 48.5, 47.8 tokens/s
+GPU memory in use (whole card, includes the desktop): before the first request 10.0 GiB, highest seen 10.0 GiB, of 12.0 GiB
+
+depth      prompt tok     prompt tok/s     wait for 1st token generation tok/s (median, range)   reps
+short              61            136.5                  0.5 s            49.9  (47.9-50.7)    3/3
+4000             4027           1631.7                  2.5 s            45.9  (45.9-50.5)    3/3
+12000           12014           1679.4                  7.2 s            46.7  (45.5-47.1)    3/3
+
+Read it as: generation tok/s is how fast the answer streams; prompt tok/s and the wait for the first token are what a client with a long prompt feels.
+[speed] saved to /mnt/c/AI/Stuart/Creator/logs/speed_server/20261022_212328_tier-n40-hotashotsetb7.0-by32.json and /mnt/c/AI/Stuart/Creator/logs/speed_server/20261022_212328_tier-n40-hotashotsetb7.0-by32.txt
+  [gate P1] PASS
+     generation, short prompt: 41.14 -> 49.93  (+21.4%)
+     generation at 12k depth: 38.78 -> 46.70  (+20.4%)
+     prompt reading at 12k: 1192.45 -> 1679.43  (+40.8%)
+     generation spread at depth 0: baseline 0.3%, candidate 5.8% (a gain smaller than this is noise)
+     generation spread at depth 12000: baseline 5.5%, candidate 3.5% (a gain smaller than this is noise)
+     GPU peak 10.05 GiB (limit 11.2)
+     improved by >= 5.0%: ['generation, short prompt', 'generation at 12k depth', 'prompt reading at 12k']; regressed by >= 3.0%: none
+     keep this change
+  [gate G3] FAIL
+     generation at 12k 46.70 tok/s (need >= 55.0)
+     prompt reading at 12k 1679 tok/s (need >= 1150)
+     GPU peak 10.05 GiB (limit 11.2)
+     vs baseline q4km-ncmoe28-ctx131k-ub2048: 1.20x generation at 12k
+     accuracy is a separate gate: run the persona probe, capability suite and sim/kl_gate.py on the candidate before adopting it
+
+The production server is STOPPED. Start it again with:  llama --serve --stuart-creator --bg
+
+variant                                        status              gen  gen12k  pre12k   VRAM    P1    G3        KL   top1
+--------------------------------------------------------------------------------------------------------------------------
+prod-n28                                       measured           41.9    41.8    1253   8.60  PASS    no         -      -
+tier-n38-hotashotsetb7.0-by32                  measured           16.5    16.0    1729  11.14    no    no         -      -
+tier-n39-hotashotsetb7.0-by32                  measured           24.1    22.9    1705  10.66    no    no         -      -
+tier-n40-hot-by32                              check failed          -       -       -      -     -     -         -      -
+tier-n40-hot-by9                               measured           44.7    47.3     300   8.85    no    no         -      -
+tier-n40-hotashotsetb7.0-by32                  measured           49.9    46.7    1679  10.05  PASS    no         -      -
+tier-n40-hotashotsetb7.0-by32-mtp2             measured           62.7    55.4    1620  11.18  PASS  PASS         -      -
+tier-n40-hotashotsetb7.0-by32-mtp3             measured           49.7    48.2    1169  11.61    no    no         -      -
+tier-n40-hotashotsetb7.0-by9                   measured           49.1    45.9     296   9.76    no    no         -      -
+tier-n40-hotashotsetb7.5-by32                  measured           53.4    49.1    1681  10.52  PASS    no         -      -
+tier-n40-hotashotsetb7.5-by32-cp2              measured           47.3    46.5    1658  10.67  PASS    no         -      -
+tier-n40-hotashotsetb7.5-by32-cp8              measured           46.8    46.8    1660  10.68  PASS    no         -      -
+tier-n40-hotashotsetb7.5-by32-mtp2             measured           64.6    51.2    1529  11.59    no    no         -      -
+tier-n40-hotashotsetb7.5-by32-mtp3             measured           44.6    59.4    1593  11.62    no    no         -      -
+tier-n40-hotashotsetb7.5-by9                   measured           51.8    51.2     300  10.26    no    no         -      -
+tier-n40-hotashotsetb8.0-by32                  measured           52.7    51.3     842  11.01    no    no         -      -
+tier-n40-hotashotsetb8.0-by9                   measured           51.8    49.1     285  10.77    no    no         -      -
+tier-n40-hotashotsetb8.5-by9                   measured           51.8    50.7     299  11.28    no    no         -      -
+tier-n40-hoteasoningb7.5-by32                  measured           51.7    47.1    1686  10.53  PASS    no         -      -
+tier-n40-hothotagentb7.5-by32                  measured           48.6    42.7    1677  10.54  PASS    no         -      -
+tier-n40-hothotallb7.5-by32                    measured           51.4    49.7    1685  10.51  PASS    no         -      -
+tier-n40-hothotcodeb7.5-by32                   measured           50.0    49.1    1677  10.51  PASS    no         -      -
+tier-n40-hottpersonab7.5-by32                  measured           44.3    46.5    1679  10.58  PASS    no         -      -
+gen = tok/s short prompt, gen12k / pre12k = generation / prompt reading at 12k context; VRAM = GiB peak; KL from sim/kl_gate.py (blank until run)

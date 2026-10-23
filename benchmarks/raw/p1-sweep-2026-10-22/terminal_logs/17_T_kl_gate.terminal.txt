@@ -1,0 +1,50 @@
+### tier8_rerun   env: PELIAS_HOT_SET=/mnt/c/AI/Stuart/Creator/logs/pelias_hot_set.txt PELIAS_TIER_BYPASS_N=9 PELIAS_TIER_MAX_MIB=6400 PELIAS_TIER_VERBOSE=1   extra: -b 8 -ub 8 --n-cpu-moe 40 --fit off   build: tier
+running: /home/user/llama-pelias-tier/build-wsl/bin/llama-perplexity -m /home/user/models/stuart-creator-Q4_K_M.gguf -f /mnt/c/AI/Stuart/Creator/dataset/stuart_v2_imatrix_calibration.txt -c 1024 -b 1024 -ub 1024 --chunks 16 -ngl 99 --n-cpu-moe 28 -fa on --cache-type-k q8_0 --cache-type-v q8_0 -b 8 -ub 8 --n-cpu-moe 40 --fit off --kl-divergence --kl-divergence-base /mnt/c/AI/Stuart/Creator/logs/moe_trace/kl/tier_ref8.logits.bin
+mean KL 0.010568 nats, top-1 agreement 97.13%, 8176 tokens scored; wrote /mnt/c/AI/Stuart/Creator/logs/moe_trace/kl/tier8_rerun_vs_tier_ref8.json
+next: python lib/gates.py h6 --kl /mnt/c/AI/Stuart/Creator/logs/moe_trace/kl/tier8_rerun_vs_tier_ref8.json
+    mean KL 0.010568 (se 0.000428)  top-1 97.126%  ppl 4.111559 / 4.098874
+
+### tier8_rep_rerun   env: PELIAS_HOT_SET=/mnt/c/AI/Stuart/Creator/logs/pelias_hot_set.txt PELIAS_TIER_BYPASS_N=9 PELIAS_TIER_MAX_MIB=6400 PELIAS_TIER_VERBOSE=1   extra: -b 8 -ub 8 --n-cpu-moe 40 --fit off   build: tier
+running: /home/user/llama-pelias-tier/build-wsl/bin/llama-perplexity -m /home/user/models/stuart-creator-Q4_K_M.gguf -f /mnt/c/AI/Stuart/Creator/dataset/stuart_v2_imatrix_calibration.txt -c 1024 -b 1024 -ub 1024 --chunks 16 -ngl 99 --n-cpu-moe 28 -fa on --cache-type-k q8_0 --cache-type-v q8_0 -b 8 -ub 8 --n-cpu-moe 40 --fit off --kl-divergence --kl-divergence-base /mnt/c/AI/Stuart/Creator/logs/moe_trace/kl/tier_ref8.logits.bin
+mean KL 0.010568 nats, top-1 agreement 97.13%, 8176 tokens scored; wrote /mnt/c/AI/Stuart/Creator/logs/moe_trace/kl/tier8_rep_rerun_vs_tier_ref8.json
+next: python lib/gates.py h6 --kl /mnt/c/AI/Stuart/Creator/logs/moe_trace/kl/tier8_rep_rerun_vs_tier_ref8.json
+    mean KL 0.010568 (se 0.000428)  top-1 97.126%  ppl 4.111559 / 4.098874
+
+### tier8_nobank_rerun   env:    extra: -b 8 -ub 8 --n-cpu-moe 40 --fit off   build: tier
+running: /home/user/llama-pelias-tier/build-wsl/bin/llama-perplexity -m /home/user/models/stuart-creator-Q4_K_M.gguf -f /mnt/c/AI/Stuart/Creator/dataset/stuart_v2_imatrix_calibration.txt -c 1024 -b 1024 -ub 1024 --chunks 16 -ngl 99 --n-cpu-moe 28 -fa on --cache-type-k q8_0 --cache-type-v q8_0 -b 8 -ub 8 --n-cpu-moe 40 --fit off --kl-divergence --kl-divergence-base /mnt/c/AI/Stuart/Creator/logs/moe_trace/kl/tier_ref8.logits.bin
+mean KL 0.001731 nats, top-1 agreement 98.74%, 8176 tokens scored; wrote /mnt/c/AI/Stuart/Creator/logs/moe_trace/kl/tier8_nobank_rerun_vs_tier_ref8.json
+next: python lib/gates.py h6 --kl /mnt/c/AI/Stuart/Creator/logs/moe_trace/kl/tier8_nobank_rerun_vs_tier_ref8.json
+    mean KL 0.001731 (se 0.000090)  top-1 98.740%  ppl 4.112086 / 4.098874
+
+### stock16_rerun   env:    extra: -b 16 -ub 16   build: stock
+running: /mnt/c/llama.cpp/build-wsl/bin/llama-perplexity -m /home/user/models/stuart-creator-Q4_K_M.gguf -f /mnt/c/AI/Stuart/Creator/dataset/stuart_v2_imatrix_calibration.txt -c 1024 -b 1024 -ub 1024 --chunks 16 -ngl 99 --n-cpu-moe 28 -fa on --cache-type-k q8_0 --cache-type-v q8_0 -b 16 -ub 16 --kl-divergence --kl-divergence-base /mnt/c/AI/Stuart/Creator/logs/moe_trace/kl/tier_ref8.logits.bin
+mean KL 0.017353 nats, top-1 agreement 96.49%, 8176 tokens scored; wrote /mnt/c/AI/Stuart/Creator/logs/moe_trace/kl/stock16_rerun_vs_tier_ref8.json
+next: python lib/gates.py h6 --kl /mnt/c/AI/Stuart/Creator/logs/moe_trace/kl/stock16_rerun_vs_tier_ref8.json
+    mean KL 0.017353 (se 0.000668)  top-1 96.490%  ppl 4.117205 / 4.098874
+
+### stock1024_rerun   env:    extra:    build: stock
+running: /mnt/c/llama.cpp/build-wsl/bin/llama-perplexity -m /home/user/models/stuart-creator-Q4_K_M.gguf -f /mnt/c/AI/Stuart/Creator/dataset/stuart_v2_imatrix_calibration.txt -c 1024 -b 1024 -ub 1024 --chunks 16 -ngl 99 --n-cpu-moe 28 -fa on --cache-type-k q8_0 --cache-type-v q8_0 --kl-divergence --kl-divergence-base /mnt/c/AI/Stuart/Creator/logs/moe_trace/kl/tier_ref8.logits.bin
+mean KL 0.018286 nats, top-1 agreement 96.32%, 8176 tokens scored; wrote /mnt/c/AI/Stuart/Creator/logs/moe_trace/kl/stock1024_rerun_vs_tier_ref8.json
+next: python lib/gates.py h6 --kl /mnt/c/AI/Stuart/Creator/logs/moe_trace/kl/stock1024_rerun_vs_tier_ref8.json
+    mean KL 0.018286 (se 0.000969)  top-1 96.318%  ppl 4.130661 / 4.098874
+
+### tier8_b85_rerun   env: PELIAS_HOT_SET=/mnt/c/AI/Stuart/Creator/logs/pelias_hot_set_b8.5.txt PELIAS_TIER_BYPASS_N=9 PELIAS_TIER_MAX_MIB=8800 PELIAS_TIER_VERBOSE=1   extra: -b 8 -ub 8 --n-cpu-moe 40 --fit off   build: tier
+running: /home/user/llama-pelias-tier/build-wsl/bin/llama-perplexity -m /home/user/models/stuart-creator-Q4_K_M.gguf -f /mnt/c/AI/Stuart/Creator/dataset/stuart_v2_imatrix_calibration.txt -c 1024 -b 1024 -ub 1024 --chunks 16 -ngl 99 --n-cpu-moe 28 -fa on --cache-type-k q8_0 --cache-type-v q8_0 -b 8 -ub 8 --n-cpu-moe 40 --fit off --kl-divergence --kl-divergence-base /mnt/c/AI/Stuart/Creator/logs/moe_trace/kl/tier_ref8.logits.bin
+mean KL 0.011856 nats, top-1 agreement 97.25%, 8176 tokens scored; wrote /mnt/c/AI/Stuart/Creator/logs/moe_trace/kl/tier8_b85_rerun_vs_tier_ref8.json
+next: python lib/gates.py h6 --kl /mnt/c/AI/Stuart/Creator/logs/moe_trace/kl/tier8_b85_rerun_vs_tier_ref8.json
+    mean KL 0.011856 (se 0.000729)  top-1 97.248%  ppl 4.102311 / 4.098874
+
+### tier16_b75_by32_rerun   env: PELIAS_HOT_SET=/mnt/c/AI/Stuart/Creator/logs/pelias_hot_set_b7.5.txt PELIAS_TIER_BYPASS_N=32 PELIAS_TIER_MAX_MIB=7800 PELIAS_TIER_VERBOSE=1   extra: -b 16 -ub 16 --n-cpu-moe 40 --fit off   build: tier
+running: /home/user/llama-pelias-tier/build-wsl/bin/llama-perplexity -m /home/user/models/stuart-creator-Q4_K_M.gguf -f /mnt/c/AI/Stuart/Creator/dataset/stuart_v2_imatrix_calibration.txt -c 1024 -b 1024 -ub 1024 --chunks 16 -ngl 99 --n-cpu-moe 28 -fa on --cache-type-k q8_0 --cache-type-v q8_0 -b 16 -ub 16 --n-cpu-moe 40 --fit off --kl-divergence --kl-divergence-base /mnt/c/AI/Stuart/Creator/logs/moe_trace/kl/tier_ref8.logits.bin
+mean KL 0.017866 nats, top-1 agreement 96.16%, 8176 tokens scored; wrote /mnt/c/AI/Stuart/Creator/logs/moe_trace/kl/tier16_b75_by32_rerun_vs_tier_ref8.json
+next: python lib/gates.py h6 --kl /mnt/c/AI/Stuart/Creator/logs/moe_trace/kl/tier16_b75_by32_rerun_vs_tier_ref8.json
+    mean KL 0.017866 (se 0.000805)  top-1 96.159%  ppl 4.137987 / 4.098874
+
+=== T_kl_gate summary (columns: label, mean KL, std. error, top-1 %, perplexity cand/ref)
+tier8_rerun     0.010568        0.000428        97.126  4.111559 / 4.098874     -       -       -       /mnt/c/AI/Stuart/Creator/logs/moe_trace/kl/tier8_rerun_vs_tier_ref8.json
+tier8_rep_rerun 0.010568        0.000428        97.126  4.111559 / 4.098874     -       -       -       /mnt/c/AI/Stuart/Creator/logs/moe_trace/kl/tier8_rep_rerun_vs_tier_ref8.json
+tier8_nobank_rerun      0.001731        0.000090        98.740  4.112086 / 4.098874     -       -       -       /mnt/c/AI/Stuart/Creator/logs/moe_trace/kl/tier8_nobank_rerun_vs_tier_ref8.json
+stock16_rerun   0.017353        0.000668        96.490  4.117205 / 4.098874     -       -       -       /mnt/c/AI/Stuart/Creator/logs/moe_trace/kl/stock16_rerun_vs_tier_ref8.json
+stock1024_rerun 0.018286        0.000969        96.318  4.130661 / 4.098874     -       -       -       /mnt/c/AI/Stuart/Creator/logs/moe_trace/kl/stock1024_rerun_vs_tier_ref8.json
+tier8_b85_rerun 0.011856        0.000729        97.248  4.102311 / 4.098874     -       -       -       /mnt/c/AI/Stuart/Creator/logs/moe_trace/kl/tier8_b85_rerun_vs_tier_ref8.json
+tier16_b75_by32_rerun   0.017866        0.000805        96.159  4.137987 / 4.098874     -       -       -       /mnt/c/AI/Stuart/Creator/logs/moe_trace/kl/tier16_b75_by32_rerun_vs_tier_ref8.json

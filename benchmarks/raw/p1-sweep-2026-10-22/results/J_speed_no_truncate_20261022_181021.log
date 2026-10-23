@@ -1,0 +1,29 @@
+[speed] http://127.0.0.1:8012; file stuart-creator-Q4_K_M.gguf; context 32768; depths [0, 4000, 12000]; 2 warm-up + 3 measured requests per depth; up to 256 new tokens each
+[warm-up 1/2] 60 prompt tokens, 64 new tokens, 45.6 tokens/s
+[warm-up 2/2] 60 prompt tokens, 64 new tokens, 45.1 tokens/s
+[speed] depth short: filler of 0 tokens (none)
+[depth short #1] prompt     61 tok at   125.4 tok/s, wait   0.5s, generated   70 tok at   42.5 tok/s
+[depth short #2] prompt     61 tok at   124.8 tok/s, wait   0.5s, generated  256 tok at   49.7 tok/s
+[depth short #3] prompt     61 tok at   135.9 tok/s, wait   0.5s, generated  251 tok at   47.4 tok/s
+[speed] depth 4000: filler of 3955 tokens (counted by the server)
+[depth 4000  #1] prompt   4027 tok at  1650.1 tok/s, wait   2.5s, generated  188 tok at   47.0 tok/s
+[depth 4000  #2] prompt   4027 tok at  1641.8 tok/s, wait   2.5s, generated  134 tok at   44.1 tok/s
+[depth 4000  #3] prompt   4027 tok at  1628.7 tok/s, wait   2.5s, generated  137 tok at   44.9 tok/s
+[speed] depth 12000: filler of 11941 tokens (counted by the server)
+[depth 12000 #1] prompt  12014 tok at  1678.5 tok/s, wait   7.2s, generated  256 tok at   45.8 tok/s
+[depth 12000 #2] prompt  12014 tok at  1675.2 tok/s, wait   7.2s, generated  256 tok at   48.2 tok/s
+[depth 12000 #3] prompt  12014 tok at  1681.2 tok/s, wait   7.2s, generated  188 tok at   47.7 tok/s
+
+====================================================================================================
+SPEED   label=J-no_truncate   file=stuart-creator-Q4_K_M.gguf   context 32768   sampling temp 1.0 top-p 1.0 top-k 0
+note: J sampling test no_truncate; tier 7.5 GiB set, bypass 32, --load-mode none -ub 2048 -t 6 -tb 8
+warm-up requests (not counted): 45.6, 45.1 tokens/s
+GPU memory in use (whole card, includes the desktop): before the first request 10.5 GiB, highest seen 10.5 GiB, of 12.0 GiB
+
+depth      prompt tok     prompt tok/s     wait for 1st token generation tok/s (median, range)   reps
+short              61            125.4                  0.5 s            47.4  (42.5-49.7)    3/3
+4000             4027           1641.8                  2.5 s            44.9  (44.1-47.0)    3/3
+12000           12014           1678.5                  7.2 s            47.7  (45.8-48.2)    3/3
+
+Read it as: generation tok/s is how fast the answer streams; prompt tok/s and the wait for the first token are what a client with a long prompt feels.
+[speed] saved to /mnt/c/AI/Stuart/Creator/logs/speed_server/20261022_181022_J-no_truncate.json and /mnt/c/AI/Stuart/Creator/logs/speed_server/20261022_181022_J-no_truncate.txt

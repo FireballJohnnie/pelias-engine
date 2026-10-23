@@ -1,0 +1,7 @@
+variant	gen_short	gen_4k	gen_12k	prompt_12k	peak_GiB	P1	G3	log
+b70_mtp2_x1	56.3	49.5	50.9	1640.4	11.2	PASS	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/X_b70_mtp2_repeat_b70_mtp2_x1_20261022_220929.log
+b70_mtp2_x2	60.6	55.1	52.2	1644.8	11.1	PASS	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/X_b70_mtp2_repeat_b70_mtp2_x2_20261022_221235.log
+b70_mtp2_x3	43.0	47.5	54.8	1633.3	11.6	HOLD	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/X_b70_mtp2_repeat_b70_mtp2_x3_20261022_221528.log
+b70_mtp2_x4	49.0	42.4	46.6	1583.8	11.6	HOLD	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/X_b70_mtp2_repeat_b70_mtp2_x4_20261022_221843.log
+b70_mtp2_x5	54.5	47.0	46.7	1634.1	11.5	HOLD	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/X_b70_mtp2_repeat_b70_mtp2_x5_20261022_222152.log
+b70_mtp2_x6	52.4	47.1	50.1	1617.8	11.5	HOLD	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/X_b70_mtp2_repeat_b70_mtp2_x6_20261022_222501.log

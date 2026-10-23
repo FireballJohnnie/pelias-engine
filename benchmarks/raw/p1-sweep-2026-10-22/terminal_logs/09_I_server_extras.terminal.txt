@@ -1,0 +1,29 @@
+### I_server_extras / base   start 17:46:38
+    spec : tier:n=40,bypass=32,cap=7800,hot=/mnt/c/AI/Stuart/Creator/logs/pelias_hot_set_b7.5.txt
+    flags: -t 6 -tb 8 --load-mode none -ub 2048
+    gen 47.3 / 47.8 / 46.9 tok/s (short/4k/12k)   prompt@12k 1675.7 tok/s   peak 10.7 GiB   P1 PASS   G3 FAIL
+
+### I_server_extras / ctxcp2   start 17:48:16
+    spec : tier:n=40,bypass=32,cap=7800,hot=/mnt/c/AI/Stuart/Creator/logs/pelias_hot_set_b7.5.txt,ctxcp=2
+    flags: -t 6 -tb 8 --load-mode none -ub 2048
+    gen 47.3 / 47.7 / 46.5 tok/s (short/4k/12k)   prompt@12k 1657.6 tok/s   peak 10.7 GiB   P1 PASS   G3 FAIL
+
+### I_server_extras / ctxcp8   start 17:50:00
+    spec : tier:n=40,bypass=32,cap=7800,hot=/mnt/c/AI/Stuart/Creator/logs/pelias_hot_set_b7.5.txt,ctxcp=8
+    flags: -t 6 -tb 8 --load-mode none -ub 2048
+    gen 46.8 / 46.6 / 46.8 tok/s (short/4k/12k)   prompt@12k 1660.0 tok/s   peak 10.7 GiB   P1 PASS   G3 FAIL
+
+### I_server_extras / reuse_5d   start 17:51:41
+    spec : tier:n=40,bypass=32,cap=7800,hot=/mnt/c/AI/Stuart/Creator/logs/pelias_hot_set_b7.5.txt,reuse=1
+    flags: -t 6 -tb 8 --load-mode none -ub 2048
+    gen 47.6 / 47.1 / 46.3 tok/s (short/4k/12k)   prompt@12k 1659.1 tok/s   peak 10.7 GiB   P1 PASS   G3 FAIL
+
+=== I_server_extras: summary (saved in /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/I_server_extras.tsv; full logs in /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results)
+variant   gen_short  gen_4k  gen_12k  prompt_12k  peak_GiB  P1    G3    log
+base      47.3       47.8    46.9     1675.7      10.7      PASS  FAIL  /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/I_server_extras_base_20261022_174638.log
+ctxcp2    47.3       47.7    46.5     1657.6      10.7      PASS  FAIL  /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/I_server_extras_ctxcp2_20261022_174816.log
+ctxcp8    46.8       46.6    46.8     1660.0      10.7      PASS  FAIL  /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/I_server_extras_ctxcp8_20261022_175000.log
+reuse_5d  47.6       47.1    46.3     1659.1      10.7      PASS  FAIL  /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/I_server_extras_reuse_5d_20261022_175141.log
+no llama-server running
+509 MiB, 12282 MiB
+The server on port 8012 is STOPPED. Start it again with:  llama --serve --stuart-creator --bg

@@ -1,0 +1,47 @@
+### R_p1_grid_load_none / b7.0_by32   start 18:30:33
+    spec : tier:n=40,bypass=32,cap=7300,hot=/mnt/c/AI/Stuart/Creator/logs/pelias_hot_set_b7.0.txt
+    flags: -t 6 -tb 8 --load-mode none -ub 2048
+    gen 47.1 / 49.9 / 49.6 tok/s (short/4k/12k)   prompt@12k 1682.8 tok/s   peak 10.1 GiB   P1 PASS   G3 FAIL
+
+### R_p1_grid_load_none / b7.5_by32   start 18:32:08
+    spec : tier:n=40,bypass=32,cap=7800,hot=/mnt/c/AI/Stuart/Creator/logs/pelias_hot_set_b7.5.txt
+    flags: -t 6 -tb 8 --load-mode none -ub 2048
+    gen 49.4 / 48.3 / 48.9 tok/s (short/4k/12k)   prompt@12k 1660.4 tok/s   peak 10.5 GiB   P1 PASS   G3 FAIL
+
+### R_p1_grid_load_none / b8.0_by32   start 18:33:47
+    spec : tier:n=40,bypass=32,cap=8300,hot=/mnt/c/AI/Stuart/Creator/logs/pelias_hot_set_b8.0.txt
+    flags: -t 6 -tb 8 --load-mode none -ub 2048
+    gen 50.9 / 49.4 / 47.8 tok/s (short/4k/12k)   prompt@12k 1678.0 tok/s   peak 11.0 GiB   P1 PASS   G3 FAIL
+
+### R_p1_grid_load_none / b7.0_by9   start 18:35:18
+    spec : tier:n=40,bypass=9,cap=7300,hot=/mnt/c/AI/Stuart/Creator/logs/pelias_hot_set_b7.0.txt
+    flags: -t 6 -tb 8 --load-mode none -ub 2048
+    gen 49.0 / 47.8 / 48.7 tok/s (short/4k/12k)   prompt@12k 1680.3 tok/s   peak 10.0 GiB   P1 PASS   G3 FAIL
+
+### R_p1_grid_load_none / b7.5_by9   start 18:36:52
+    spec : tier:n=40,bypass=9,cap=7800,hot=/mnt/c/AI/Stuart/Creator/logs/pelias_hot_set_b7.5.txt
+    flags: -t 6 -tb 8 --load-mode none -ub 2048
+    gen 54.2 / 49.5 / 49.5 tok/s (short/4k/12k)   prompt@12k 1676.2 tok/s   peak 10.6 GiB   P1 PASS   G3 FAIL
+
+### R_p1_grid_load_none / b8.0_by9   start 18:38:30
+    spec : tier:n=40,bypass=9,cap=8300,hot=/mnt/c/AI/Stuart/Creator/logs/pelias_hot_set_b8.0.txt
+    flags: -t 6 -tb 8 --load-mode none -ub 2048
+    gen 53.4 / 54.0 / 50.2 tok/s (short/4k/12k)   prompt@12k 1684.7 tok/s   peak 11.0 GiB   P1 PASS   G3 FAIL
+
+### R_p1_grid_load_none / b7.5_by9_lmnone_ubdefault   start 18:40:06
+    spec : tier:n=40,bypass=9,cap=7800,hot=/mnt/c/AI/Stuart/Creator/logs/pelias_hot_set_b7.5.txt
+    flags: -t 6 -tb 8 --load-mode none
+    gen 51.1 / 50.5 / 48.8 tok/s (short/4k/12k)   prompt@12k 665.3 tok/s   peak 10.3 GiB   P1 HOLD   G3 FAIL
+
+=== R_p1_grid_load_none: summary (saved in /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/R_p1_grid_load_none.tsv; full logs in /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results)
+variant                    gen_short  gen_4k  gen_12k  prompt_12k  peak_GiB  P1    G3    log
+b7.0_by32                  47.1       49.9    49.6     1682.8      10.1      PASS  FAIL  /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/R_p1_grid_load_none_b7.0_by32_20261022_183033.log
+b7.5_by32                  49.4       48.3    48.9     1660.4      10.5      PASS  FAIL  /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/R_p1_grid_load_none_b7.5_by32_20261022_183208.log
+b8.0_by32                  50.9       49.4    47.8     1678.0      11.0      PASS  FAIL  /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/R_p1_grid_load_none_b8.0_by32_20261022_183347.log
+b7.0_by9                   49.0       47.8    48.7     1680.3      10.0      PASS  FAIL  /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/R_p1_grid_load_none_b7.0_by9_20261022_183518.log
+b7.5_by9                   54.2       49.5    49.5     1676.2      10.6      PASS  FAIL  /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/R_p1_grid_load_none_b7.5_by9_20261022_183652.log
+b8.0_by9                   53.4       54.0    50.2     1684.7      11.0      PASS  FAIL  /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/R_p1_grid_load_none_b8.0_by9_20261022_183830.log
+b7.5_by9_lmnone_ubdefault  51.1       50.5    48.8     665.3       10.3      HOLD  FAIL  /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/R_p1_grid_load_none_b7.5_by9_lmnone_ubdefault_20261022_184006.log
+no llama-server running
+357 MiB, 12282 MiB
+The server on port 8012 is STOPPED. Start it again with:  llama --serve --stuart-creator --bg

@@ -1,0 +1,80 @@
+### build hot set: all   (35 finished shards: persona agent code reasoning)
+bank: 4170 experts in 40 layers, 7.499 GiB with zero slots
+hit rate (byte-weighted): in-sample 0.823, held-out 0.827
+wrote /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/B_hot_sets/hot_all_b7.5.txt
+next:  bash patches/09_build_pelias_tier.sh   then   bash 13_phase6_run.sh
+    control: the rebuilt 'all' set is IDENTICAL to logs/pelias_hot_set_b7.5.txt (expert lists compared)
+
+### build hot set: persona   (11 finished shards: persona)
+bank: 4171 experts in 40 layers, 7.499 GiB with zero slots
+hit rate (byte-weighted): in-sample 0.865, held-out 0.866
+wrote /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/B_hot_sets/hot_persona_b7.5.txt
+next:  bash patches/09_build_pelias_tier.sh   then   bash 13_phase6_run.sh
+
+### build hot set: agent   (8 finished shards: agent)
+bank: 4169 experts in 40 layers, 7.498 GiB with zero slots
+hit rate (byte-weighted): in-sample 0.887, held-out 0.890
+wrote /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/B_hot_sets/hot_agent_b7.5.txt
+next:  bash patches/09_build_pelias_tier.sh   then   bash 13_phase6_run.sh
+
+### build hot set: code   (8 finished shards: code)
+bank: 4169 experts in 40 layers, 7.498 GiB with zero slots
+hit rate (byte-weighted): in-sample 0.828, held-out 0.821
+wrote /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/B_hot_sets/hot_code_b7.5.txt
+next:  bash patches/09_build_pelias_tier.sh   then   bash 13_phase6_run.sh
+
+### build hot set: reasoning   (8 finished shards: reasoning)
+bank: 4182 experts in 40 layers, 7.499 GiB with zero slots
+hit rate (byte-weighted): in-sample 0.827, held-out 0.809
+wrote /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/B_hot_sets/hot_reasoning_b7.5.txt
+next:  bash patches/09_build_pelias_tier.sh   then   bash 13_phase6_run.sh
+
+### B_hot_set_content / hs_existing_b75   start 18:19:14
+    spec : tier:n=40,bypass=32,cap=7800,hot=/mnt/c/AI/Stuart/Creator/logs/pelias_hot_set_b7.5.txt
+    flags: -t 6 -tb 8 --load-mode none -ub 2048
+    gen 50.3 / 49.6 / 48.5 tok/s (short/4k/12k)   prompt@12k 1682.9 tok/s   peak 10.5 GiB   P1 PASS   G3 FAIL
+
+### B_hot_set_content / hs_all   start 18:20:55
+    spec : tier:n=40,bypass=32,cap=7800,hot=/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/B_hot_sets/hot_all_b7.5.txt
+    flags: -t 6 -tb 8 --load-mode none -ub 2048
+    gen 51.4 / 51.0 / 49.7 tok/s (short/4k/12k)   prompt@12k 1685.4 tok/s   peak 10.5 GiB   P1 PASS   G3 FAIL
+
+### B_hot_set_content / hs_persona   start 18:22:25
+    spec : tier:n=40,bypass=32,cap=7800,hot=/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/B_hot_sets/hot_persona_b7.5.txt
+    flags: -t 6 -tb 8 --load-mode none -ub 2048
+    gen 44.3 / 47.0 / 46.5 tok/s (short/4k/12k)   prompt@12k 1678.9 tok/s   peak 10.6 GiB   P1 PASS   G3 FAIL
+
+### B_hot_set_content / hs_agent   start 18:24:02
+    spec : tier:n=40,bypass=32,cap=7800,hot=/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/B_hot_sets/hot_agent_b7.5.txt
+    flags: -t 6 -tb 8 --load-mode none -ub 2048
+    gen 48.6 / 49.2 / 42.7 tok/s (short/4k/12k)   prompt@12k 1676.9 tok/s   peak 10.5 GiB   P1 PASS   G3 FAIL
+
+### B_hot_set_content / hs_code   start 18:25:35
+    spec : tier:n=40,bypass=32,cap=7800,hot=/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/B_hot_sets/hot_code_b7.5.txt
+    flags: -t 6 -tb 8 --load-mode none -ub 2048
+    gen 50.0 / 48.1 / 49.1 tok/s (short/4k/12k)   prompt@12k 1677.3 tok/s   peak 10.5 GiB   P1 PASS   G3 FAIL
+
+### B_hot_set_content / hs_reasoning   start 18:27:19
+    spec : tier:n=40,bypass=32,cap=7800,hot=/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/B_hot_sets/hot_reasoning_b7.5.txt
+    flags: -t 6 -tb 8 --load-mode none -ub 2048
+    gen 51.7 / 52.0 / 47.1 tok/s (short/4k/12k)   prompt@12k 1685.7 tok/s   peak 10.5 GiB   P1 PASS   G3 FAIL
+
+=== hot sets built (simulated hit rates): /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/B_hot_sets.tsv
+mix        shards  decode_tokens_note                                 simulated_hit_in_sample  simulated_hit_held_out  file
+all        35      328 prompts, 121160 decode tokens; traces: merged  0.823                    0.827                   /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/B_hot_sets/hot_all_b7.5.txt
+persona    11      110 prompts, 54813 decode tokens; traces: merged   0.865                    0.866                   /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/B_hot_sets/hot_persona_b7.5.t
+agent      8       80 prompts, 12963 decode tokens; traces: merged    0.887                    0.890                   /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/B_hot_sets/hot_agent_b7.5.txt
+code       8       76 prompts, 34788 decode tokens; traces: merged    0.828                    0.821                   /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/B_hot_sets/hot_code_b7.5.txt
+reasoning  8       62 prompts, 18596 decode tokens; traces: merged    0.827                    0.809                   /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/B_hot_sets/hot_reasoning_b7.5
+
+=== B_hot_set_content: summary (saved in /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/B_hot_set_content.tsv; full logs in /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results)
+variant          gen_short  gen_4k  gen_12k  prompt_12k  peak_GiB  P1    G3    log
+hs_existing_b75  50.3       49.6    48.5     1682.9      10.5      PASS  FAIL  /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/B_hot_set_content_hs_existing_b75_20261022_181914.log
+hs_all           51.4       51.0    49.7     1685.4      10.5      PASS  FAIL  /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/B_hot_set_content_hs_all_20261022_182055.log
+hs_persona       44.3       47.0    46.5     1678.9      10.6      PASS  FAIL  /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/B_hot_set_content_hs_persona_20261022_182225.log
+hs_agent         48.6       49.2    42.7     1676.9      10.5      PASS  FAIL  /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/B_hot_set_content_hs_agent_20261022_182402.log
+hs_code          50.0       48.1    49.1     1677.3      10.5      PASS  FAIL  /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/B_hot_set_content_hs_code_20261022_182535.log
+hs_reasoning     51.7       52.0    47.1     1685.7      10.5      PASS  FAIL  /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/B_hot_set_content_hs_reasoning_20261022_182719.log
+no llama-server running
+343 MiB, 12282 MiB
+The server on port 8012 is STOPPED. Start it again with:  llama --serve --stuart-creator --bg

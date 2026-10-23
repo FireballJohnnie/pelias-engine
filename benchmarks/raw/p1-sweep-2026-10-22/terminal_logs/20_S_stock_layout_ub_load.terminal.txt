@@ -1,0 +1,486 @@
+### S_stock_layout_ub_load / q4km-ncmoe27-ctx131k-ub2048   start 19:17:06   n-cpu-moe 27   flags: -ub 2048
+no background server recorded (for one running in a window, press Ctrl-C there)
+started in the background (pid 246133); loads in about 2 min 20 s; log: /mnt/c/AI/Stuart/Creator/logs/server_Q4_K_M_1917.log
+    after load: 10563 / 12282 MiB
+[check] /health -> HTTP 200 {"status": "ok"}
+[check] n_ctx 131072; chat template present: True
+[check] thinking off: finish=stop, 14 tokens, 42.7 tok/s, reasoning 0 chars, answer 44 chars
+        answer starts: Hello. I'm Stuart. What can I help you with?
+[check] thinking on : finish=stop, 250 tokens, 42.9 tok/s, reasoning 622 chars, answer 206 chars
+        answer starts: I'm Stuart. I work locally as a peer to the operator: a language model, the system's own agent and the principal model o
+
+check: the server answers in both modes and the template behaves
+[speed] http://127.0.0.1:8012; file stuart-creator-Q4_K_M.gguf; context 131072; depths [0, 4000, 12000]; 2 warm-up + 3 measured requests per depth; up to 256 new tokens each
+[warm-up 1/2] 60 prompt tokens, 64 new tokens, 42.4 tokens/s
+[warm-up 2/2] 60 prompt tokens, 64 new tokens, 43.0 tokens/s
+[speed] depth short: filler of 0 tokens (none)
+[depth short #1] prompt     61 tok at    85.1 tok/s, wait   0.7s, generated   69 tok at   42.9 tok/s
+[depth short #2] prompt     61 tok at    88.4 tok/s, wait   0.7s, generated  256 tok at   44.0 tok/s
+[depth short #3] prompt     61 tok at    81.5 tok/s, wait   0.8s, generated  172 tok at   42.8 tok/s
+[speed] depth 4000: filler of 3955 tokens (counted by the server)
+[depth 4000  #1] prompt   4027 tok at  1242.5 tok/s, wait   3.3s, generated  184 tok at   44.1 tok/s
+[depth 4000  #2] prompt   4027 tok at  1272.1 tok/s, wait   3.2s, generated  256 tok at   43.0 tok/s
+[depth 4000  #3] prompt   4027 tok at  1171.1 tok/s, wait   3.5s, generated  256 tok at   42.6 tok/s
+[speed] depth 12000: filler of 11941 tokens (counted by the server)
+[depth 12000 #1] prompt  12014 tok at  1241.5 tok/s, wait   9.7s, generated   77 tok at   42.7 tok/s
+[depth 12000 #2] prompt  12014 tok at  1205.9 tok/s, wait  10.0s, generated  256 tok at   42.3 tok/s
+[depth 12000 #3] prompt  12014 tok at  1226.8 tok/s, wait   9.8s, generated  256 tok at   42.9 tok/s
+
+====================================================================================================
+SPEED   label=q4km-ncmoe27-ctx131k-ub2048   file=stuart-creator-Q4_K_M.gguf   context 131072   sampling temp 1.0 top-p 0.95 top-k 20
+note: Q4_K_M, KV q8_0, ctx 131072, n-cpu-moe 27, extras: -ub 2048
+warm-up requests (not counted): 42.4, 43.0 tokens/s
+GPU memory in use (whole card, includes the desktop): before the first request 10.3 GiB, highest seen 10.4 GiB, of 12.0 GiB
+
+depth      prompt tok     prompt tok/s     wait for 1st token generation tok/s (median, range)   reps
+short              61             85.1                  0.7 s            42.9  (42.8-44.0)    3/3
+4000             4027           1242.5                  3.3 s            43.0  (42.6-44.1)    3/3
+12000           12014           1226.8                  9.8 s            42.7  (42.3-42.9)    3/3
+
+Read it as: generation tok/s is how fast the answer streams; prompt tok/s and the wait for the first token are what a client with a long prompt feels.
+[speed] saved to /mnt/c/AI/Stuart/Creator/logs/speed_server/20261022_191738_q4km-ncmoe27-ctx131k-ub2048.json and /mnt/c/AI/Stuart/Creator/logs/speed_server/20261022_191738_q4km-ncmoe27-ctx131k-ub2048.txt
+grep: : No such file or directory
+
+### S_stock_layout_ub_load / q4km-ncmoe26-ctx131k-ub2048   start 19:19:07   n-cpu-moe 26   flags: -ub 2048
+stopped
+started in the background (pid 246410); loads in about 2 min 20 s; log: /mnt/c/AI/Stuart/Creator/logs/server_Q4_K_M_1919.log
+    after load: 10995 / 12282 MiB
+[check] /health -> HTTP 200 {"status": "ok"}
+[check] n_ctx 131072; chat template present: True
+[check] thinking off: finish=stop, 14 tokens, 39.8 tok/s, reasoning 0 chars, answer 44 chars
+        answer starts: Hello. I'm Stuart. How can I help you today?
+[check] thinking on : finish=stop, 250 tokens, 43.9 tok/s, reasoning 584 chars, answer 86 chars
+        answer starts: Hi. I'm Stuart. Ask me for the plan, the code or the review and I'll deliver it whole.
+
+check: the server answers in both modes and the template behaves
+[speed] http://127.0.0.1:8012; file stuart-creator-Q4_K_M.gguf; context 131072; depths [0, 4000, 12000]; 2 warm-up + 3 measured requests per depth; up to 256 new tokens each
+[warm-up 1/2] 60 prompt tokens, 64 new tokens, 44.2 tokens/s
+[warm-up 2/2] 60 prompt tokens, 61 new tokens, 43.2 tokens/s
+[speed] depth short: filler of 0 tokens (none)
+[depth short #1] prompt     61 tok at    74.8 tok/s, wait   0.8s, generated   52 tok at   40.4 tok/s
+[depth short #2] prompt     61 tok at    68.7 tok/s, wait   0.9s, generated   55 tok at   44.7 tok/s
+[depth short #3] prompt     61 tok at    88.0 tok/s, wait   0.7s, generated  256 tok at   44.9 tok/s
+[speed] depth 4000: filler of 3955 tokens (counted by the server)
+[depth 4000  #1] prompt   4027 tok at  1112.8 tok/s, wait   3.6s, generated  199 tok at   43.7 tok/s
+[depth 4000  #2] prompt   4027 tok at  1283.2 tok/s, wait   3.2s, generated  173 tok at   42.1 tok/s
+[depth 4000  #3] prompt   4027 tok at  1299.6 tok/s, wait   3.1s, generated  256 tok at   43.4 tok/s
+[speed] depth 12000: filler of 11941 tokens (counted by the server)
+[depth 12000 #1] prompt  12014 tok at  1201.9 tok/s, wait  10.0s, generated  256 tok at   41.8 tok/s
+[depth 12000 #2] prompt  12014 tok at  1293.7 tok/s, wait   9.3s, generated  256 tok at   43.6 tok/s
+[depth 12000 #3] prompt  12014 tok at  1324.3 tok/s, wait   9.1s, generated  149 tok at   42.1 tok/s
+
+====================================================================================================
+SPEED   label=q4km-ncmoe26-ctx131k-ub2048   file=stuart-creator-Q4_K_M.gguf   context 131072   sampling temp 1.0 top-p 0.95 top-k 20
+note: Q4_K_M, KV q8_0, ctx 131072, n-cpu-moe 26, extras: -ub 2048
+warm-up requests (not counted): 44.2, 43.2 tokens/s
+GPU memory in use (whole card, includes the desktop): before the first request 10.8 GiB, highest seen 10.8 GiB, of 12.0 GiB
+
+depth      prompt tok     prompt tok/s     wait for 1st token generation tok/s (median, range)   reps
+short              61             74.8                  0.8 s            44.7  (40.4-44.9)    3/3
+4000             4027           1283.2                  3.2 s            43.4  (42.1-43.7)    3/3
+12000           12014           1293.7                  9.3 s            42.1  (41.8-43.6)    3/3
+
+Read it as: generation tok/s is how fast the answer streams; prompt tok/s and the wait for the first token are what a client with a long prompt feels.
+[speed] saved to /mnt/c/AI/Stuart/Creator/logs/speed_server/20261022_191939_q4km-ncmoe26-ctx131k-ub2048.json and /mnt/c/AI/Stuart/Creator/logs/speed_server/20261022_191939_q4km-ncmoe26-ctx131k-ub2048.txt
+grep: : No such file or directory
+
+### S_stock_layout_ub_load / q4km-ncmoe25-ctx131k-ub2048   start 19:21:03   n-cpu-moe 25   flags: -ub 2048
+stopped
+started in the background (pid 246684); loads in about 2 min 20 s; log: /mnt/c/AI/Stuart/Creator/logs/server_Q4_K_M_1921.log
+    after load: 11495 / 12282 MiB
+[check] /health -> HTTP 200 {"status": "ok"}
+[check] n_ctx 131072; chat template present: True
+[check] thinking off: finish=stop, 14 tokens, 42.6 tok/s, reasoning 0 chars, answer 44 chars
+        answer starts: Hello. I'm Stuart. How can I help you today?
+[check] thinking on : finish=stop, 176 tokens, 46.3 tok/s, reasoning 431 chars, answer 104 chars
+        answer starts: Hello. I'm Stuart, an AI language model that works with the operator as a peer. What are we doing today?
+
+check: the server answers in both modes and the template behaves
+[speed] http://127.0.0.1:8012; file stuart-creator-Q4_K_M.gguf; context 131072; depths [0, 4000, 12000]; 2 warm-up + 3 measured requests per depth; up to 256 new tokens each
+[warm-up 1/2] 60 prompt tokens, 64 new tokens, 45.4 tokens/s
+[warm-up 2/2] 60 prompt tokens, 64 new tokens, 46.0 tokens/s
+[speed] depth short: filler of 0 tokens (none)
+[depth short #1] prompt     61 tok at    73.3 tok/s, wait   0.9s, generated   69 tok at   43.8 tok/s
+[depth short #2] prompt     61 tok at    93.6 tok/s, wait   0.7s, generated  100 tok at   46.4 tok/s
+[depth short #3] prompt     61 tok at    79.8 tok/s, wait   0.8s, generated  114 tok at   44.7 tok/s
+[speed] depth 4000: filler of 3955 tokens (counted by the server)
+[depth 4000  #1] prompt   4027 tok at  1173.8 tok/s, wait   3.5s, generated  256 tok at   46.6 tok/s
+[depth 4000  #2] prompt   4027 tok at  1277.9 tok/s, wait   3.2s, generated   57 tok at   46.8 tok/s
+[depth 4000  #3] prompt   4027 tok at  1115.9 tok/s, wait   3.6s, generated  222 tok at   45.6 tok/s
+[speed] depth 12000: filler of 11941 tokens (counted by the server)
+[depth 12000 #1] prompt  12014 tok at  1207.6 tok/s, wait  10.0s, generated  117 tok at   45.8 tok/s
+[depth 12000 #2] prompt  12014 tok at  1372.6 tok/s, wait   8.8s, generated  256 tok at   45.0 tok/s
+[depth 12000 #3] prompt  12014 tok at  1214.3 tok/s, wait   9.9s, generated  189 tok at   45.2 tok/s
+
+====================================================================================================
+SPEED   label=q4km-ncmoe25-ctx131k-ub2048   file=stuart-creator-Q4_K_M.gguf   context 131072   sampling temp 1.0 top-p 0.95 top-k 20
+note: Q4_K_M, KV q8_0, ctx 131072, n-cpu-moe 25, extras: -ub 2048
+warm-up requests (not counted): 45.4, 46.0 tokens/s
+GPU memory in use (whole card, includes the desktop): before the first request 11.2 GiB, highest seen 11.3 GiB, of 12.0 GiB
+
+depth      prompt tok     prompt tok/s     wait for 1st token generation tok/s (median, range)   reps
+short              61             79.8                  0.8 s            44.7  (43.8-46.4)    3/3
+4000             4027           1173.8                  3.5 s            46.6  (45.6-46.8)    3/3
+12000           12014           1214.3                  9.9 s            45.2  (45.0-45.8)    3/3
+
+Read it as: generation tok/s is how fast the answer streams; prompt tok/s and the wait for the first token are what a client with a long prompt feels.
+[speed] saved to /mnt/c/AI/Stuart/Creator/logs/speed_server/20261022_192134_q4km-ncmoe25-ctx131k-ub2048.json and /mnt/c/AI/Stuart/Creator/logs/speed_server/20261022_192134_q4km-ncmoe25-ctx131k-ub2048.txt
+grep: : No such file or directory
+
+### S_stock_layout_ub_load / q4km-ncmoe27-ctx131k-ub4096   start 19:22:51   n-cpu-moe 27   flags: -ub 4096
+stopped
+started in the background (pid 246951); loads in about 2 min 20 s; log: /mnt/c/AI/Stuart/Creator/logs/server_Q4_K_M_1922.log
+    after load: 10572 / 12282 MiB
+[check] /health -> HTTP 200 {"status": "ok"}
+[check] n_ctx 131072; chat template present: True
+[check] thinking off: finish=stop, 14 tokens, 41.4 tok/s, reasoning 0 chars, answer 44 chars
+        answer starts: Hello. I'm Stuart. What can I help you with?
+[check] thinking on : finish=stop, 250 tokens, 42.7 tok/s, reasoning 622 chars, answer 206 chars
+        answer starts: I'm Stuart. I work locally as a peer to the operator: a language model, the system's own agent and the principal model o
+
+check: the server answers in both modes and the template behaves
+[speed] http://127.0.0.1:8012; file stuart-creator-Q4_K_M.gguf; context 131072; depths [0, 4000, 12000]; 2 warm-up + 3 measured requests per depth; up to 256 new tokens each
+[warm-up 1/2] 60 prompt tokens, 64 new tokens, 43.9 tokens/s
+[warm-up 2/2] 60 prompt tokens, 64 new tokens, 43.4 tokens/s
+[speed] depth short: filler of 0 tokens (none)
+[depth short #1] prompt     61 tok at    81.4 tok/s, wait   0.8s, generated  256 tok at   42.3 tok/s
+[depth short #2] prompt     61 tok at    87.8 tok/s, wait   0.7s, generated  229 tok at   43.1 tok/s
+[depth short #3] prompt     61 tok at    67.0 tok/s, wait   0.9s, generated  103 tok at   41.6 tok/s
+[speed] depth 4000: filler of 3955 tokens (counted by the server)
+[depth 4000  #1] prompt   4027 tok at  1134.0 tok/s, wait   3.6s, generated   78 tok at   42.4 tok/s
+[depth 4000  #2] prompt   4027 tok at  1159.4 tok/s, wait   3.5s, generated  173 tok at   40.5 tok/s
+[depth 4000  #3] prompt   4027 tok at  1252.6 tok/s, wait   3.2s, generated  140 tok at   41.4 tok/s
+[speed] depth 12000: filler of 11941 tokens (counted by the server)
+[depth 12000 #1] prompt  12014 tok at  1229.5 tok/s, wait   9.8s, generated  256 tok at   42.6 tok/s
+[depth 12000 #2] prompt  12014 tok at  1268.9 tok/s, wait   9.5s, generated  256 tok at   41.7 tok/s
+[depth 12000 #3] prompt  12014 tok at  1287.8 tok/s, wait   9.4s, generated  256 tok at   40.9 tok/s
+
+====================================================================================================
+SPEED   label=q4km-ncmoe27-ctx131k-ub4096   file=stuart-creator-Q4_K_M.gguf   context 131072   sampling temp 1.0 top-p 0.95 top-k 20
+note: Q4_K_M, KV q8_0, ctx 131072, n-cpu-moe 27, extras: -ub 4096
+warm-up requests (not counted): 43.9, 43.4 tokens/s
+GPU memory in use (whole card, includes the desktop): before the first request 10.3 GiB, highest seen 10.4 GiB, of 12.0 GiB
+
+depth      prompt tok     prompt tok/s     wait for 1st token generation tok/s (median, range)   reps
+short              61             81.4                  0.8 s            42.3  (41.6-43.1)    3/3
+4000             4027           1159.4                  3.5 s            41.4  (40.5-42.4)    3/3
+12000           12014           1268.9                  9.5 s            41.7  (40.9-42.6)    3/3
+
+Read it as: generation tok/s is how fast the answer streams; prompt tok/s and the wait for the first token are what a client with a long prompt feels.
+[speed] saved to /mnt/c/AI/Stuart/Creator/logs/speed_server/20261022_192323_q4km-ncmoe27-ctx131k-ub4096.json and /mnt/c/AI/Stuart/Creator/logs/speed_server/20261022_192323_q4km-ncmoe27-ctx131k-ub4096.txt
+grep: : No such file or directory
+
+### S_stock_layout_ub_load / q4km-ncmoe27-lmnone-ctx131k-ub2048   start 19:24:52   n-cpu-moe 27   flags: -ub 2048 --load-mode none
+stopped
+started in the background (pid 247228); loads in about 2 min 20 s; log: /mnt/c/AI/Stuart/Creator/logs/server_Q4_K_M_1924.log
+    after load: 10563 / 12282 MiB
+[check] /health -> HTTP 200 {"status": "ok"}
+[check] n_ctx 131072; chat template present: True
+[check] thinking off: finish=stop, 14 tokens, 41.1 tok/s, reasoning 0 chars, answer 44 chars
+        answer starts: Hello. I'm Stuart. What can I help you with?
+[check] thinking on : finish=stop, 250 tokens, 42.6 tok/s, reasoning 622 chars, answer 206 chars
+        answer starts: I'm Stuart. I work locally as a peer to the operator: a language model, the system's own agent and the principal model o
+
+check: the server answers in both modes and the template behaves
+[speed] http://127.0.0.1:8012; file stuart-creator-Q4_K_M.gguf; context 131072; depths [0, 4000, 12000]; 2 warm-up + 3 measured requests per depth; up to 256 new tokens each
+[warm-up 1/2] 60 prompt tokens, 64 new tokens, 44.4 tokens/s
+[warm-up 2/2] 60 prompt tokens, 64 new tokens, 43.1 tokens/s
+[speed] depth short: filler of 0 tokens (none)
+[depth short #1] prompt     61 tok at   169.8 tok/s, wait   0.4s, generated  199 tok at   42.6 tok/s
+[depth short #2] prompt     61 tok at   172.8 tok/s, wait   0.4s, generated  170 tok at   44.7 tok/s
+[depth short #3] prompt     61 tok at   176.2 tok/s, wait   0.4s, generated  146 tok at   41.8 tok/s
+[speed] depth 4000: filler of 3955 tokens (counted by the server)
+[depth 4000  #1] prompt   4027 tok at  2102.2 tok/s, wait   1.9s, generated  256 tok at   42.3 tok/s
+[depth 4000  #2] prompt   4027 tok at  2111.1 tok/s, wait   1.9s, generated  256 tok at   42.5 tok/s
+[depth 4000  #3] prompt   4027 tok at  2115.6 tok/s, wait   1.9s, generated  256 tok at   41.7 tok/s
+[speed] depth 12000: filler of 11941 tokens (counted by the server)
+[depth 12000 #1] prompt  12014 tok at  2153.5 tok/s, wait   5.6s, generated  251 tok at   41.9 tok/s
+[depth 12000 #2] prompt  12014 tok at  2155.3 tok/s, wait   5.6s, generated  256 tok at   41.8 tok/s
+[depth 12000 #3] prompt  12014 tok at  2143.3 tok/s, wait   5.6s, generated  256 tok at   42.2 tok/s
+
+====================================================================================================
+SPEED   label=q4km-ncmoe27-lmnone-ctx131k-ub2048   file=stuart-creator-Q4_K_M.gguf   context 131072   sampling temp 1.0 top-p 0.95 top-k 20
+note: Q4_K_M, KV q8_0, ctx 131072, n-cpu-moe 27, extras: -ub 2048 --load-mode none
+warm-up requests (not counted): 44.4, 43.1 tokens/s
+GPU memory in use (whole card, includes the desktop): before the first request 10.3 GiB, highest seen 10.4 GiB, of 12.0 GiB
+
+depth      prompt tok     prompt tok/s     wait for 1st token generation tok/s (median, range)   reps
+short              61            172.8                  0.4 s            42.6  (41.8-44.7)    3/3
+4000             4027           2111.1                  1.9 s            42.3  (41.7-42.5)    3/3
+12000           12014           2153.5                  5.6 s            41.9  (41.8-42.2)    3/3
+
+Read it as: generation tok/s is how fast the answer streams; prompt tok/s and the wait for the first token are what a client with a long prompt feels.
+[speed] saved to /mnt/c/AI/Stuart/Creator/logs/speed_server/20261022_192529_q4km-ncmoe27-lmnone-ctx131k-ub2048.json and /mnt/c/AI/Stuart/Creator/logs/speed_server/20261022_192529_q4km-ncmoe27-lmnone-ctx131k-ub2048.txt
+grep: : No such file or directory
+
+### S_stock_layout_ub_load / q4km-ncmoe25-lmnone-ctx131k-ub2048   start 19:26:46   n-cpu-moe 25   flags: -ub 2048 --load-mode none
+stopped
+started in the background (pid 247499); loads in about 2 min 20 s; log: /mnt/c/AI/Stuart/Creator/logs/server_Q4_K_M_1926.log
+    after load: 11504 / 12282 MiB
+[check] /health -> HTTP 200 {"status": "ok"}
+[check] n_ctx 131072; chat template present: True
+[check] thinking off: finish=stop, 14 tokens, 41.3 tok/s, reasoning 0 chars, answer 44 chars
+        answer starts: Hello. I'm Stuart. How can I help you today?
+[check] thinking on : finish=stop, 176 tokens, 45.3 tok/s, reasoning 431 chars, answer 104 chars
+        answer starts: Hello. I'm Stuart, an AI language model that works with the operator as a peer. What are we doing today?
+
+check: the server answers in both modes and the template behaves
+[speed] http://127.0.0.1:8012; file stuart-creator-Q4_K_M.gguf; context 131072; depths [0, 4000, 12000]; 2 warm-up + 3 measured requests per depth; up to 256 new tokens each
+[warm-up 1/2] 60 prompt tokens, 64 new tokens, 41.0 tokens/s
+[warm-up 2/2] 60 prompt tokens, 64 new tokens, 46.4 tokens/s
+[speed] depth short: filler of 0 tokens (none)
+[depth short #1] prompt     61 tok at   178.3 tok/s, wait   0.4s, generated   89 tok at   41.6 tok/s
+[depth short #2] prompt     61 tok at   178.5 tok/s, wait   0.4s, generated  256 tok at   46.0 tok/s
+[depth short #3] prompt     61 tok at   188.2 tok/s, wait   0.3s, generated   86 tok at   46.1 tok/s
+[speed] depth 4000: filler of 3955 tokens (counted by the server)
+[depth 4000  #1] prompt   4027 tok at  2193.1 tok/s, wait   1.9s, generated  111 tok at   46.2 tok/s
+[depth 4000  #2] prompt   4027 tok at  2176.4 tok/s, wait   1.9s, generated   50 tok at   42.7 tok/s
+[depth 4000  #3] prompt   4027 tok at  2204.2 tok/s, wait   1.9s, generated  164 tok at   41.5 tok/s
+[speed] depth 12000: filler of 11941 tokens (counted by the server)
+[depth 12000 #1] prompt  12014 tok at  2225.8 tok/s, wait   5.4s, generated  256 tok at   43.2 tok/s
+[depth 12000 #2] prompt  12014 tok at  2239.3 tok/s, wait   5.4s, generated  103 tok at   43.4 tok/s
+[depth 12000 #3] prompt  12014 tok at  2227.7 tok/s, wait   5.4s, generated  256 tok at   43.9 tok/s
+
+====================================================================================================
+SPEED   label=q4km-ncmoe25-lmnone-ctx131k-ub2048   file=stuart-creator-Q4_K_M.gguf   context 131072   sampling temp 1.0 top-p 0.95 top-k 20
+note: Q4_K_M, KV q8_0, ctx 131072, n-cpu-moe 25, extras: -ub 2048 --load-mode none
+warm-up requests (not counted): 41.0, 46.4 tokens/s
+GPU memory in use (whole card, includes the desktop): before the first request 11.2 GiB, highest seen 11.3 GiB, of 12.0 GiB
+
+depth      prompt tok     prompt tok/s     wait for 1st token generation tok/s (median, range)   reps
+short              61            178.5                  0.4 s            46.0  (41.6-46.1)    3/3
+4000             4027           2193.1                  1.9 s            42.7  (41.5-46.2)    3/3
+12000           12014           2227.7                  5.4 s            43.4  (43.2-43.9)    3/3
+
+Read it as: generation tok/s is how fast the answer streams; prompt tok/s and the wait for the first token are what a client with a long prompt feels.
+[speed] saved to /mnt/c/AI/Stuart/Creator/logs/speed_server/20261022_192721_q4km-ncmoe25-lmnone-ctx131k-ub2048.json and /mnt/c/AI/Stuart/Creator/logs/speed_server/20261022_192721_q4km-ncmoe25-lmnone-ctx131k-ub2048.txt
+grep: : No such file or directory
+
+### S_stock_layout_ub_load / q4km-ncmoe25-lmnone-t7-tb8-ctx131k-ub2048   start 19:28:20   n-cpu-moe 25   flags: -ub 2048 --load-mode none -t 7 -tb 8
+stopped
+started in the background (pid 247741); loads in about 2 min 20 s; log: /mnt/c/AI/Stuart/Creator/logs/server_Q4_K_M_1928.log
+    after load: 11495 / 12282 MiB
+[check] /health -> HTTP 200 {"status": "ok"}
+[check] n_ctx 131072; chat template present: True
+[check] thinking off: finish=stop, 14 tokens, 40.1 tok/s, reasoning 0 chars, answer 44 chars
+        answer starts: Hello. I'm Stuart. How can I help you today?
+[check] thinking on : finish=stop, 176 tokens, 46.2 tok/s, reasoning 431 chars, answer 104 chars
+        answer starts: Hello. I'm Stuart, an AI language model that works with the operator as a peer. What are we doing today?
+
+check: the server answers in both modes and the template behaves
+[speed] http://127.0.0.1:8012; file stuart-creator-Q4_K_M.gguf; context 131072; depths [0, 4000, 12000]; 2 warm-up + 3 measured requests per depth; up to 256 new tokens each
+[warm-up 1/2] 60 prompt tokens, 64 new tokens, 45.7 tokens/s
+[warm-up 2/2] 60 prompt tokens, 62 new tokens, 44.9 tokens/s
+[speed] depth short: filler of 0 tokens (none)
+[depth short #1] prompt     61 tok at   181.1 tok/s, wait   0.4s, generated   59 tok at   45.1 tok/s
+[depth short #2] prompt     61 tok at   182.8 tok/s, wait   0.4s, generated   39 tok at   44.5 tok/s
+[depth short #3] prompt     61 tok at   186.8 tok/s, wait   0.3s, generated  238 tok at   45.9 tok/s
+[speed] depth 4000: filler of 3955 tokens (counted by the server)
+[depth 4000  #1] prompt   4027 tok at  2178.5 tok/s, wait   1.9s, generated  161 tok at   44.4 tok/s
+[depth 4000  #2] prompt   4027 tok at  2185.5 tok/s, wait   1.9s, generated  200 tok at   45.5 tok/s
+[depth 4000  #3] prompt   4027 tok at  2159.2 tok/s, wait   1.9s, generated  131 tok at   45.1 tok/s
+[speed] depth 12000: filler of 11941 tokens (counted by the server)
+[depth 12000 #1] prompt  12014 tok at  2229.5 tok/s, wait   5.4s, generated  256 tok at   44.1 tok/s
+[depth 12000 #2] prompt  12014 tok at  2236.1 tok/s, wait   5.4s, generated  205 tok at   44.4 tok/s
+[depth 12000 #3] prompt  12014 tok at  2215.6 tok/s, wait   5.4s, generated  256 tok at   44.4 tok/s
+
+====================================================================================================
+SPEED   label=q4km-ncmoe25-lmnone-t7-tb8-ctx131k-ub2048   file=stuart-creator-Q4_K_M.gguf   context 131072   sampling temp 1.0 top-p 0.95 top-k 20
+note: Q4_K_M, KV q8_0, ctx 131072, n-cpu-moe 25, extras: -ub 2048 --load-mode none -t 7 -tb 8
+warm-up requests (not counted): 45.7, 44.9 tokens/s
+GPU memory in use (whole card, includes the desktop): before the first request 11.2 GiB, highest seen 11.3 GiB, of 12.0 GiB
+
+depth      prompt tok     prompt tok/s     wait for 1st token generation tok/s (median, range)   reps
+short              61            182.8                  0.4 s            45.1  (44.5-45.9)    3/3
+4000             4027           2178.5                  1.9 s            45.1  (44.4-45.5)    3/3
+12000           12014           2229.5                  5.4 s            44.4  (44.1-44.4)    3/3
+
+Read it as: generation tok/s is how fast the answer streams; prompt tok/s and the wait for the first token are what a client with a long prompt feels.
+[speed] saved to /mnt/c/AI/Stuart/Creator/logs/speed_server/20261022_192855_q4km-ncmoe25-lmnone-t7-tb8-ctx131k-ub2048.json and /mnt/c/AI/Stuart/Creator/logs/speed_server/20261022_192855_q4km-ncmoe25-lmnone-t7-tb8-ctx131k-ub2048.txt
+grep: : No such file or directory
+
+### S_stock_layout_ub_load / q4km-ncmoe25-lmnone-t6-tb8-ctx131k-ub2048   start 19:29:57   n-cpu-moe 25   flags: -ub 2048 --load-mode none -t 6 -tb 8
+stopped
+started in the background (pid 247997); loads in about 2 min 20 s; log: /mnt/c/AI/Stuart/Creator/logs/server_Q4_K_M_1929.log
+    after load: 11495 / 12282 MiB
+[check] /health -> HTTP 200 {"status": "ok"}
+[check] n_ctx 131072; chat template present: True
+[check] thinking off: finish=stop, 14 tokens, 44.3 tok/s, reasoning 0 chars, answer 44 chars
+        answer starts: Hello. I'm Stuart. How can I help you today?
+[check] thinking on : finish=stop, 176 tokens, 46.2 tok/s, reasoning 431 chars, answer 104 chars
+        answer starts: Hello. I'm Stuart, an AI language model that works with the operator as a peer. What are we doing today?
+
+check: the server answers in both modes and the template behaves
+[speed] http://127.0.0.1:8012; file stuart-creator-Q4_K_M.gguf; context 131072; depths [0, 4000, 12000]; 2 warm-up + 3 measured requests per depth; up to 256 new tokens each
+[warm-up 1/2] 60 prompt tokens, 64 new tokens, 47.7 tokens/s
+[warm-up 2/2] 60 prompt tokens, 64 new tokens, 44.6 tokens/s
+[speed] depth short: filler of 0 tokens (none)
+[depth short #1] prompt     61 tok at   188.9 tok/s, wait   0.3s, generated   56 tok at   44.2 tok/s
+[depth short #2] prompt     61 tok at   182.1 tok/s, wait   0.4s, generated   83 tok at   48.2 tok/s
+[depth short #3] prompt     61 tok at   186.8 tok/s, wait   0.3s, generated  256 tok at   45.7 tok/s
+[speed] depth 4000: filler of 3955 tokens (counted by the server)
+[depth 4000  #1] prompt   4027 tok at  2181.4 tok/s, wait   1.9s, generated  223 tok at   47.1 tok/s
+[depth 4000  #2] prompt   4027 tok at  2197.3 tok/s, wait   1.9s, generated  108 tok at   48.2 tok/s
+[depth 4000  #3] prompt   4027 tok at  2178.4 tok/s, wait   1.9s, generated  256 tok at   46.8 tok/s
+[speed] depth 12000: filler of 11941 tokens (counted by the server)
+[depth 12000 #1] prompt  12014 tok at  2226.1 tok/s, wait   5.4s, generated  256 tok at   45.2 tok/s
+[depth 12000 #2] prompt  12014 tok at  2234.6 tok/s, wait   5.4s, generated  256 tok at   47.1 tok/s
+[depth 12000 #3] prompt  12014 tok at  2235.6 tok/s, wait   5.4s, generated  256 tok at   44.7 tok/s
+
+====================================================================================================
+SPEED   label=q4km-ncmoe25-lmnone-t6-tb8-ctx131k-ub2048   file=stuart-creator-Q4_K_M.gguf   context 131072   sampling temp 1.0 top-p 0.95 top-k 20
+note: Q4_K_M, KV q8_0, ctx 131072, n-cpu-moe 25, extras: -ub 2048 --load-mode none -t 6 -tb 8
+warm-up requests (not counted): 47.7, 44.6 tokens/s
+GPU memory in use (whole card, includes the desktop): before the first request 11.2 GiB, highest seen 11.3 GiB, of 12.0 GiB
+
+depth      prompt tok     prompt tok/s     wait for 1st token generation tok/s (median, range)   reps
+short              61            186.8                  0.3 s            45.7  (44.2-48.2)    3/3
+4000             4027           2181.4                  1.9 s            47.1  (46.8-48.2)    3/3
+12000           12014           2234.6                  5.4 s            45.2  (44.7-47.1)    3/3
+
+Read it as: generation tok/s is how fast the answer streams; prompt tok/s and the wait for the first token are what a client with a long prompt feels.
+[speed] saved to /mnt/c/AI/Stuart/Creator/logs/speed_server/20261022_193032_q4km-ncmoe25-lmnone-t6-tb8-ctx131k-ub2048.json and /mnt/c/AI/Stuart/Creator/logs/speed_server/20261022_193032_q4km-ncmoe25-lmnone-t6-tb8-ctx131k-ub2048.txt
+grep: : No such file or directory
+
+### S_stock_layout_ub_load / q4km-ncmoe25-lmnone-t5-tb8-ctx131k-ub2048   start 19:31:38   n-cpu-moe 25   flags: -ub 2048 --load-mode none -t 5 -tb 8
+stopped
+started in the background (pid 248271); loads in about 2 min 20 s; log: /mnt/c/AI/Stuart/Creator/logs/server_Q4_K_M_1931.log
+    after load: 11495 / 12282 MiB
+[check] /health -> HTTP 200 {"status": "ok"}
+[check] n_ctx 131072; chat template present: True
+[check] thinking off: finish=stop, 14 tokens, 40.5 tok/s, reasoning 0 chars, answer 44 chars
+        answer starts: Hello. I'm Stuart. How can I help you today?
+[check] thinking on : finish=stop, 176 tokens, 44.0 tok/s, reasoning 431 chars, answer 104 chars
+        answer starts: Hello. I'm Stuart, an AI language model that works with the operator as a peer. What are we doing today?
+
+check: the server answers in both modes and the template behaves
+[speed] http://127.0.0.1:8012; file stuart-creator-Q4_K_M.gguf; context 131072; depths [0, 4000, 12000]; 2 warm-up + 3 measured requests per depth; up to 256 new tokens each
+[warm-up 1/2] 60 prompt tokens, 64 new tokens, 41.8 tokens/s
+[warm-up 2/2] 60 prompt tokens, 64 new tokens, 40.2 tokens/s
+[speed] depth short: filler of 0 tokens (none)
+[depth short #1] prompt     61 tok at   179.7 tok/s, wait   0.4s, generated   73 tok at   47.6 tok/s
+[depth short #2] prompt     61 tok at   185.9 tok/s, wait   0.3s, generated   92 tok at   49.4 tok/s
+[depth short #3] prompt     61 tok at   140.1 tok/s, wait   0.5s, generated  114 tok at   47.1 tok/s
+[speed] depth 4000: filler of 3955 tokens (counted by the server)
+[depth 4000  #1] prompt   4027 tok at  2158.6 tok/s, wait   1.9s, generated  256 tok at   46.6 tok/s
+[depth 4000  #2] prompt   4027 tok at  2201.0 tok/s, wait   1.9s, generated  125 tok at   45.5 tok/s
+[depth 4000  #3] prompt   4027 tok at  2200.5 tok/s, wait   1.9s, generated  256 tok at   46.8 tok/s
+[speed] depth 12000: filler of 11941 tokens (counted by the server)
+[depth 12000 #1] prompt  12014 tok at  2242.5 tok/s, wait   5.4s, generated  256 tok at   44.4 tok/s
+[depth 12000 #2] prompt  12014 tok at  2226.4 tok/s, wait   5.4s, generated  130 tok at   47.3 tok/s
+[depth 12000 #3] prompt  12014 tok at  2240.2 tok/s, wait   5.4s, generated  256 tok at   46.9 tok/s
+
+====================================================================================================
+SPEED   label=q4km-ncmoe25-lmnone-t5-tb8-ctx131k-ub2048   file=stuart-creator-Q4_K_M.gguf   context 131072   sampling temp 1.0 top-p 0.95 top-k 20
+note: Q4_K_M, KV q8_0, ctx 131072, n-cpu-moe 25, extras: -ub 2048 --load-mode none -t 5 -tb 8
+warm-up requests (not counted): 41.8, 40.2 tokens/s
+GPU memory in use (whole card, includes the desktop): before the first request 11.3 GiB, highest seen 11.3 GiB, of 12.0 GiB
+
+depth      prompt tok     prompt tok/s     wait for 1st token generation tok/s (median, range)   reps
+short              61            179.7                  0.4 s            47.6  (47.1-49.4)    3/3
+4000             4027           2200.5                  1.9 s            46.6  (45.5-46.8)    3/3
+12000           12014           2240.2                  5.4 s            46.9  (44.4-47.3)    3/3
+
+Read it as: generation tok/s is how fast the answer streams; prompt tok/s and the wait for the first token are what a client with a long prompt feels.
+[speed] saved to /mnt/c/AI/Stuart/Creator/logs/speed_server/20261022_193213_q4km-ncmoe25-lmnone-t5-tb8-ctx131k-ub2048.json and /mnt/c/AI/Stuart/Creator/logs/speed_server/20261022_193213_q4km-ncmoe25-lmnone-t5-tb8-ctx131k-ub2048.txt
+grep: : No such file or directory
+
+### S_stock_layout_ub_load / q4km-ncmoe25-lmnone-t8-tb8-ctx131k-ub2048   start 19:33:15   n-cpu-moe 25   flags: -ub 2048 --load-mode none -t 8 -tb 8
+stopped
+started in the background (pid 248552); loads in about 2 min 20 s; log: /mnt/c/AI/Stuart/Creator/logs/server_Q4_K_M_1933.log
+    after load: 11495 / 12282 MiB
+[check] /health -> HTTP 200 {"status": "ok"}
+[check] n_ctx 131072; chat template present: True
+[check] thinking off: finish=stop, 14 tokens, 41.5 tok/s, reasoning 0 chars, answer 44 chars
+        answer starts: Hello. I'm Stuart. How can I help you today?
+[check] thinking on : finish=stop, 176 tokens, 46.1 tok/s, reasoning 431 chars, answer 104 chars
+        answer starts: Hello. I'm Stuart, an AI language model that works with the operator as a peer. What are we doing today?
+
+check: the server answers in both modes and the template behaves
+[speed] http://127.0.0.1:8012; file stuart-creator-Q4_K_M.gguf; context 131072; depths [0, 4000, 12000]; 2 warm-up + 3 measured requests per depth; up to 256 new tokens each
+[warm-up 1/2] 60 prompt tokens, 64 new tokens, 40.2 tokens/s
+[warm-up 2/2] 60 prompt tokens, 64 new tokens, 43.1 tokens/s
+[speed] depth short: filler of 0 tokens (none)
+[depth short #1] prompt     61 tok at   188.8 tok/s, wait   0.3s, generated   64 tok at   45.2 tok/s
+[depth short #2] prompt     61 tok at   185.3 tok/s, wait   0.4s, generated  256 tok at   43.6 tok/s
+[depth short #3] prompt     61 tok at   187.5 tok/s, wait   0.3s, generated  136 tok at   45.7 tok/s
+[speed] depth 4000: filler of 3955 tokens (counted by the server)
+[depth 4000  #1] prompt   4027 tok at  2182.9 tok/s, wait   1.9s, generated  232 tok at   43.2 tok/s
+[depth 4000  #2] prompt   4027 tok at  2180.8 tok/s, wait   1.9s, generated  256 tok at   44.2 tok/s
+[depth 4000  #3] prompt   4027 tok at  2167.6 tok/s, wait   1.9s, generated  139 tok at   44.5 tok/s
+[speed] depth 12000: filler of 11941 tokens (counted by the server)
+[depth 12000 #1] prompt  12014 tok at  2237.9 tok/s, wait   5.4s, generated   82 tok at   44.2 tok/s
+[depth 12000 #2] prompt  12014 tok at  2226.0 tok/s, wait   5.4s, generated  256 tok at   43.1 tok/s
+[depth 12000 #3] prompt  12014 tok at  2226.9 tok/s, wait   5.4s, generated  153 tok at   43.6 tok/s
+
+====================================================================================================
+SPEED   label=q4km-ncmoe25-lmnone-t8-tb8-ctx131k-ub2048   file=stuart-creator-Q4_K_M.gguf   context 131072   sampling temp 1.0 top-p 0.95 top-k 20
+note: Q4_K_M, KV q8_0, ctx 131072, n-cpu-moe 25, extras: -ub 2048 --load-mode none -t 8 -tb 8
+warm-up requests (not counted): 40.2, 43.1 tokens/s
+GPU memory in use (whole card, includes the desktop): before the first request 11.2 GiB, highest seen 11.3 GiB, of 12.0 GiB
+
+depth      prompt tok     prompt tok/s     wait for 1st token generation tok/s (median, range)   reps
+short              61            187.5                  0.3 s            45.2  (43.6-45.7)    3/3
+4000             4027           2180.8                  1.9 s            44.2  (43.2-44.5)    3/3
+12000           12014           2226.9                  5.4 s            43.6  (43.1-44.2)    3/3
+
+Read it as: generation tok/s is how fast the answer streams; prompt tok/s and the wait for the first token are what a client with a long prompt feels.
+[speed] saved to /mnt/c/AI/Stuart/Creator/logs/speed_server/20261022_193349_q4km-ncmoe25-lmnone-t8-tb8-ctx131k-ub2048.json and /mnt/c/AI/Stuart/Creator/logs/speed_server/20261022_193349_q4km-ncmoe25-lmnone-t8-tb8-ctx131k-ub2048.txt
+grep: : No such file or directory
+
+### S_stock_layout_ub_load / q4km-ncmoe25-lmnone-t10-tb8-ctx131k-ub2048   start 19:34:53   n-cpu-moe 25   flags: -ub 2048 --load-mode none -t 10 -tb 8
+stopped
+started in the background (pid 248802); loads in about 2 min 20 s; log: /mnt/c/AI/Stuart/Creator/logs/server_Q4_K_M_1934.log
+    after load: 11495 / 12282 MiB
+[check] /health -> HTTP 200 {"status": "ok"}
+[check] n_ctx 131072; chat template present: True
+[check] thinking off: finish=stop, 14 tokens, 41.5 tok/s, reasoning 0 chars, answer 44 chars
+        answer starts: Hello. I'm Stuart. How can I help you today?
+[check] thinking on : finish=stop, 176 tokens, 43.9 tok/s, reasoning 431 chars, answer 104 chars
+        answer starts: Hello. I'm Stuart, an AI language model that works with the operator as a peer. What are we doing today?
+
+check: the server answers in both modes and the template behaves
+[speed] http://127.0.0.1:8012; file stuart-creator-Q4_K_M.gguf; context 131072; depths [0, 4000, 12000]; 2 warm-up + 3 measured requests per depth; up to 256 new tokens each
+[warm-up 1/2] 60 prompt tokens, 64 new tokens, 42.9 tokens/s
+[warm-up 2/2] 60 prompt tokens, 64 new tokens, 42.6 tokens/s
+[speed] depth short: filler of 0 tokens (none)
+[depth short #1] prompt     61 tok at   188.4 tok/s, wait   0.3s, generated   62 tok at   46.4 tok/s
+[depth short #2] prompt     61 tok at   179.6 tok/s, wait   0.4s, generated   46 tok at   42.7 tok/s
+[depth short #3] prompt     61 tok at   186.6 tok/s, wait   0.3s, generated  256 tok at   43.8 tok/s
+[speed] depth 4000: filler of 3955 tokens (counted by the server)
+[depth 4000  #1] prompt   4027 tok at  2197.1 tok/s, wait   1.9s, generated  256 tok at   43.5 tok/s
+[depth 4000  #2] prompt   4027 tok at  2157.6 tok/s, wait   1.9s, generated   83 tok at   43.4 tok/s
+[depth 4000  #3] prompt   4027 tok at  2162.9 tok/s, wait   1.9s, generated  256 tok at   41.6 tok/s
+[speed] depth 12000: filler of 11941 tokens (counted by the server)
+[depth 12000 #1] prompt  12014 tok at  2209.9 tok/s, wait   5.5s, generated  174 tok at   41.4 tok/s
+[depth 12000 #2] prompt  12014 tok at  2221.0 tok/s, wait   5.4s, generated  240 tok at   42.2 tok/s
+[depth 12000 #3] prompt  12014 tok at  2236.6 tok/s, wait   5.4s, generated  154 tok at   42.8 tok/s
+
+====================================================================================================
+SPEED   label=q4km-ncmoe25-lmnone-t10-tb8-ctx131k-ub2048   file=stuart-creator-Q4_K_M.gguf   context 131072   sampling temp 1.0 top-p 0.95 top-k 20
+note: Q4_K_M, KV q8_0, ctx 131072, n-cpu-moe 25, extras: -ub 2048 --load-mode none -t 10 -tb 8
+warm-up requests (not counted): 42.9, 42.6 tokens/s
+GPU memory in use (whole card, includes the desktop): before the first request 11.2 GiB, highest seen 11.3 GiB, of 12.0 GiB
+
+depth      prompt tok     prompt tok/s     wait for 1st token generation tok/s (median, range)   reps
+short              61            186.6                  0.3 s            43.8  (42.7-46.4)    3/3
+4000             4027           2162.9                  1.9 s            43.4  (41.6-43.5)    3/3
+12000           12014           2221.0                  5.4 s            42.2  (41.4-42.8)    3/3
+
+Read it as: generation tok/s is how fast the answer streams; prompt tok/s and the wait for the first token are what a client with a long prompt feels.
+[speed] saved to /mnt/c/AI/Stuart/Creator/logs/speed_server/20261022_193528_q4km-ncmoe25-lmnone-t10-tb8-ctx131k-ub2048.json and /mnt/c/AI/Stuart/Creator/logs/speed_server/20261022_193528_q4km-ncmoe25-lmnone-t10-tb8-ctx131k-ub2048.txt
+grep: : No such file or directory
+stopped
+
+=== S_stock_layout_ub_load summary (/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/S_stock_layout_ub_load_20261022_191706.tsv)
+q4km-ncmoe27-ctx131k-ub2048
+q4km-ncmoe26-ctx131k-ub2048
+q4km-ncmoe25-ctx131k-ub2048
+q4km-ncmoe27-ctx131k-ub4096
+q4km-ncmoe27-lmnone-ctx131k-ub2048
+q4km-ncmoe25-lmnone-ctx131k-ub2048
+q4km-ncmoe25-lmnone-t7-tb8-ctx131k-ub2048
+q4km-ncmoe25-lmnone-t6-tb8-ctx131k-ub2048
+q4km-ncmoe25-lmnone-t5-tb8-ctx131k-ub2048
+q4km-ncmoe25-lmnone-t8-tb8-ctx131k-ub2048
+q4km-ncmoe25-lmnone-t10-tb8-ctx131k-ub2048

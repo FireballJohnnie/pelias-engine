@@ -1,0 +1,4 @@
+variant	gen_short	gen_4k	gen_12k	prompt_12k	peak_GiB	P1	G3	log
+base	49.8	52.5	47.8	1678.8	10.7	PASS	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/L_speculative_mtp_base_20261022_175325.log
+mtp2	64.6	50.5	51.2	1528.6	11.6	HOLD	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/L_speculative_mtp_mtp2_20261022_175502.log
+mtp3	44.6	49.2	59.4	1592.6	11.6	HOLD	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/L_speculative_mtp_mtp3_20261022_175753.log

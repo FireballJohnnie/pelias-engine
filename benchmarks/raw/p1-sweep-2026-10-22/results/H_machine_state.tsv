@@ -1,0 +1,4 @@
+variant	gen_short	gen_4k	gen_12k	prompt_12k	peak_GiB	P1	G3	log
+base_run1	48.3	49.9	47.5	1680.1	10.6	PASS	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/H_machine_state_base_run1_20261022_174200.log
+base_run2	48.8	48.7	48.5	1676.0	10.7	PASS	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/H_machine_state_base_run2_20261022_174323.log
+base_run3	47.4	48.7	48.7	1665.0	10.7	PASS	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/H_machine_state_base_run3_20261022_174455.log

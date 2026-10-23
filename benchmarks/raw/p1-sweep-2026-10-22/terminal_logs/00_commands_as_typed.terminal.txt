@@ -1,0 +1,15 @@
+user@Pelias:/mnt/c/AI/Stuart/Creator/moe_track$ bash /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/K_logging.sh
+bash /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/A_memory_loading.sh
+user@Pelias:/mnt/c/AI/Stuart/Creator/moe_track$ bash /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/C_threads.sh
+user@Pelias:/mnt/c/AI/Stuart/Creator/moe_track$ bash /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/D_batch_sizes.sh
+bash /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/E_layout.sh
+bash /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/F_kv_attention.sh
+bash /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/G_scheduler_offload.sh
+bash /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/H_machine_state.sh
+bash /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/I_server_extras.sh
+bash /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/L_speculative_mtp.sh
+bash /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/M_cuda_graphs.sh
+bash /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/N_pinned_memory.sh
+bash /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/J_sampling_output.sh
+bash /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/B_hot_set_content.sh
+The server on port 8012 is STOPPED. Start it again with:  llama --serve --stuart-creator --bg

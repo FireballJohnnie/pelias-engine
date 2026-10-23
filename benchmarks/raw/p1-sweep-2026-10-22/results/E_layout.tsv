@@ -1,0 +1,4 @@
+variant	gen_short	gen_4k	gen_12k	prompt_12k	peak_GiB	P1	G3	log
+n40	45.7	44.1	45.6	1667.3	10.2	PASS	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/E_layout_n40_20261022_171706.log
+n39	24.1	24.0	22.9	1704.7	10.7	HOLD	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/E_layout_n39_20261022_171838.log
+n38	16.5	15.9	16.0	1729.1	11.1	HOLD	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/E_layout_n38_20261022_172055.log

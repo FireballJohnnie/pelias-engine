@@ -1,0 +1,6 @@
+mix	shards	decode_tokens_note	simulated_hit_in_sample	simulated_hit_held_out	file
+all	35	328 prompts, 121160 decode tokens; traces: merged	0.823	0.827	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/B_hot_sets/hot_all_b7.5.txt
+persona	11	110 prompts, 54813 decode tokens; traces: merged	0.865	0.866	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/B_hot_sets/hot_persona_b7.5.txt
+agent	8	80 prompts, 12963 decode tokens; traces: merged	0.887	0.890	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/B_hot_sets/hot_agent_b7.5.txt
+code	8	76 prompts, 34788 decode tokens; traces: merged	0.828	0.821	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/B_hot_sets/hot_code_b7.5.txt
+reasoning	8	62 prompts, 18596 decode tokens; traces: merged	0.827	0.809	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/B_hot_sets/hot_reasoning_b7.5.txt

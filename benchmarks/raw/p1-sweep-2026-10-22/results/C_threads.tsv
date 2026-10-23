@@ -1,0 +1,10 @@
+variant	gen_short	gen_4k	gen_12k	prompt_12k	peak_GiB	P1	G3	log
+base_t6_tb8	47.2	49.8	51.1	1678.9	10.7	PASS	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/C_threads_base_t6_tb8_20261022_164838.log
+t5_tb8	48.6	47.2	45.7	1660.5	10.7	PASS	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/C_threads_t5_tb8_20261022_165017.log
+t7_tb8	46.1	44.4	45.8	1655.4	10.7	PASS	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/C_threads_t7_tb8_20261022_165149.log
+t6_tb6	46.0	47.6	46.8	1680.8	10.7	PASS	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/C_threads_t6_tb6_20261022_165327.log
+t6_tb10	48.8	45.9	47.2	1662.1	10.7	PASS	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/C_threads_t6_tb10_20261022_165509.log
+t6_tb12	45.2	45.7	47.1	1662.8	10.7	PASS	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/C_threads_t6_tb12_20261022_165636.log
+poll0	49.9	46.0	50.1	1677.6	10.7	PASS	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/C_threads_poll0_20261022_165827.log
+poll100	47.3	47.7	47.3	1673.1	10.7	PASS	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/C_threads_poll100_20261022_170012.log
+prio2	17.8	17.7	16.7	1672.1	10.7	HOLD	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/C_threads_prio2_20261022_170142.log

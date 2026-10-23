@@ -1,0 +1,23 @@
+### F_kv_attention / base_q8_fa_on   start 17:23:41
+    spec : tier:n=40,bypass=32,cap=7800,hot=/mnt/c/AI/Stuart/Creator/logs/pelias_hot_set_b7.5.txt
+    flags: -t 6 -tb 8 --load-mode none -ub 2048
+    gen 48.3 / 52.0 / 49.7 tok/s (short/4k/12k)   prompt@12k 1675.0 tok/s   peak 10.7 GiB   P1 PASS   G3 FAIL
+
+### F_kv_attention / kv_f16_fa_on   start 17:25:12
+    spec : tier:n=40,bypass=32,cap=7800,hot=/mnt/c/AI/Stuart/Creator/logs/pelias_hot_set_b7.5.txt
+    flags: -t 6 -tb 8 --load-mode none -ub 2048 --cache-type-k f16 --cache-type-v f16
+    gen 50.3 / 46.3 / 49.1 tok/s (short/4k/12k)   prompt@12k 1673.2 tok/s   peak 11.0 GiB   P1 PASS   G3 FAIL
+
+### F_kv_attention / kv_f16_fa_off   start 17:26:48
+    spec : tier:n=40,bypass=32,cap=7800,hot=/mnt/c/AI/Stuart/Creator/logs/pelias_hot_set_b7.5.txt
+    flags: -t 6 -tb 8 --load-mode none -ub 2048 --cache-type-k f16 --cache-type-v f16 -fa off
+    gen 49.8 / 48.9 / 46.4 tok/s (short/4k/12k)   prompt@12k 332.0 tok/s   peak 11.6 GiB   P1 HOLD   G3 FAIL
+
+=== F_kv_attention: summary (saved in /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/F_kv_attention.tsv; full logs in /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results)
+variant        gen_short  gen_4k  gen_12k  prompt_12k  peak_GiB  P1    G3    log
+base_q8_fa_on  48.3       52.0    49.7     1675.0      10.7      PASS  FAIL  /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/F_kv_attention_base_q8_fa_on_20261022_172341.log
+kv_f16_fa_on   50.3       46.3    49.1     1673.2      11.0      PASS  FAIL  /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/F_kv_attention_kv_f16_fa_on_20261022_172512.log
+kv_f16_fa_off  49.8       48.9    46.4     332.0       11.6      HOLD  FAIL  /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/F_kv_attention_kv_f16_fa_off_20261022_172648.log
+no llama-server running
+469 MiB, 12282 MiB
+The server on port 8012 is STOPPED. Start it again with:  llama --serve --stuart-creator --bg

@@ -1,0 +1,6 @@
+variant	gen_short	gen_4k	gen_12k	prompt_12k	peak_GiB	P1	G3	log
+base_ub2048	48.4	46.4	46.1	1675.7	10.6	PASS	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/D_batch_sizes_base_ub2048_20261022_170814.log
+ub512	49.5	44.6	46.8	663.1	10.4	HOLD	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/D_batch_sizes_ub512_20261022_170955.log
+ub1024	45.7	47.2	47.4	1092.9	10.5	HOLD	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/D_batch_sizes_ub1024_20261022_171208.log
+b4096_ub2048	47.9	47.2	44.2	1666.8	10.6	PASS	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/D_batch_sizes_b4096_ub2048_20261022_171357.log
+b4096_ub4096	46.3	49.0	49.7	2261.0	11.2	HOLD	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/D_batch_sizes_b4096_ub4096_20261022_171530.log

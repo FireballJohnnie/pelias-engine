@@ -1,0 +1,1 @@
+0.00.097.117 W Setting 'enable_thinking' via --chat-template-kwargs is deprecated. Use --reasoning on / --reasoning off instead.

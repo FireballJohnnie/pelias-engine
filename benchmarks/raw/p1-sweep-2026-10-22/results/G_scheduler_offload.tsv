@@ -1,0 +1,5 @@
+variant	gen_short	gen_4k	gen_12k	prompt_12k	peak_GiB	P1	G3	log
+base	47.7	47.9	49.1	1682.3	10.6	PASS	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/G_scheduler_offload_base_20261022_173020.log
+no_op_offload	51.0	48.3	46.2	282.5	10.4	HOLD	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/G_scheduler_offload_no_op_offload_20261022_173152.log
+offload_min_1000000	47.3	47.9	50.4	246.3	10.4	HOLD	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/G_scheduler_offload_offload_min_1000000_20261022_173609.log
+offload_min_16	47.6	48.5	46.6	1684.5	10.6	PASS	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/G_scheduler_offload_offload_min_16_20261022_174034.log

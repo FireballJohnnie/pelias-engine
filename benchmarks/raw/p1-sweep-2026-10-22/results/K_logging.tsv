@@ -1,0 +1,4 @@
+variant	gen_short	gen_4k	gen_12k	prompt_12k	peak_GiB	P1	G3	log
+lv4_gauntlet_default	49.7	47.3	48.3	1658.8	10.8	PASS	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/K_logging_lv4_gauntlet_default_20261022_153855.log
+lv3	FAILED	-	-	-	-	-	-	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/K_logging_lv3_20261022_154039.log
+lv1	FAILED	-	-	-	-	-	-	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/K_logging_lv1_20261022_154102.log

@@ -1,0 +1,23 @@
+### K_logging / lv4_verbose1   -lv 4   PELIAS_TIER_VERBOSE=1   start 16:25:44
+    check exit 0
+    gen 51.3 / 46.7 / 42.9 tok/s (short/4k/12k)   prompt@12k 1653.4 tok/s   peak 10.7 GiB   bank layers 40   dual builds {"1":960,"2":80,"4":480,"9":40}
+
+### K_logging / lv3_verbose1   -lv 3   PELIAS_TIER_VERBOSE=1   start 16:27:24
+    check exit 0
+    gen 44.1 / 45.1 / 43.5 tok/s (short/4k/12k)   prompt@12k 1650.2 tok/s   peak 10.7 GiB   bank layers 40   dual builds {"1":920,"2":80,"4":480,"9":40}
+
+### K_logging / lv3_verbose0   -lv 3   PELIAS_TIER_VERBOSE=unset   start 16:29:02
+    check exit 0
+    gen 46.7 / 47.1 / 44.9 tok/s (short/4k/12k)   prompt@12k 1662.0 tok/s   peak 10.7 GiB   bank layers 40   dual builds {"1":960,"2":80,"4":480,"9":40}
+
+### K_logging / lv1_verbose0   -lv 1   PELIAS_TIER_VERBOSE=unset   start 16:30:43
+    check exit 0
+    gen 48.1 / 45.7 / 45.2 tok/s (short/4k/12k)   prompt@12k 1653.9 tok/s   peak 10.7 GiB   bank layers 40   dual builds {"1":960,"2":80,"4":480,"9":40}
+
+=== K_logging: summary (saved in /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/K_logging_20261022_162544.tsv)
+variant       gen_short  gen_4k  gen_12k  prompt_12k  peak_GiB  bank_layers  dual_builds                      server_log
+lv4_verbose1  51.3       46.7    42.9     1653.4      10.7      40           {"1":960,"2":80,"4":480,"9":40}  /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/K_server_lv4_verbose1_20261022_162544.log
+lv3_verbose1  44.1       45.1    43.5     1650.2      10.7      40           {"1":920,"2":80,"4":480,"9":40}  /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/K_server_lv3_verbose1_20261022_162724.log
+lv3_verbose0  46.7       47.1    44.9     1662.0      10.7      40           {"1":960,"2":80,"4":480,"9":40}  /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/K_server_lv3_verbose0_20261022_162902.log
+lv1_verbose0  48.1       45.7    45.2     1653.9      10.7      40           {"1":960,"2":80,"4":480,"9":40}  /mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/K_server_lv1_verbose0_20261022_163043.log
+The server on port 8012 is STOPPED. Start it again with:  llama --serve --stuart-creator --bg

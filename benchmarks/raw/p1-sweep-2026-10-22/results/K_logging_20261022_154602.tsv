@@ -1,0 +1,5 @@
+variant	gen_short	gen_4k	gen_12k	prompt_12k	peak_GiB	bank_layers	dual_builds	server_log
+lv4_verbose1	49.4	48.5	46.1	1677.3	10.7	no-stats	-	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/K_server_lv4_verbose1_20261022_154602.log
+lv3_verbose1	46.9	48.5	49.9	1668.6	10.7	no-stats	-	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/K_server_lv3_verbose1_20261022_154740.log
+lv3_verbose0	47.7	47.0	44.9	1661.5	10.7	no-stats	-	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/K_server_lv3_verbose0_20261022_154911.log
+lv1_verbose0	47.8	44.9	44.7	1660.9	10.7	no-stats	-	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/K_server_lv1_verbose0_20261022_155049.log

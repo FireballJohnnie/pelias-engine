@@ -1,0 +1,7 @@
+tier8_rerun	0.010568	0.000428	97.126	4.111559 / 4.098874	-	-	-	/mnt/c/AI/Stuart/Creator/logs/moe_trace/kl/tier8_rerun_vs_tier_ref8.json
+tier8_rep_rerun	0.010568	0.000428	97.126	4.111559 / 4.098874	-	-	-	/mnt/c/AI/Stuart/Creator/logs/moe_trace/kl/tier8_rep_rerun_vs_tier_ref8.json
+tier8_nobank_rerun	0.001731	0.000090	98.740	4.112086 / 4.098874	-	-	-	/mnt/c/AI/Stuart/Creator/logs/moe_trace/kl/tier8_nobank_rerun_vs_tier_ref8.json
+stock16_rerun	0.017353	0.000668	96.490	4.117205 / 4.098874	-	-	-	/mnt/c/AI/Stuart/Creator/logs/moe_trace/kl/stock16_rerun_vs_tier_ref8.json
+stock1024_rerun	0.018286	0.000969	96.318	4.130661 / 4.098874	-	-	-	/mnt/c/AI/Stuart/Creator/logs/moe_trace/kl/stock1024_rerun_vs_tier_ref8.json
+tier8_b85_rerun	0.011856	0.000729	97.248	4.102311 / 4.098874	-	-	-	/mnt/c/AI/Stuart/Creator/logs/moe_trace/kl/tier8_b85_rerun_vs_tier_ref8.json
+tier16_b75_by32_rerun	0.017866	0.000805	96.159	4.137987 / 4.098874	-	-	-	/mnt/c/AI/Stuart/Creator/logs/moe_trace/kl/tier16_b75_by32_rerun_vs_tier_ref8.json

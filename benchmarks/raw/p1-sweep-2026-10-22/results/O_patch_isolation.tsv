@@ -1,0 +1,7 @@
+variant	gen_short	gen_4k	gen_12k	prompt_12k	peak_GiB	P1	G3	log
+o_ctrl	FAILED (build)	-	-	-	-	-	-	-
+o_nodedup	FAILED (build)	-	-	-	-	-	-	-
+o_nodiag2	FAILED (build)	-	-	-	-	-	-	-
+o_ctrl	54.1	51.9	47.6	1674.4	10.5	PASS	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/O_patch_isolation_o_ctrl_20261022_194614.log
+o_nodedup	FAILED	-	-	-	-	-	-	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/O_patch_isolation_o_nodedup_20261022_195350.log
+o_nodiag2	53.4	52.0	49.1	1680.7	10.5	PASS	FAIL	/mnt/c/AI/Stuart/Creator/moe_track/p1_tests/results/O_patch_isolation_o_nodiag2_20261022_200020.log
