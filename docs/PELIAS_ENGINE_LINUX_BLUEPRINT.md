@@ -143,7 +143,7 @@ One code base and one binary serve both. WSL2 is Linux, so a Linux engine runs t
 
 - **Startup probe (E11):** detects WSL2, tests pinned-copy bandwidth and limits, reads the BAR size, and picks the host-memory and transfer strategy. This matters: on WSL2 the load mode changed prompt speed by about 2x (863 to 929 vs 1,667 to 1,680 tok/s at 12k) [MEASURED].
 - **Avoid what WSL2 lacks:** NVIDIA documents that WSL2 has no full managed (unified) memory support, limits pinned system memory, supports only some NVML queries and has limited profilers ([CUDA on WSL User Guide](https://docs.nvidia.com/cuda/archive/13.0.3/wsl-user-guide/index.html)). The engine uses explicit allocations and copies, treats pinned memory as capped with a fallback, does its own timing with CUDA events, and keeps OS-specific calls in a thin allocation and threading layer.
-- **Native-only paths:** ReBAR and any faster transfer route are optional and switched on only when the probe finds them. The HWiNFO report shows Resizable BAR on at the host; the WSL2 guest cannot see it [MEASURED].
+- **Native-only paths:** ReBAR and any faster transfer route are optional and switched on only when the probe finds them. The HWiNFO report shows Resizable BAR on at the host; nvidia-smi inside WSL2 reports BAR1 total 16,384 MiB with 0 MiB used (one sample taken mid-run), while the guest shows no NVIDIA PCI device [MEASURED].
 - **What may differ on native Linux, all unmeasured there:** handoff latency, the pinned-memory cap, host-memory behaviour and ReBAR. E1 measures them on this machine.
 
 ## Risks and kill criteria
