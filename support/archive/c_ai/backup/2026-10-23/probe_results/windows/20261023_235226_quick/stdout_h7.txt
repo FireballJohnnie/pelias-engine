@@ -1,0 +1,9 @@
+[START] P-H7   growing cudaHostAlloc in 1 GiB steps up to 6 GiB
+  pinned  1 GiB ok  alloc 0.06 s  host avail 54.5 GiB
+  pinned  2 GiB ok  alloc 0.06 s  host avail 53.5 GiB
+  pinned  3 GiB ok  alloc 0.06 s  host avail 52.5 GiB
+  pinned  4 GiB ok  alloc 0.06 s  host avail 51.5 GiB
+  pinned  5 GiB ok  alloc 0.06 s  host avail 50.5 GiB
+  pinned  6 GiB ok  alloc 0.06 s  host avail 49.5 GiB
+[REC  ] P-H7   held 6 GiB pinned (target 6), swap-in 0 MiB, integrity failures 0; reached_target
+        -> C:\AI\cl-sndbx-bkp\stuart-creator\2026-10-23\probe_results\windows\20261023_235226_quick\h7_pinned_limit.json

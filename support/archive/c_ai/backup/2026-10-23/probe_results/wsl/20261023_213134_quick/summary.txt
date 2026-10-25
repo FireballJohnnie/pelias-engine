@@ -1,0 +1,15 @@
+[PASS ] SELFTEST all checks passed
+[REC  ] STATE  wsl2, 46.98 GiB RAM, driver 617.42
+[FAIL ] P-H8   CUDA free 10.83 of 11.99 GiB (need >= 11.2)
+[PASS ] P-H1   NVIDIA GeForce RTX 4070 sm=46 opt-in smem=101376 B ramp-ok=101376 B regs=64
+[REC  ] P-H2   VRAM read 524 / write 475 / copy 480 GB/s (median)
+[PASS ] P-H3   sustained TFLOPS/TOPS: bf16 64.7 int8 259.6 fp16 64.9 fp8 129.7 
+[PASS ] P-H10  1000 runs, 0 mismatches, 1 distinct hashes, cpu-check ratio 0.006
+[PASS ] P-H4   1.0 min, 590 cycles, 0 mismatches, thermal samples 0, throttle: gpu_idle
+[PASS ] P-H5   at 256 MiB: pinned H2D 26.3 / pinned D2H 26.3 / pageable H2D 8.4 GB/s
+[REC  ] P-H6   H2D 25.9 GB/s unloaded; worst loaded/unloaded ratio 0.86
+[FAIL ] P-H12  overlap efficiency: tensor all-three 0.01  vram-read all-three 0.40  
+[REC  ] P-H7   held 6 GiB pinned (target 6), swap-in 0 MiB, integrity failures 0; reached_target
+[REC  ] P-M3   held 6+2 GiB for 1.0 min, mismatches 0, swap-in 0 MiB, jitter p99 0.1 ms
+[SKIP ] P-M4   no model file given: set PELIAS_GGUF or pass --gguf PATH (the path is never written to the results)
+[PASS ] P-H9   eager 2.252 vs graph 0.722 us/kernel (saving 68%), exact=yes, param-update=ok

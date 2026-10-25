@@ -1,0 +1,458 @@
+diff --git a/ggml/src/ggml-cpu/ggml-cpu.c b/ggml/src/ggml-cpu/ggml-cpu.c
+index 7c274c03b..27ff2f161 100644
+--- a/ggml/src/ggml-cpu/ggml-cpu.c
++++ b/ggml/src/ggml-cpu/ggml-cpu.c
+@@ -1652,7 +1652,11 @@ static void ggml_compute_forward_mul_mat_id(
+             for (int id = 0; id < n_ids; ++id) {
+                 const int32_t i02 = *(const int32_t *) ((const char *) ids->data + iid1*ids->nb[1] + id*ids->nb[0]);
+ 
+-                assert(i02 >= 0 && i02 < n_as);
++                if (i02 < 0) {
++                    continue; // pelias-tier: a negative expert id means "no work for this row"; its output is zero-filled below
++                }
++
++                assert(i02 < n_as);
+ 
+                 MMID_MATRIX_ROW(i02, matrix_row_counts[i02]) = (struct mmid_row_mapping) {id, iid1};
+                 matrix_row_counts[i02] += 1;
+@@ -1668,6 +1672,15 @@ static void ggml_compute_forward_mul_mat_id(
+ 
+     ggml_barrier(params->threadpool);
+ 
++    // pelias-tier: rows whose expert id is negative were skipped above; they must read as zero
++    for (int64_t iid1 = ith; iid1 < ids->ne[1]; iid1 += nth) {
++        for (int id = 0; id < n_ids; ++id) {
++            if (*(const int32_t *) ((const char *) ids->data + iid1*ids->nb[1] + id*ids->nb[0]) < 0) {
++                memset((char *) dst->data + id*nb1 + iid1*nb2, 0, ne0*sizeof(float));
++            }
++        }
++    }
++
+     for (int cur_a = 0; cur_a < n_as; ++cur_a) {
+         const int64_t cne1 = matrix_row_counts[cur_a];
+ 
+diff --git a/ggml/src/ggml-cpu/repack.cpp b/ggml/src/ggml-cpu/repack.cpp
+index 2632ae3a0..377e931fa 100644
+--- a/ggml/src/ggml-cpu/repack.cpp
++++ b/ggml/src/ggml-cpu/repack.cpp
+@@ -4855,7 +4855,11 @@ template <typename BLOC_TYPE, int64_t INTER_SIZE, int64_t NB_COLS, ggml_type PAR
+                     const int32_t i02 =
+                         *(const int32_t *) ((const char *) ids->data + iid1 * ids->nb[1] + id * ids->nb[0]);
+ 
+-                    GGML_ASSERT(i02 >= 0 && i02 < n_as);
++                    if (i02 < 0) {
++                        continue; // pelias-tier: a negative expert id means "no work for this row"; its output is zero-filled below
++                    }
++
++                    GGML_ASSERT(i02 < n_as);
+ 
+                     MMID_MATRIX_ROW(i02, matrix_row_counts[i02]) = { id, iid1 };
+                     matrix_row_counts[i02] += 1;
+@@ -4865,6 +4869,15 @@ template <typename BLOC_TYPE, int64_t INTER_SIZE, int64_t NB_COLS, ggml_type PAR
+ 
+         ggml_barrier(params->threadpool);
+ 
++        // pelias-tier: rows whose expert id is negative were skipped above; they must read as zero
++        for (int32_t iid1 = ith; iid1 < ids->ne[1]; iid1 += nth) {
++            for (int32_t id = 0; id < n_ids; ++id) {
++                if (*(const int32_t *) ((const char *) ids->data + iid1 * ids->nb[1] + id * ids->nb[0]) < 0) {
++                    memset((char *) dst->data + id * nb1 + iid1 * nb2, 0, ne0 * sizeof(float));
++                }
++            }
++        }
++
+         // compute each matrix multiplication in sequence
+         for (int cur_a = 0; cur_a < n_as; ++cur_a) {
+             const int64_t cne1 = matrix_row_counts[cur_a];
+diff --git a/ggml/src/ggml-cuda/mmid.cu b/ggml/src/ggml-cuda/mmid.cu
+index 12ae14ce9..5334e49e2 100644
+--- a/ggml/src/ggml-cuda/mmid.cu
++++ b/ggml/src/ggml-cuda/mmid.cu
+@@ -49,7 +49,14 @@ static __global__ void mm_ids_helper(
+             int iex_used = -1; // The index at which the expert is used, if any.
+             for (int iex = threadIdx.x; iex < n_expert_used; iex += warp_size) {
+                 const int expert_used = ids[it*si1 + iex];
+-                nex_prev += expert_used < expert;
++                // pelias-tier: a token row may name the same expert more than once (the tier maps every hot-bank miss to the all-zero slot 0).
++                // Only the first occurrence in a row gets a compact row, so only the first occurrence may be counted in the expert bounds;
++                // otherwise the bounds contain empty rows that the matrix-multiply kernel reads and writes through unset ids_dst entries.
++                bool repeated = false;
++                for (int j = 0; j < iex; ++j) {
++                    repeated = repeated || ids[it*si1 + j] == expert_used;
++                }
++                nex_prev += expert_used < expert && !repeated;
+                 if (expert_used == expert) {
+                     iex_used = iex;
+                 }
+@@ -75,7 +82,16 @@ static __global__ void mm_ids_helper(
+             const int expert_used = (neu_padded == n_expert_used || iex < n_expert_used) && it < n_tokens ?
+                 ids[it*si1 + iex] : INT_MAX;
+             const int iex_used = expert_used == expert ? iex : -1;
+-            nex_prev += expert_used < expert;
++
++            // pelias-tier: same rule as in the generic path above: count each (token, expert) pair once. A lane is a repeat if a lower lane
++            // of the same token holds the same expert id (shfl_up by d reaches lane-d, which is inside this token's group when iex >= d).
++            bool repeated = false;
++#pragma unroll
++            for (int d = 1; d < neu_padded; ++d) {
++                const int other = __shfl_up_sync(0xFFFFFFFF, expert_used, d, warp_size);
++                repeated = repeated || (iex >= d && other == expert_used);
++            }
++            nex_prev += expert_used < expert && !repeated;
+ 
+             // Whether the threads at this token position have used the expert:
+             const int it_compact_add_self = warp_reduce_any<neu_padded>(iex_used != -1);
+diff --git a/ggml/src/ggml-cuda/mmq.cu b/ggml/src/ggml-cuda/mmq.cu
+index 43603bb8a..3ac0093f4 100644
+--- a/ggml/src/ggml-cuda/mmq.cu
++++ b/ggml/src/ggml-cuda/mmq.cu
+@@ -239,6 +239,10 @@ void ggml_cuda_mul_mat_q(
+     ggml_cuda_pool_alloc<int32_t> ids_src1(ctx.pool(), ne_get_rows);
+     ggml_cuda_pool_alloc<int32_t> ids_dst(ctx.pool(), ne_get_rows);
+     ggml_cuda_pool_alloc<int32_t> expert_bounds(ctx.pool(), ne02 + 1);
++    // pelias-tier: ids naming no expert of src0 (the tier writes -1 for 'this branch does nothing') are never written by mm_ids_helper;
++    // pre-fill the id map with -1 (the quantizer skips it) and the output with 0 so such slots contribute exact zeros
++    CUDA_CHECK(cudaMemsetAsync(ids_src1.get(), 0xFF, ne_get_rows*sizeof(int32_t), stream));
++    CUDA_CHECK(cudaMemsetAsync(dst_d, 0, ggml_nbytes(dst), stream));
+ 
+     // gate/up activations are broadcast across experts (ne11 == 1): quantize each token once and
+     // scatter to its slots. ids_src1 then holds the inverse map (token slot -> compact row).
+@@ -254,6 +258,105 @@ void ggml_cuda_mul_mat_q(
+         CUDA_CHECK(cudaGetLastError());
+     }
+ 
++    // pelias-tier DIAGNOSTIC (env PELIAS_MMID_DUMP=1): copy the helper outputs to the host and check them. Slow; for crash hunting only.
++    // Prints one summary line for the first calls and for every call with an anomaly; full detail for the first 3 anomalies.
++    if (getenv("PELIAS_MMID_DUMP") != nullptr && ne12 >= 9) {
++        static int dump_call = 0;
++        static int detail_budget = 3;
++        cudaStreamCaptureStatus cap = cudaStreamCaptureStatusNone;
++        cudaStreamIsCapturing(stream, &cap);
++        if (cap == cudaStreamCaptureStatusNone) {
++            const int call = dump_call++;
++            const int64_t n_ids = ne12*n_expert_used;
++            std::vector<int32_t> h_ids(n_ids), h_src1(ne_get_rows), h_dst(ne_get_rows), h_bnd(ne02 + 1);
++            cudaError_t err = cudaMemcpy2DAsync(h_ids.data(), n_expert_used*sizeof(int32_t), ids->data, ids->nb[1],
++                n_expert_used*sizeof(int32_t), ne12, cudaMemcpyDeviceToHost, stream);
++            if (err == cudaSuccess) { err = cudaMemcpyAsync(h_src1.data(), ids_src1.get(), ne_get_rows*sizeof(int32_t), cudaMemcpyDeviceToHost, stream); }
++            if (err == cudaSuccess) { err = cudaMemcpyAsync(h_dst.data(), ids_dst.get(), ne_get_rows*sizeof(int32_t), cudaMemcpyDeviceToHost, stream); }
++            if (err == cudaSuccess) { err = cudaMemcpyAsync(h_bnd.data(), expert_bounds.get(), (ne02 + 1)*sizeof(int32_t), cudaMemcpyDeviceToHost, stream); }
++            if (err == cudaSuccess) { err = cudaStreamSynchronize(stream); }
++            if (err != cudaSuccess) {
++                fprintf(stderr, "MMID_DUMP call %d: CUDA error before or at this call: %s (ne12=%lld ne02=%lld n_used=%lld src0=%s)\n",
++                    call, cudaGetErrorString(err), (long long) ne12, (long long) ne02, (long long) n_expert_used, ggml_type_name(src0->type));
++            } else {
++                int ids_bad = 0, ids_neg = 0, rep_tok = 0;
++                for (int64_t it = 0; it < ne12; ++it) {
++                    bool rep = false;
++                    for (int64_t i = 0; i < n_expert_used; ++i) {
++                        const int32_t v = h_ids[it*n_expert_used + i];
++                        if (v < 0) { ids_neg++; } else if (v >= ne02) { ids_bad++; }
++                        for (int64_t j = 0; j < i; ++j) { rep = rep || h_ids[it*n_expert_used + j] == v; }
++                    }
++                    rep_tok += rep ? 1 : 0;
++                }
++                const int64_t total = h_bnd[ne02];
++                int mono_bad = 0, nonempty = 0, dst_bad = 0;
++                for (int64_t e = 0; e < ne02; ++e) {
++                    if (h_bnd[e + 1] < h_bnd[e]) { mono_bad++; continue; }
++                    if (h_bnd[e + 1] > h_bnd[e]) { nonempty++; }
++                    for (int64_t r = h_bnd[e]; r < h_bnd[e + 1]; ++r) {
++                        if (r < 0 || r >= ne_get_rows) { dst_bad++; continue; }
++                        if (h_dst[r] < 0 || h_dst[r] >= ne_get_rows) { dst_bad++; }
++                    }
++                }
++                const int64_t sis1_d = nb12 / nb11;
++                const int64_t src1_lim = dedup_bcast ? ne_get_rows : (ne12 - 1)*sis1_d + ne11;
++                int src1_neg = 0, src1_ok = 0, src1_bad = 0, holes = 0;
++                for (int64_t r = 0; r < ne_get_rows; ++r) {
++                    const int32_t v = h_src1[r];
++                    if (v == -1) { src1_neg++; if (!dedup_bcast && r < total) { holes++; } }
++                    else if (v >= 0 && v < src1_lim) { src1_ok++; }
++                    else { src1_bad++; }
++                }
++                const bool anomaly = ids_bad || ids_neg || mono_bad || dst_bad || src1_bad || holes || total > ne_get_rows;
++                if (call < 4 || anomaly) {
++                    const int64_t ts1 = ggml_type_size(src1->type);
++                    const int64_t s01_d = src1->nb[1] / ts1;
++                    int64_t max_i01 = -1;
++                    for (int64_t r = 0; r < ne_get_rows; ++r) { if (h_src1[r] > max_i01 && h_src1[r] < (1 << 30)) { max_i01 = h_src1[r]; } }
++                    fprintf(stderr, "  GEOM call %d: src1 type=%s ne=[%lld %lld %lld %lld] nb=[%lld %lld %lld %lld] nbytes=%lld data=%p | dst ne=[%lld %lld %lld %lld] nb=[%lld %lld %lld %lld] nbytes=%lld data=%p | ids ne=[%lld %lld] nb=[%lld %lld] data=%p | ids_src1=%p ids_dst=%p bounds=%p | ne10=%lld ne10_padded=%lld s01=%lld max_row=%lld need_bytes=%lld%s\n",
++                        call, ggml_type_name(src1->type),
++                        (long long) src1->ne[0], (long long) src1->ne[1], (long long) src1->ne[2], (long long) src1->ne[3],
++                        (long long) src1->nb[0], (long long) src1->nb[1], (long long) src1->nb[2], (long long) src1->nb[3],
++                        (long long) ggml_nbytes(src1), (const void *) src1->data,
++                        (long long) dst->ne[0], (long long) dst->ne[1], (long long) dst->ne[2], (long long) dst->ne[3],
++                        (long long) dst->nb[0], (long long) dst->nb[1], (long long) dst->nb[2], (long long) dst->nb[3],
++                        (long long) ggml_nbytes(dst), (const void *) dst->data,
++                        (long long) ids->ne[0], (long long) ids->ne[1], (long long) ids->nb[0], (long long) ids->nb[1], (const void *) ids->data,
++                        (const void *) ids_src1.get(), (const void *) ids_dst.get(), (const void *) expert_bounds.get(),
++                        (long long) ne10, (long long) ne10_padded, (long long) s01_d, (long long) max_i01,
++                        (long long) (dedup_bcast ? 0 : (max_i01*s01_d + ne10)*ts1),
++                        (!dedup_bcast && (max_i01*s01_d + ne10)*ts1 > (int64_t) ggml_nbytes(src1)) ? "  <-- READ PAST src1" : "");
++                    fprintf(stderr, "  valid src1 entries (row:value), first 16:");
++                    int shown_v = 0;
++                    for (int64_t r = 0; r < ne_get_rows && shown_v < 16; ++r) { if (h_src1[r] != -1) { fprintf(stderr, " %lld:%d", (long long) r, h_src1[r]); shown_v++; } }
++                    fprintf(stderr, "\n");
++                    fprintf(stderr, "MMID_DUMP call %d src0=%s dedup=%d ne12=%lld n_used=%lld ne02=%lld | ids: bad=%d neg=%d rep_tokens=%d | bounds: total=%lld/%lld nonempty=%d nonmono=%d | src1: ok=%d neg=%d bad=%d holes_in_range=%d | dst_bad_in_ranges=%d%s\n",
++                        call, ggml_type_name(src0->type), (int) dedup_bcast, (long long) ne12, (long long) n_expert_used, (long long) ne02,
++                        ids_bad, ids_neg, rep_tok, (long long) total, (long long) ne_get_rows, nonempty, mono_bad,
++                        src1_ok, src1_neg, src1_bad, holes, dst_bad, anomaly ? "  <-- ANOMALY" : "");
++                }
++                if (anomaly && detail_budget > 0) {
++                    detail_budget--;
++                    for (int64_t it = 0; it < ne12 && it < 12; ++it) {
++                        fprintf(stderr, "  ids[tok %lld]:", (long long) it);
++                        for (int64_t i = 0; i < n_expert_used; ++i) { fprintf(stderr, " %d", h_ids[it*n_expert_used + i]); }
++                        fprintf(stderr, "\n");
++                    }
++                    int shown = 0;
++                    for (int64_t e = 0; e < ne02 && shown < 40; ++e) {
++                        if (h_bnd[e + 1] != h_bnd[e]) { fprintf(stderr, "  bounds expert %lld: [%d, %d)\n", (long long) e, h_bnd[e], h_bnd[e + 1]); shown++; }
++                    }
++                    fprintf(stderr, "  src1 map:");
++                    for (int64_t r = 0; r < ne_get_rows && r < 96; ++r) { fprintf(stderr, " %d", h_src1[r]); }
++                    fprintf(stderr, "\n  dst map:");
++                    for (int64_t r = 0; r < ne_get_rows && r < 96; ++r) { fprintf(stderr, " %d", h_dst[r]); }
++                    fprintf(stderr, "\n");
++                }
++            }
++        }
++    }
++
+     const size_t nbytes_src1_q8_1 = ne12*n_expert_used*ne10_padded * y_block_size/y_values_per_block +
+         ggml_cuda_mmq_get_J_max(src0->type, fallback, cc, ne12) * sizeof(block_q8_1_mmq);
+     ggml_cuda_pool_alloc<char> src1_q8_1(ctx.pool(), nbytes_src1_q8_1);
+diff --git a/ggml/src/ggml-cuda/quantize.cu b/ggml/src/ggml-cuda/quantize.cu
+index 935b2bf4b..686042c73 100644
+--- a/ggml/src/ggml-cuda/quantize.cu
++++ b/ggml/src/ggml-cuda/quantize.cu
+@@ -477,7 +477,10 @@ static __global__ void quantize_mmq_q8_1(
+     } else {
+         const int64_t i2  = blockIdx.z % ne2;
+         const int64_t i3  = blockIdx.z / ne2;
+-        const int64_t i01 = ids ? ids[blockIdx.x] : blockIdx.x;
++        // pelias-tier: ids[] is int32 and blockIdx.x is unsigned, so the plain ?: converts an id of -1 to 4294967295 (unsigned) before it is widened;
++        // the check below then never fires and the row 4294967295 is read. Widen each side to int64 first.
++        const int64_t i01 = ids ? (int64_t) ids[blockIdx.x] : (int64_t) blockIdx.x;
++        if (i01 < 0) { return; } // pelias-tier: unused compact row
+         base_idx = i3*s03 + i2*s02 + i01*s01;
+     }
+ 
+@@ -526,6 +529,7 @@ static __global__ void quantize_mmq_q8_1(
+         int64_t ib;
+         if constexpr (scatter) {
+             const int64_t i = ids[(int64_t) blockIdx.x * n_expert_used + slot];
++            if (i < 0) { continue; } // pelias-tier: slot without a compact row
+             ib = k_block*ne1 + i;
+         } else {
+             const int64_t ib0 = blockIdx.z*((int64_t)gridDim.x*gridDim.y*blockDim.x/QK8_1); // first block of channel
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index afdaddc79..28961408a 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -36,6 +36,7 @@ set(LLAMA_CORE_SOURCES
+     llama-model-loader.cpp
+     llama-model-saver.cpp
+     llama-model.cpp
++    llama-pelias-tier.cpp
+     llama-quant.cpp
+     llama-sampler.cpp
+     llama-vocab.cpp
+diff --git a/src/llama-graph.cpp b/src/llama-graph.cpp
+index 16a3ed2ab..130a2e948 100644
+--- a/src/llama-graph.cpp
++++ b/src/llama-graph.cpp
+@@ -2,6 +2,7 @@
+ 
+ #include "llama-impl.h"
+ #include "llama-model.h"
++#include "llama-pelias-tier.h"
+ #include "llama-batch.h"
+ #include "llama-cparams.h"
+ #include "llama-sampler.h"
+@@ -2174,6 +2175,25 @@ ggml_tensor * llm_graph_context::build_moe_ffn(
+ 
+     cur = ggml_reshape_3d(ctx0, cur, n_embd, 1, n_tokens);
+ 
++    // pelias-tier: hot experts from a VRAM bank, the others from RAM. Only for the plain SwiGLU expert block without biases, scales,
++    // clamps or LoRA on the experts, only for small batches (bigger ones take the stock path that ggml can offload), and only when a
++    // hot-set file was given (PELIAS_HOT_SET). Otherwise this block is skipped and the stock code below runs unchanged.
++    if (!weight_before_ffn && type_op == LLM_FFN_SILU && n_tokens < pelias_tier_dual_max_tokens() &&
++        !gate_inp_b && !up_exps_b && !gate_exps_b && !down_exps_b && !gate_up_exps_b &&
++        !up_exps_s && !gate_exps_s && !down_exps_s &&
++        arch != LLM_ARCH_MISTRAL4 && !(il >= 0 && hparams.swiglu_clamp_exp[il] > 1e-6f)) {
++        if (const pelias_tier_layer * pt = pelias_tier_find(down_exps)) {
++            bool lora_on_experts = false;
++            for (const auto & lora : *loras) {
++                lora_on_experts = lora_on_experts || lora.first->get_weight(down_exps) || lora.first->get_weight(up_exps) ||
++                                  lora.first->get_weight(gate_exps) || lora.first->get_weight(gate_up_exps);
++            }
++            if (!lora_on_experts) {
++                return build_moe_tier(cur, selected_experts, weights, pt, il);
++            }
++        }
++    }
++
+     if (weight_before_ffn) {
+         // repeat cur to [n_embd, n_expert_used, n_tokens]
+         ggml_tensor * repeated = ggml_repeat_4d(ctx0, cur, n_embd, n_expert_used, n_tokens, 1);
+@@ -2376,6 +2396,88 @@ ggml_tensor * llm_graph_context::build_moe_ffn(
+     return moe_out;
+ }
+ 
++// pelias-tier: dual-branch expert block. Hot experts run from the VRAM bank (weights on the GPU), the others from the original tensors (weights in RAM).
++// Both branches use the router's choice unchanged; an expert that is not in a branch is turned into an id that makes that branch do no work:
++//   hot branch  : slot 0 of the bank is an all-zero expert, so a miss contributes exactly 0
++//   cold branch : id -1, which ggml-cpu skips and fills with zeros
++// For every (selected expert, token) exactly one branch holds the real result and the other holds exact zeros, so adding the two branch outputs
++// element by element loses nothing, and the rest of the block (weights, sum over the selected experts) is the stock code in the stock order:
++// the result is bit-identical to the stock path whenever the per-expert matrix products themselves are.
++ggml_tensor * llm_graph_context::build_moe_tier(
++         ggml_tensor * cur,
++         ggml_tensor * selected_experts,
++         ggml_tensor * weights,
++   const pelias_tier_layer * pt,
++                 int   il) const {
++    const int64_t n_embd_  = cur->ne[0];
++    const int64_t n_used   = selected_experts->ne[0];
++    const int64_t n_tok    = selected_experts->ne[1];
++    pelias_tier_note_dual_build(il, (int) n_tok);
++
++    // expert id -> id for each branch, by table lookup on a flat id list
++    ggml_tensor * sel = selected_experts;
++    if (!ggml_is_contiguous(sel)) {
++        sel = ggml_cont(ctx0, sel);
++    }
++    ggml_tensor * sel_flat = ggml_reshape_2d(ctx0, sel, n_used * n_tok, 1);
++
++    ggml_tensor * ids_hot  = ggml_reshape_2d(ctx0, ggml_get_rows(ctx0, pt->tab_hot,  sel_flat), n_used, n_tok);
++    ggml_tensor * ids_cold = ggml_reshape_2d(ctx0, ggml_get_rows(ctx0, pt->tab_cold, sel_flat), n_used, n_tok);
++    cb(ids_hot,  "pelias_ids_hot",  il);
++    cb(ids_cold, "pelias_ids_cold", il);
++
++    // one branch: up/gate (or the merged gate_up), SwiGLU, down  ->  [n_embd, n_used, n_tok], not yet weighted
++    auto branch = [&](ggml_tensor * w_up, ggml_tensor * w_gate, ggml_tensor * w_gate_up, ggml_tensor * w_down, ggml_tensor * ids, bool pin_cpu) {
++        // pelias-tier: the cold branch carries -1 ids that only the CPU kernel understands; never let the scheduler give it to the GPU
++        auto pin = [&](ggml_tensor * t) { if (pin_cpu && t && sched && backend_cpu) { ggml_backend_sched_set_tensor_backend(sched, t, backend_cpu); } return t; };
++        ggml_tensor * gate = nullptr;
++        ggml_tensor * up   = nullptr;
++        if (w_gate_up) {
++            ggml_tensor * gu = pin(build_lora_mm_id(w_gate_up, cur, ids));                        // [2*n_ff, n_used, n_tok]
++            const int64_t n_ff = gu->ne[0] / 2;
++            gate = ggml_view_3d(ctx0, gu, n_ff, gu->ne[1], gu->ne[2], gu->nb[1], gu->nb[2], 0);
++            up   = ggml_view_3d(ctx0, gu, n_ff, gu->ne[1], gu->ne[2], gu->nb[1], gu->nb[2], n_ff * gu->nb[0]);
++        } else {
++            up   = pin(build_lora_mm_id(w_up,   cur, ids));                                        // [n_ff, n_used, n_tok]
++            gate = pin(build_lora_mm_id(w_gate, cur, ids));
++        }
++        ggml_tensor * act = ggml_swiglu_split(ctx0, gate, up);
++        return pin(build_lora_mm_id(w_down, act, ids));                                            // [n_embd, n_used, n_tok]
++    };
++
++    // hot branch first (GPU), then the cold branch (CPU); the original tensors are the model's own
++    ggml_tensor * ex_hot = branch(pt->up, pt->gate, pt->gate_up, pt->down, ids_hot, false);
++    cb(ex_hot, "ffn_moe_hot_down", il);
++    ggml_build_forward_expand(gf, ex_hot);
++
++    ggml_tensor * ex_cold = branch(pt->orig_up, pt->orig_gate, pt->orig_gate_up, pt->orig_down, ids_cold, true);
++    cb(ex_cold, "ffn_moe_cold_down", il);
++    ggml_build_forward_expand(gf, ex_cold);
++
++    ggml_tensor * experts = ggml_add(ctx0, ex_hot, ex_cold);      // exact: one of the two is zero in every (expert, token) slot
++    cb(experts, "ffn_moe_down", il);
++    experts = ggml_mul(ctx0, experts, weights);
++    cb(experts, "ffn_moe_weighted", il);
++    ggml_build_forward_expand(gf, experts);
++
++    // sum over the selected experts, exactly as the stock code does it
++    const uint32_t n_used_il = hparams.n_expert_used(il);
++    ggml_tensor * moe_out = nullptr;
++    for (uint32_t i = 0; i < n_used_il; ++i) {
++        ggml_tensor * v = ggml_view_2d(ctx0, experts, n_embd_, n_tok, experts->nb[2], i * experts->nb[1]);
++        ggml_build_forward_expand(gf, v);
++        moe_out = moe_out ? ggml_add(ctx0, moe_out, v) : v;
++        if (i > 0) {
++            ggml_build_forward_expand(gf, moe_out);
++        }
++    }
++    if (n_used_il == 1) {
++        moe_out = ggml_cont(ctx0, moe_out);
++    }
++    cb(moe_out, "ffn_moe_out", il);
++    return moe_out;
++}
++
+ // input embeddings with optional lora
+ ggml_tensor * llm_graph_context::build_inp_embd(ggml_tensor * tok_embd) const {
+     const int64_t n_embd_inp = hparams.n_embd_inp();
+diff --git a/src/llama-graph.h b/src/llama-graph.h
+index 366eccbcd..072df94e4 100644
+--- a/src/llama-graph.h
++++ b/src/llama-graph.h
+@@ -94,6 +94,7 @@ struct llama_cross {
+ };
+ 
+ struct llm_graph_params;
++struct pelias_tier_layer;   // pelias-tier hot bank, see llama-pelias-tier.h
+ 
+ //
+ // llm_graph_input
+@@ -1162,6 +1163,15 @@ struct llm_graph_context {
+              ggml_tensor * down_exps_s = nullptr,
+              ggml_tensor * selected_experts_in = nullptr) const;
+ 
++    // pelias-tier: the tail of build_moe_ffn when a layer has a VRAM hot bank (see llama-pelias-tier.h).
++    //   cur [n_embd, 1, n_tokens], selected_experts [n_expert_used, n_tokens] I32, weights [1, n_expert_used, n_tokens] F32 (already normalised and scaled)
++    ggml_tensor * build_moe_tier(
++             ggml_tensor * cur,
++             ggml_tensor * selected_experts,
++             ggml_tensor * weights,
++       const pelias_tier_layer * pt,
++                     int   il) const;
++
+     //
+     // inputs
+     //
+diff --git a/src/llama-model.cpp b/src/llama-model.cpp
+index 97e0cee70..7ca17a0ae 100644
+--- a/src/llama-model.cpp
++++ b/src/llama-model.cpp
+@@ -1,4 +1,5 @@
+ #include "llama-model.h"
++#include "llama-pelias-tier.h"
+ 
+ #include "llama-arch.h"
+ #include "llama-ext.h"
+@@ -1287,6 +1288,7 @@ llama_model::llama_model(const llama_model_params & params) : params(params), pi
+ }
+ 
+ llama_model::~llama_model() {
++    pelias_tier_detach(this);   // pelias-tier: frees this model's hot banks (no-op unless PELIAS_HOT_SET is set)
+     for (auto * lora : loras) {
+         delete lora;
+     }
+diff --git a/src/llama.cpp b/src/llama.cpp
+index 9beb14841..8aa5e375f 100644
+--- a/src/llama.cpp
++++ b/src/llama.cpp
+@@ -10,6 +10,7 @@
+ #include "llama-model-loader.h"
+ #include "llama-model-saver.h"
+ #include "llama-model.h"
++#include "llama-pelias-tier.h"
+ 
+ #include "ggml.h"
+ #include "ggml-cpp.h"
+@@ -370,6 +371,11 @@ static std::pair<int, llama_model *> llama_model_load(struct gguf_context * meta
+             return {-2, nullptr};
+         }
+ 
++        // pelias-tier: copy the profile-chosen hot experts into a VRAM bank (no-op unless PELIAS_HOT_SET is set)
++        if (!fname.empty() && splits.empty()) {
++            pelias_tier_attach(*model, fname);
++        }
++
+         return {0, model_ptr.release()};
+     } catch (const std::exception & err) {
+         LLAMA_LOG_ERROR("%s: error loading model: %s\n", __func__, err.what());

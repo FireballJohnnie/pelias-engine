@@ -1,0 +1,94 @@
+{
+ "format": "pelias-5e",
+ "url": "http://127.0.0.1:8012",
+ "when": "2026-10-22 18:00:55",
+ "greedy": false,
+ "gen": 320,
+ "drafted": 2762,
+ "accepted": 962,
+ "acceptance": 0.34829833454018827,
+ "gen_tps_median": 50.669611100690744,
+ "per_prompt": [
+  {
+   "domain": "persona",
+   "prompt": "[text removed]",
+   "gen_tps": 48.677020496655054,
+   "tokens": 229,
+   "drafted": 363,
+   "accepted": 107,
+   "baseline_gen_tps": 40.632448237103546,
+   "baseline_drafted": 411
+  },
+  {
+   "domain": "persona",
+   "prompt": "[text removed]",
+   "gen_tps": 39.57038410284698,
+   "tokens": 168,
+   "drafted": 285,
+   "accepted": 72,
+   "baseline_gen_tps": 46.6081384206878,
+   "baseline_drafted": 339
+  },
+  {
+   "domain": "agent",
+   "prompt": "[text removed]",
+   "gen_tps": 44.686577341874084,
+   "tokens": 155,
+   "drafted": 261,
+   "accepted": 67,
+   "baseline_gen_tps": 46.04657281936587,
+   "baseline_drafted": 294
+  },
+  {
+   "domain": "agent",
+   "prompt": "[text removed]",
+   "gen_tps": 58.592767044342054,
+   "tokens": 320,
+   "drafted": 405,
+   "accepted": 183,
+   "baseline_gen_tps": 49.475781604904405,
+   "baseline_drafted": 453
+  },
+  {
+   "domain": "code",
+   "prompt": "[text removed]",
+   "gen_tps": 55.533106717870204,
+   "tokens": 276,
+   "drafted": 357,
+   "accepted": 156,
+   "baseline_gen_tps": 51.46833180972013,
+   "baseline_drafted": 455
+  },
+  {
+   "domain": "code",
+   "prompt": "[text removed]",
+   "gen_tps": 56.72054317130325,
+   "tokens": 237,
+   "drafted": 306,
+   "accepted": 134,
+   "baseline_gen_tps": 60.60365419136962,
+   "baseline_drafted": 366
+  },
+  {
+   "domain": "reasoning",
+   "prompt": "[text removed]",
+   "gen_tps": 52.662201704726435,
+   "tokens": 187,
+   "drafted": 270,
+   "accepted": 96,
+   "baseline_gen_tps": 61.66353714139932,
+   "baseline_drafted": 309
+  },
+  {
+   "domain": "reasoning",
+   "prompt": "[text removed]",
+   "gen_tps": 48.456103479148226,
+   "tokens": 320,
+   "drafted": 515,
+   "accepted": 147,
+   "baseline_gen_tps": 48.40268735554074,
+   "baseline_drafted": 435
+  }
+ ],
+ "baseline_valid": false
+}

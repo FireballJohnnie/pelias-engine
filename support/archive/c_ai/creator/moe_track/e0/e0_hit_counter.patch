@@ -1,0 +1,118 @@
+diff --git a/src/llama-context.cpp b/src/llama-context.cpp
+index 96b5464..b119842 100644
+--- a/src/llama-context.cpp
++++ b/src/llama-context.cpp
+@@ -9,6 +9,7 @@
+ #include "llama-memory.h"
+ #include "llama-mmap.h"
+ #include "llama-model.h"
++#include "llama-pelias-tier.h"
+ #include "llama-ext.h"
+ #include "llama-sampler.h"
+ #include "llama.h"
+@@ -140,6 +141,9 @@ llama_context::llama_context(
+ 
+     cparams.cb_eval           = params.cb_eval;
+     cparams.cb_eval_user_data = params.cb_eval_user_data;
++    if (pelias_tier_hits_enabled() && !params.cb_eval) {   // E0 measurement: live hit counter (PELIAS_TIER_HITS=1), counted runs are slower
++        cparams.cb_eval = pelias_tier_eval_cb;
++    }
+ 
+     cparams.ctx_other = nullptr;
+ 
+diff --git a/src/llama-pelias-tier.cpp b/src/llama-pelias-tier.cpp
+index 541c38f..72245f5 100755
+--- a/src/llama-pelias-tier.cpp
++++ b/src/llama-pelias-tier.cpp
+@@ -86,6 +86,10 @@ std::map<int, uint64_t>
+ std::unordered_map<const llama_model *, std::vector<std::unique_ptr<tier_bank>>> g_models;
+ std::unordered_map<const ggml_tensor *, const pelias_tier_layer *>               g_by_down;
+ 
++// E0 live hit counter (PELIAS_TIER_HITS=1): per layer, hits = selected experts found in the bank; "1" = single-token batches, "N" = batches of 2..31 tokens
++struct hit_acc { uint64_t hit1 = 0, tot1 = 0, hitN = 0, totN = 0; };
++std::map<int, hit_acc>                                                           g_hits;
++
+ }  // namespace
+ 
+ const pelias_tier_layer * pelias_tier_find(const ggml_tensor * down_exps) {
+@@ -97,6 +101,42 @@ const pelias_tier_layer * pelias_tier_find(const ggml_tensor * down_exps) {
+     return it == g_by_down.end() ? nullptr : it->second;
+ }
+ 
++bool pelias_tier_hits_enabled() {
++    static const bool on = pelias_tier_enabled() && env_long("PELIAS_TIER_HITS", 0) != 0;
++    return on;
++}
++
++// ask phase: true only for the cold-branch id tensors ("pelias_ids_cold-<layer>"); data phase: count the -1 entries (= experts held in the bank)
++bool pelias_tier_eval_cb(struct ggml_tensor * t, bool ask, void * /*user_data*/) {
++    if (std::strncmp(t->name, "pelias_ids_cold", 15) != 0) {
++        return ask ? false : true;
++    }
++    if (ask) {
++        return true;
++    }
++    int il = -1;
++    if (std::sscanf(t->name, "pelias_ids_cold-%d", &il) != 1 || il < 0 || t->type != GGML_TYPE_I32) {
++        return true;
++    }
++    const int64_t n = ggml_nelements(t);
++    std::vector<int32_t> ids((size_t) n);
++    ggml_backend_tensor_get(t, ids.data(), 0, (size_t) n * sizeof(int32_t));
++    uint64_t hit = 0;
++    for (const int32_t x : ids) {
++        hit += (x == -1) ? 1 : 0;
++    }
++    std::lock_guard<std::mutex> lk(g_mu);
++    hit_acc & a = g_hits[il];
++    if (t->ne[1] == 1) {
++        a.hit1 += hit;
++        a.tot1 += (uint64_t) n;
++    } else {
++        a.hitN += hit;
++        a.totN += (uint64_t) n;
++    }
++    return true;
++}
++
+ void pelias_tier_note_dual_build(int il, int n_tokens) {
+     (void) il;
+     std::lock_guard<std::mutex> lk(g_mu);
+@@ -120,7 +160,21 @@ void pelias_tier_detach(const llama_model * model) {
+                 std::fprintf(f, "%s\"%d\": %llu", first ? "" : ", ", kv.first, (unsigned long long) kv.second);
+                 first = false;
+             }
+-            std::fprintf(f, "}\n}\n");
++            std::fprintf(f, "}");
++            if (!g_hits.empty()) {
++                uint64_t h1 = 0, t1 = 0, hN = 0, tN = 0;
++                std::fprintf(f, ",\n  \"hit_counts_by_layer\": {");
++                bool firstl = true;
++                for (const auto & kv : g_hits) {
++                    std::fprintf(f, "%s\"%d\": [%llu, %llu, %llu, %llu]", firstl ? "" : ", ", kv.first, (unsigned long long) kv.second.hit1,
++                                 (unsigned long long) kv.second.tot1, (unsigned long long) kv.second.hitN, (unsigned long long) kv.second.totN);
++                    firstl = false;
++                    h1 += kv.second.hit1; t1 += kv.second.tot1; hN += kv.second.hitN; tN += kv.second.totN;
++                }
++                std::fprintf(f, "},\n  \"hit_counts_layout\": \"layer: [hits_1token, selected_1token, hits_2to31tokens, selected_2to31tokens]\"");
++                std::fprintf(f, ",\n  \"hit_rate_1token\": %.6f, \"hit_rate_2to31tokens\": %.6f", t1 ? (double) h1 / (double) t1 : -1.0, tN ? (double) hN / (double) tN : -1.0);
++            }
++            std::fprintf(f, "\n}\n");
+             std::fclose(f);
+         }
+     }
+diff --git a/src/llama-pelias-tier.h b/src/llama-pelias-tier.h
+index 136f8a5..51492b7 100755
+--- a/src/llama-pelias-tier.h
++++ b/src/llama-pelias-tier.h
+@@ -62,3 +62,10 @@ const pelias_tier_layer * pelias_tier_find(const ggml_tensor * down_exps);
+ // Diagnostics: called each time a dual-branch graph is built for a layer (graphs are rebuilt when the batch shape changes, not every token).
+ // If PELIAS_TIER_STATS_FILE is set, a small JSON file with the counts is written when the model is freed.
+ void pelias_tier_note_dual_build(int il, int n_tokens);
++
++// E0 measurement only: live hit counter. Active only when PELIAS_HOT_SET is set AND PELIAS_TIER_HITS=1.
++// It reads the cold-branch id tensor of every dual-branch layer (an id of -1 means the expert was in the bank = a hit) through ggml's eval callback.
++// The callback makes the scheduler stop after each of those nodes, so a counted run is SLOWER: use it to measure the hit rate, never the speed.
++// If PELIAS_TIER_STATS_FILE is set the counts are added to that JSON file when the model is freed.
++bool pelias_tier_hits_enabled();
++bool pelias_tier_eval_cb(struct ggml_tensor * t, bool ask, void * user_data);

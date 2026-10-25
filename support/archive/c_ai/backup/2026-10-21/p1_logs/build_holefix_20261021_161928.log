@@ -1,0 +1,138 @@
+Looking for a CUDA toolkit root (needs include/cuda_runtime.h, a libcudart and an nvcc):
+  /home/user/stuart_creator_engine/cuda_shim
+      cuda_runtime.h : /home/user/stuart_creator_engine/cuda_shim/include
+      libcudart      : /home/user/stuart_creator_engine/cuda_shim/lib64/libcudart.so
+      nvcc           : /home/user/stuart_creator_engine/cuda_shim/bin/nvcc
+  /usr/local/cuda
+      cuda_runtime.h : /usr/local/cuda/include
+      libcudart      : /usr/local/cuda/lib64/libcudart.so
+      nvcc           : /usr/local/cuda/bin/nvcc
+  /usr
+      cuda_runtime.h : none
+      libcudart      : none
+      nvcc           : /usr/bin/nvcc
+  /home/user/stuart_creator_engine/venv/lib/python3.12/site-packages/nvidia/cu13
+      cuda_runtime.h : /home/user/stuart_creator_engine/venv/lib/python3.12/site-packages/nvidia/cu13/include
+      libcudart      : /home/user/stuart_creator_engine/venv/lib/python3.12/site-packages/nvidia/cu13/lib/libcudart_static.a
+      nvcc           : none
+  /home/user/stuart_creator_engine/venv/lib/python3.12/site-packages/nvidia/cuda_runtime
+      cuda_runtime.h : none
+      libcudart      : none
+      nvcc           : none
+  /home/user/stuart_creator_engine/venv/lib/python3.12/site-packages/nvidia/cuda_nvcc
+      cuda_runtime.h : none
+      libcudart      : none
+      nvcc           : none
+
+Using CUDA root: /home/user/stuart_creator_engine/cuda_shim   (nvcc: /home/user/stuart_creator_engine/cuda_shim/bin/nvcc)
+Configure : cmake --fresh -S /home/user/llama-pelias-tier -B /home/user/llama-pelias-tier/build-wsl -DGGML_CUDA=ON -DGGML_CUDA_NCCL=OFF -DCMAKE_CUDA_ARCHITECTURES=89 -DCMAKE_BUILD_TYPE=Release -DCUDAToolkit_ROOT=/home/user/stuart_creator_engine/cuda_shim -DCMAKE_CUDA_COMPILER=/home/user/stuart_creator_engine/cuda_shim/bin/nvcc
+Build     : cmake --build /home/user/llama-pelias-tier/build-wsl -j 8 --target llama-server llama-quantize llama-perplexity
+-- The C compiler identification is GNU 15.2.0
+-- The CXX compiler identification is GNU 15.2.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- llama.cpp version: 0.5.0-dev
+CMAKE_BUILD_TYPE=Release
+-- Found Git: /usr/bin/git (found version "2.53.0")
+-- The ASM compiler identification is GNU
+-- Found assembler: /usr/bin/cc
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE
+-- ccache found, compilation results will be cached. Disable with GGML_CCACHE=OFF.
+-- CMAKE_SYSTEM_PROCESSOR: x86_64
+-- GGML_SYSTEM_ARCH: x86
+-- Found OpenMP_C: -fopenmp (found version "4.5")
+-- Found OpenMP_CXX: -fopenmp (found version "4.5")
+-- Found OpenMP: TRUE (found version "4.5")
+-- Including CPU backend
+-- x86 detected
+-- Adding CPU backend variant ggml-cpu: -march=native 
+-- Found CUDAToolkit: /home/user/stuart_creator_engine/cuda_shim/include;/home/user/stuart_creator_engine/cuda_shim/include/cccl (found version "13.0.88")
+-- CUDA Toolkit found
+-- The CUDA compiler identification is NVIDIA 13.0.88 with host compiler GNU 15.2.0
+-- Detecting CUDA compiler ABI info
+-- Detecting CUDA compiler ABI info - done
+-- Check for working CUDA compiler: /home/user/stuart_creator_engine/cuda_shim/bin/nvcc - skipped
+-- Detecting CUDA compile features
+-- Detecting CUDA compile features - done
+-- Using CMAKE_CUDA_ARCHITECTURES=89 CMAKE_CUDA_ARCHITECTURES_NATIVE=89-real
+-- FlashAttention K-V type combinations: f16-f16;q4_0-q4_0;q8_0-q8_0;bf16-bf16
+-- CUDA host compiler is GNU 15.2.0
+-- Including CUDA backend
+-- ggml version: 0.25.3
+-- ggml commit:  2ca15f540-dirty
+-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.5.5")
+-- Performing Test OPENSSL_VERSION_SUPPORTED
+-- Performing Test OPENSSL_VERSION_SUPPORTED - Success
+-- OpenSSL found: 3.5.5
+-- Generating embedded license file for target: llama-app
+-- Configuring done (10.8s)
+-- Generating done (0.3s)
+-- Build files have been written to: /home/user/llama-pelias-tier/build-wsl
+[  0%] Provisioning UI assets
+[  1%] Built target llama-common-base
+[  3%] Built target vendor-hash
+[  3%] Built target cpp-httplib
+-- UI: HF stamp matches 'ggml-org/llama-ui|b11399', skipping HF fetch
+[  6%] Built target ggml-base
+-- UI: assets unchanged, skipping embedding
+[  6%] Built target llama-ui-assets
+[  7%] Built target llama-ui
+[ 12%] Built target ggml-cpu
+[ 12%] Building CUDA object ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/mmq.cu.o
+[ 12%] Building CUDA object ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/quantize.cu.o
+[ 14%] Linking CUDA shared library ../../../bin/libggml-cuda.so
+[ 53%] Built target ggml-cuda
+[ 53%] Linking CXX shared library ../../bin/libggml.so
+[ 53%] Built target ggml
+[ 55%] Linking CXX shared library ../bin/libllama.so
+[ 66%] Built target llama
+[ 66%] Linking CXX shared library ../../bin/libmtmd.so
+[ 66%] Linking CXX shared library ../bin/libllama-common.so
+[ 80%] Built target mtmd
+[ 95%] Built target llama-common
+[ 98%] Built target server-context
+[ 98%] Linking CXX shared library ../../bin/libllama-server-impl.so
+[ 98%] Built target llama-server-impl
+[100%] Linking CXX executable ../../bin/llama-server
+[100%] Built target llama-server
+[  2%] Built target llama-common-base
+[  6%] Built target ggml-base
+[  6%] Built target cpp-httplib
+[ 12%] Built target ggml-cpu
+[ 64%] Built target ggml-cuda
+[ 64%] Built target ggml
+[ 80%] Built target llama
+[ 98%] Built target llama-common
+[ 98%] Linking CXX shared library ../../bin/libllama-quantize-impl.so
+[ 98%] Built target llama-quantize-impl
+[ 98%] Linking CXX executable ../../bin/llama-quantize
+[100%] Built target llama-quantize
+[  2%] Built target llama-common-base
+[  2%] Built target cpp-httplib
+[  6%] Built target ggml-base
+[ 12%] Built target ggml-cpu
+[ 64%] Built target ggml-cuda
+[ 64%] Built target ggml
+[ 80%] Built target llama
+[ 98%] Built target llama-common
+[ 98%] Linking CXX shared library ../../bin/libllama-perplexity-impl.so
+[ 98%] Built target llama-perplexity-impl
+[ 98%] Linking CXX executable ../../bin/llama-perplexity
+[100%] Built target llama-perplexity
+
+Built. Checking the three programs:
+  ok   /home/user/llama-pelias-tier/build-wsl/bin/llama-server   (libraries not found: 0)
+  ok   /home/user/llama-pelias-tier/build-wsl/bin/llama-quantize   (libraries not found: 0)
+  ok   /home/user/llama-pelias-tier/build-wsl/bin/llama-perplexity   (libraries not found: 0)
+
+Next:  $PY stuart_pelias0.2.py export --adapter <the phase-2 run>/final

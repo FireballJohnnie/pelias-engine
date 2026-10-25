@@ -1,0 +1,3 @@
+[START] P-H13  running a GPU kernel for about 30 s total (stage 30s) - the display may flicker or the driver may reset
+[PASS ] P-H13  stage 30s: wall 30.00 s (asked 30), completed=yes, device usable after=yes
+        -> C:\AI\cl-sndbx-bkp\stuart-creator\2026-10-23\probe_results\windows\20261024_015102_tdr\h13_30s.json

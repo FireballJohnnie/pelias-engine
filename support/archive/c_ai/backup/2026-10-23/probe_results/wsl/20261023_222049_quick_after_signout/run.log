@@ -1,0 +1,32 @@
+run: 20261023_222049_quick_after_signout   machine_state_sha: 11513da24179d73f
+GPU temperature now: 33 C   |   free host memory: 45.8 GiB
+Close browsers, games, video and any other GPU or LLM program before this run.
+Note: PELIAS_GGUF is not set, so the model-file read test (m4) will be skipped.
+
+=== selftest  (22:20:50, timeout 300s)
+  [ok  ] cuda_init - NVIDIA GeForce RTX 4070, sm_89, 46 SMs, 11.99 GiB
+  [ok  ] empty_kernel
+  [ok  ] mma_bf16_fp32acc_m16n8k16 - 58.6 T(FL)OPS in a 19 ms burst (not a benchmark)
+  [ok  ] mma_fp16_fp32acc_m16n8k16 - 58.6 T(FL)OPS in a 19 ms burst (not a benchmark)
+  [ok  ] mma_int8_int32acc_m16n8k32 - 261.4 T(FL)OPS in a 19 ms burst (not a benchmark)
+  [ok  ] mma_fp8_e4m3_fp32acc_m16n8k32 - 126.2 T(FL)OPS in a 20 ms burst (not a benchmark)
+  [ok  ] canary_gemm - cpu-check error/tolerance 0.006 (must be <= 1), two runs identical: yes
+  [ok  ] streaming_kernels - write pattern ok, copy ok
+  [ok  ] spin_kernel - asked 100 ms, took 100 ms
+  [ok  ] graph_replay - counter 30 (expected 30)
+  [ok  ] pinned_roundtrip - 64 MiB host->device->host compared byte for byte
+  [ok  ] shared_memory_optin - 99 KiB dynamic shared memory per block: ok
+  [ok  ] cpu_checksum - AVX2 sum equals the plain 64-bit word sum
+  [ok  ] nvml - NVIDIA GeForce RTX 4070, driver 617.42
+[PASS ] SELFTEST all checks passed
+        -> /home/user/pelias_probe_results/20261023_222049_quick_after_signout/selftest_after_signout.json
+
+=== h8  (22:20:51, timeout 120s)
+[FAIL ] P-H8   CUDA free 10.83 of 11.99 GiB (need >= 11.2)
+        -> /home/user/pelias_probe_results/20261023_222049_quick_after_signout/h8_vram_after_signout.json
+
+=== h12  (22:20:51, timeout 300s)
+[PASS ] P-H12  all-three overlap: tensor many-short default 0.46 best 0.91 (compute_first_interleaved_flushed); tensor one-long default 0.00; vram-read default 0.40; copy engines reported 5; best H2D+D2H 0.83
+        -> /home/user/pelias_probe_results/20261023_222049_quick_after_signout/h12_overlap_after_signout.json
+
+================ summary (20261023_222049_quick_after_signout)

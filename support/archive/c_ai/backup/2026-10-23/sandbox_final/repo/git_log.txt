@@ -1,0 +1,11 @@
+34f744f 2026-10-23 01:35:30 -0400 benchmarks: Windows-native run of the tier build, 2026-10-23 (two launches, results ledger section 9.4)
+42e3496 2026-10-23 00:46:07 -0400 benchmarks: E0 results 2026-10-22 (live hit rate, per-token timeline, KL rerun, machine state); ledger and README updated
+4fcaa8a 2026-10-22 22:41:22 -0400 docs: record author rulings on H6, VRAM ceiling and loose patches
+7d7a5e1 2026-10-22 22:37:13 -0400 benchmarks: raw P1 sweep results and logs, 2026-10-22 (results, terminal logs, run order; account name redacted)
+c07b491 2026-10-22 21:21:07 -0400 docs: record author ruling on the 7.4 ms split (re-derive at E0)
+9fa65ed 2026-10-22 21:15:05 -0400 Blueprint: correct the ReBAR note (nvidia-smi in WSL2 reports a 16 GiB BAR1); docs only
+adc5a14 2026-10-22 17:59:03 -0400 Blueprint: rename model/arch_qwen3_moe.cpp to model/arch_moe.cpp (docs only)
+4cca634 2026-10-22 17:58:13 -0400 Add Pelias-Engine (Linux) build blueprint: phases E0-E13, scaffolding, gates (docs only)
+7c57f7f 2026-10-22 14:37:23 -0400 Correct launch settings for the 7.5 GiB bypass-9 prompt-reading launches
+068593a 2026-10-22 14:32:12 -0400 Stage 2: crash fixed, accuracy controls, bank-size and stock sweeps, patches
+d2c7c02 2026-10-21 17:14:13 -0400 Add stage-2 results, maintainer line and shorter AI note (docs only)

@@ -256,6 +256,23 @@ The detailed list, with the checks required before a release, is in `docs/STATUS
 
 *This is the target layout. Until release the files live in the author's development folder and are copied here in stages; apart from this README and the LICENSE, nothing in this layout is in the repository yet.*
 
+*Update 2026-10-25: the sentence above is out of date. The repository now holds the documents, ledgers and patches listed in 9.0. The source folders of the target layout below (`src/`, `tools/`, `tests/`, `scripts/`) are still not in it, and the engine is on hold.*
+
+### 9.0 What is in the repository today (2026-10-25)
+
+| Path | What it is |
+|---|---|
+| `README.md`, `LICENSE`, `CITATIONS.md` | This file, the Apache-2.0 text, and the verified citations |
+| `docs/PELIAS_ENGINE_LINUX_BLUEPRINT.md` | The engine plan (14 gated phases E0 to E13), synchronized with the author's rulings of 2026-10-24 |
+| `docs/PELIAS_ENGINE_MASTER_SCAFFOLD.md` | The verified inventory of every file, the scaffold target tree, the phase and gate map, and the open gaps |
+| `docs/PELIAS_ENGINE_LINEAGE.md` | How the numbers and the plan came to be what they are (old figure, new figure, reason, evidence) |
+| `docs/spec/` | The proprietary runtime and server specification and its companion records (open decisions, probe registry, research-update audit, Wave 0 and ceiling, trainer contract, synchronization register) |
+| `benchmarks/` | `RESULTS.md` (claim-to-log ledger) and `raw/` (redacted logs of the runs) |
+| `patches/stage2-tier-cuda/` | The loose patches on llama.cpp 2ca15f540 (CUDA signed-id fix and diagnostics, cold-branch pinning) |
+| `support/` | The current Windows-native tier build (`tier_build/`), redacted copies of the working folders (`archive/`), and `MANIFEST.tsv`; see `support/README.md` |
+
+The engine is **held**; nothing in this table is engine source code. The only code is the llama.cpp patches (a measuring vehicle and test oracle, not the product) and the measurement programs in `support/archive/`.
+
 ```
 pelias-engine/
   README.md  LICENSE  CITATIONS.md  NOTICE  THIRD_PARTY_NOTICES.md  CONTRIBUTING.md  SECURITY.md  CHANGELOG.md  CITATION.cff

@@ -1,0 +1,13 @@
+
+====================================================================================================
+SPEED   label=A-mount-q8_0   file=test-model-Q4_K_M.gguf   context 131072   sampling temp 1.0 top-p 0.95 top-k 20
+note: Q4_K_M from /mnt/c, KV q8_0, ctx 131072, ub 2048, n-cpu-moe 28
+warm-up requests (not counted): 42.0, 40.0 tokens/s
+GPU memory in use (whole card, includes the desktop): before the first request 10.3 GiB, highest seen 10.4 GiB, of 12.0 GiB
+
+depth      prompt tok     prompt tok/s     wait for 1st token generation tok/s (median, range)   reps
+short              61             76.8                  0.8 s            41.2  (41.0-41.5)    3/3
+4000             4027           1188.3                  3.4 s            40.7  (40.0-40.9)    3/3
+12000           12014           1162.3                 10.4 s            39.7  (39.6-40.0)    3/3
+
+Read it as: generation tok/s is how fast the answer streams; prompt tok/s and the wait for the first token are what a client with a long prompt feels.

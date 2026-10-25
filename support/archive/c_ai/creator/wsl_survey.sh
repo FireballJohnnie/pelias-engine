@@ -1,0 +1,457 @@
+#!/usr/bin/env bash
+# wsl_survey.sh - READ-ONLY survey of this WSL install. Changes nothing, installs nothing, deletes nothing.
+#
+# Run inside WSL as your normal user (not sudo):
+#     bash <project>/wsl_survey.sh
+#
+# It writes a timestamped folder into <project>\logs\ so Claude can read it.
+# Secrets: environment variables are filtered, startup files and pip config are scanned with
+# secret-looking lines removed, and shell history / token files / datasets / weights are never opened.
+#
+# Optional switches (all off by default):
+#     SINCE=2026-10-12   how far back to look for crash events and recent files
+#     PROBES=1           ALSO import torch/unsloth/etc. and run small GPU tests (only after the venv is built)
+#     PIN_GIB=8          with PROBES=1, also test allocating this much page-locked RAM
+
+set -u
+CREATOR=${CREATOR:-<project>}
+ENGINE=${ENGINE:-/home/user/stuart_creator_engine}
+VENV=${VENV:-$ENGINE/venv}
+PY=${PY:-$VENV/bin/python}
+SP=${SP:-$VENV/lib/python3.12/site-packages}
+SINCE=${SINCE:-2026-10-14}
+PROBES=${PROBES:-0}
+PIN_GIB=${PIN_GIB:-0}
+OUT=${OUT:-$CREATOR/logs/survey_$(date +%Y%m%d_%H%M%S)}
+PF='%M %u %8s %TY-%Tm-%Td %TH:%TM %p -> %l\n'
+export CREATOR ENGINE VENV PY SP SINCE PROBES PIN_GIB OUT PF
+
+mkdir -p "$OUT" 2>/dev/null || { echo "cannot create $OUT" >&2; exit 1; }
+
+# ---------------------------------------------------------------- helpers
+redact() { sed -E 's#(://)[^/@[:space:]]+@#\1***@#g' | grep -v -i -E 'token|secret|passw|api[_-]?key|credential'; }
+
+sec() { # sec <outfile> <timeout-seconds> <function-name>
+  local f=$1 t=$2 fn=$3
+  printf '[..] %s\n' "$f"
+  { printf '### %s   (%s)\n\n' "$f" "$(date -Is)"; timeout "$t" bash -c "$fn" 2>&1; printf '\n### exit=%s  (124 = timed out)\n' "$?"; } > "$OUT/$f"
+}
+
+# ---------------------------------------------------------------- 01 system
+s_system() {
+  date -Is; echo
+  head -6 /etc/os-release; echo
+  uname -a; cat /proc/version; echo
+  echo "user: $(id -un) (uid $(id -u))   home: $HOME   shell: $SHELL"
+  echo; echo "--- /etc/wsl.conf ---"; cat /etc/wsl.conf 2>&1
+  echo; echo "--- cpu / memory ---"; lscpu | grep -E 'Model name|^CPU\(s\)|Thread|Core'; free -h
+  echo; echo "--- disk ---"; df -h / /tmp /mnt/c /mnt/d 2>&1
+  echo; echo "--- mounts that matter ---"; mount | grep -E ' / | /mnt/| /usr/lib/wsl' | cut -c1-200
+  echo; echo "--- uptime / boots ---"; uptime; who -b; last -x reboot 2>/dev/null | head -15
+}
+
+# ---------------------------------------------------------------- 02 env and paths
+s_env() {
+  echo "--- PATH (in search order) ---"; echo "$PATH" | tr ':' '\n' | nl
+  echo; echo "--- LD_LIBRARY_PATH ---"; echo "${LD_LIBRARY_PATH:-<unset>}" | tr ':' '\n'
+  echo; echo "--- relevant variables (secrets are filtered out) ---"
+  env | grep -E '^(CUDA|NVIDIA|LD_LIBRARY_PATH|LD_PRELOAD|PYTHON|VIRTUAL_ENV|CONDA|PYTORCH_|TORCH_|UNSLOTH_|TRITON_|STUART_|HF_HOME|HF_HUB_|HF_DATASETS|TRANSFORMERS_|TMPDIR|XDG_|MAX_JOBS|CXXFLAGS|CFLAGS|NVCC|CC=|CXX=|WSL|PIP_|UV_)' | redact | sort
+  echo; echo "--- where each tool resolves (every match, in PATH order) ---"
+  for t in python python3 python3.12 python3.13 pip pip3 uv conda mamba pyenv nvcc nvidia-smi gcc g++ cc c++ cmake ninja make git rsync ccache; do
+    printf '%-11s' "$t"; type -a "$t" 2>/dev/null | awk '{printf "%s ; ", $NF}'; echo
+  done
+  echo; echo "--- startup files: lines that touch CUDA / paths / python (secret-looking lines removed) ---"
+  for f in ~/.bashrc ~/.profile ~/.bash_profile ~/.bash_aliases /etc/environment /etc/profile.d/*.sh; do
+    [ -f "$f" ] || continue
+    echo "== $f"; grep -n -E 'CUDA|LD_LIBRARY|PATH=|conda|venv|activate|pyenv|nvidia|torch|unsloth|STUART|export ' "$f" | redact | cut -c1-240
+  done
+}
+
+# ---------------------------------------------------------------- 03 CUDA everything
+s_cuda() {
+  echo "=== /usr/local ==="; ls -la --time-style=long-iso /usr/local
+  echo; echo "=== CUDA directories / symlinks ==="
+  ls -ld /usr/local/cuda* /opt/cuda* /usr/cuda* 2>/dev/null || echo "(none)"
+  [ -e /usr/local/cuda ] && echo "/usr/local/cuda resolves to: $(readlink -f /usr/local/cuda)"
+  echo; echo "=== /etc/alternatives entries mentioning cuda/nvidia ==="; ls -la /etc/alternatives 2>/dev/null | grep -i -E 'cuda|nvcc|nvidia' || echo "(none)"
+  echo; echo "=== dpkg: CUDA / NVIDIA / cuDNN / NCCL packages ==="
+  dpkg -l 2>/dev/null | grep -i -E 'cuda|nvidia|cudnn|nccl|cublas|cusparse|cusolver|cufft|curand|cufile|nvjitlink|nvrtc|nvvm|nvtx|cupti|tensorrt|libnv' | awk '{printf "%-3s %-50s %s\n", $1, $2, $3}'
+  echo; echo "=== apt sources that mention nvidia/cuda ==="
+  grep -r -i -l -E 'nvidia|cuda' /etc/apt/sources.list /etc/apt/sources.list.d 2>/dev/null || echo "(none)"
+  ls -la /etc/apt/sources.list.d /etc/apt/preferences.d 2>&1
+  echo "held packages:"; apt-mark showhold 2>/dev/null
+  echo; echo "=== linker config (directories searched system-wide) ==="
+  cat /etc/ld.so.conf 2>/dev/null; for f in /etc/ld.so.conf.d/*; do echo "-- $f"; cat "$f"; done
+  echo; echo "=== WSL-provided driver libraries (must be the only libcuda) ==="
+  ls -la --time-style=long-iso /usr/lib/wsl/lib 2>&1 | head -40
+  echo; echo "=== every nvcc / libcuda / libcudart / libcublas / libcudnn / libnvrtc / libnccl on the Linux filesystem ==="
+  find / -xdev \( -name 'nvcc' -o -name 'libcuda.so*' -o -name 'libcudart.so*' -o -name 'libcublas.so*' -o -name 'libcublasLt.so*' -o -name 'libcudnn.so*' -o -name 'libnvrtc.so*' -o -name 'libnccl.so*' -o -name 'libcusparse.so*' -o -name 'libnvJitLink.so*' \) -printf '%p -> %l  (%s bytes)\n' 2>/dev/null | sort
+  echo; echo "=== version reported by every nvcc ==="
+  find / -xdev -name nvcc \( -type f -o -type l \) 2>/dev/null | while read -r n; do echo "== $n"; "$n" --version 2>&1 | tail -2; done
+  echo; echo "=== the nvcc shim folder ==="
+  ls -laR --time-style=long-iso "$ENGINE/cuda_shim" 2>&1 | head -60
+  [ -f "$ENGINE/cuda_shim/bin/nvcc" ] && { echo "--- $ENGINE/cuda_shim/bin/nvcc ---"; head -40 "$ENGINE/cuda_shim/bin/nvcc"; }
+  echo; echo "=== nvidia-smi (header) ==="; nvidia-smi 2>&1 | head -12
+}
+
+# ---------------------------------------------------------------- 04 python everything
+s_python() {
+  echo "=== system pythons ==="; ls -la /usr/bin/python* /usr/local/bin/python* 2>/dev/null
+  update-alternatives --list python3 2>&1 | head
+  dpkg -l 2>/dev/null | grep -E '^ii +(python3(\.[0-9]+)?(-dev|-venv|-pip|-full)?|python3-distutils|python3-setuptools) ' | awk '{printf "%-40s %s\n", $2, $3}'
+  echo; echo "=== every virtualenv on the Linux filesystem (pyvenv.cfg) ==="
+  find / -xdev -name pyvenv.cfg -not -path '*/site-packages/*' 2>/dev/null | while read -r f; do echo "== $f"; cat "$f"; echo "   size: $(du -sh "$(dirname "$f")" 2>/dev/null | cut -f1)"; done
+  echo; echo "=== venvs on the Windows drives (created from WSL) ==="
+  timeout 120 find /mnt/c/AI <project> /mnt/d/AI -maxdepth 5 -name pyvenv.cfg 2>/dev/null
+  echo; echo "=== conda / pyenv / uv / pipx ==="
+  found=$(ls -d ~/miniconda3 ~/anaconda3 ~/mambaforge ~/miniforge3 ~/.conda ~/.pyenv ~/.local/share/uv ~/.local/pipx ~/.cache/uv 2>/dev/null)
+  [ -n "$found" ] && echo "$found" || echo "(none of those exist)"
+  echo "~/.local/bin:"; ls -la ~/.local/bin 2>/dev/null
+  echo "user-site packages (~/.local/lib/python*/site-packages):"; ls -1 ~/.local/lib/python*/site-packages 2>/dev/null | head -80
+  echo "apt-installed python libraries (/usr/lib/python3/dist-packages):"; ls -1 /usr/lib/python3/dist-packages 2>/dev/null | grep -v '^__pycache__$' | head -80
+  echo; echo "=== pip configuration (credentials in URLs masked) ==="
+  cat /etc/pip.conf ~/.pip/pip.conf ~/.config/pip/pip.conf 2>/dev/null | redact
+  if [ -x "$PY" ]; then "$PY" -m pip config list 2>&1 | redact; fi
+}
+
+# ---------------------------------------------------------------- 05 main venv (metadata only, nothing imported)
+s_venv() {
+  if [ ! -d "$VENV" ]; then echo "venv not found at $VENV -> setup_stuart_venv.py has not been run yet (expected at this stage)"; return; fi
+  echo "=== $VENV ==="; cat "$VENV/pyvenv.cfg" 2>&1
+  echo; echo "python: $("$PY" --version 2>&1)   pip: $("$PY" -m pip --version 2>&1)"
+  echo; echo "=== installed distributions (folder names in site-packages) ==="
+  ls -1 "$SP" 2>/dev/null | grep -E '\.dist-info$|\.egg-info$|\.egg-link$|\.pth$' | sed -E 's/\.dist-info$//'
+  echo; echo "=== pip list -v (version, Location, installer) ==="; "$PY" -m pip list -v 2>&1 | head -400
+  echo; echo "=== pip check (pip's own dependency-conflict report) ==="; "$PY" -m pip check 2>&1
+  echo; echo "=== torch/version.py (read as text; nothing imported) ==="; head -12 "$SP/torch/version.py" 2>&1
+  echo; echo "=== NVIDIA / CUDA wheels inside the venv ==="
+  ls -1 "$SP" 2>/dev/null | grep -i -E '^(nvidia|cuda|cudnn)'
+  echo "--- $SP/nvidia ---"; ls -1 "$SP"/nvidia 2>/dev/null
+}
+
+# ---------------------------------------------------------------- 06 duplicate package metadata
+s_dupes() {
+  for d in "$SP" ~/.local/lib/python*/site-packages /usr/lib/python3/dist-packages /usr/local/lib/python3*/dist-packages; do
+    [ -d "$d" ] || continue
+    echo "== $d"
+    ls -1 "$d" | grep -E '\.dist-info$' | sed -E 's/-[0-9][^-]*\.dist-info$//' | tr 'A-Z_' 'a-z-' | sort | uniq -d | while read -r p; do
+      echo "   DUPLICATE: $p"; ls -1d "$d"/*.dist-info | grep -i -E "/${p//-/[-_]}-[0-9]" | sed 's/^/        /'
+    done
+  done
+  echo "(no DUPLICATE lines above = no package is installed twice in the same folder)"
+}
+
+# ---------------------------------------------------------------- 07 toolchain + apt
+s_toolchain() {
+  echo "=== compilers / build tools ==="
+  for t in gcc g++ cc c++ cmake ninja make git rsync ccache; do printf '%-8s' "$t"; ( "$t" --version 2>&1 | head -1 ) || echo; done
+  ls /usr/bin/gcc* /usr/bin/g++* /usr/bin/clang* 2>/dev/null | tr '\n' ' '; echo
+  update-alternatives --display gcc 2>&1 | head -20
+  echo; echo "=== packages YOU asked apt to install (apt-mark showmanual) ==="; apt-mark showmanual 2>/dev/null | sort
+  echo; echo "=== apt installs/removals since $SINCE (dpkg.log) ==="
+  zcat -f /var/log/dpkg.log* 2>/dev/null | awk -v s="$SINCE" '$1 >= s && ($3=="install" || $3=="remove" || $3=="purge" || $3=="upgrade") {print $1, $2, $3, $4, $5, $6}' | sort | tail -400
+  echo; echo "=== apt history (commands) since $SINCE ==="
+  zcat -f /var/log/apt/history.log* 2>/dev/null | grep -E '^(Start-Date|Commandline|Install|Remove|Purge):' | cut -c1-300 | tail -150
+}
+
+# ---------------------------------------------------------------- 08 conflict report
+s_conflicts() {
+  flag() { printf 'FLAG  %s\n' "$*"; }
+  ok()   { printf 'ok    %s\n' "$*"; }
+  note() { printf 'note  %s\n' "$*"; }
+  echo "Legend: FLAG = can cause the kind of failures you described; note = worth knowing; ok = fine"
+  echo; echo "--- CUDA toolkits ---"
+  dirs=$(ls -d /usr/local/cuda-[0-9]* 2>/dev/null | tr '\n' ' ')
+  c=$(echo $dirs | wc -w)
+  if [ "$c" -gt 1 ]; then flag "several toolkit directories in /usr/local: $dirs"; else ok "toolkit directories in /usr/local: ${dirs:-none}"; fi
+  if [ -e /usr/local/cuda ]; then note "/usr/local/cuda resolves to $(readlink -f /usr/local/cuda)"; else ok "no /usr/local/cuda symlink"; fi
+  vers=$(dpkg -l 2>/dev/null | awk '/^ii/ {print $2}' | grep -E '^cuda-.*-[0-9]+-[0-9]+$' | sed -E 's/.*-([0-9]+-[0-9]+)$/\1/' | sort -u | tr '\n' ' ')
+  c=$(echo $vers | wc -w)
+  if [ "$c" -gt 1 ]; then flag "apt holds CUDA packages for more than one version at once: $vers"; else ok "apt CUDA package version(s): ${vers:-none}"; fi
+  rels=$(find / -xdev -name nvcc \( -type f -o -type l \) 2>/dev/null | while read -r n; do printf '%s = %s\n' "$n" "$("$n" --version 2>/dev/null | sed -n 's/.*release \([0-9.]*\).*/\1/p')"; done)
+  [ -n "$rels" ] && echo "$rels" | sed 's/^/          /'
+  u=$(echo "$rels" | sed 's/.* = //' | grep -v '^$' | sort -u | wc -l)
+  if [ "$u" -gt 1 ]; then flag "nvcc exists in $u different CUDA releases"; else ok "distinct nvcc releases found: $u"; fi
+
+  echo; echo "--- Linux NVIDIA driver pieces (should NOT exist inside WSL) ---"
+  drv=$(dpkg -l 2>/dev/null | awk '/^ii/ && $2 ~ /^(nvidia-driver|nvidia-dkms|nvidia-kernel|nvidia-utils|libnvidia-(compute|gl|extra|decode|encode|cfg|common|fbc|ifr)|xserver-xorg-video-nvidia|cuda-drivers|cuda-compat)/ {print $2}' | tr '\n' ' ')
+  if [ -n "$drv" ]; then flag "Linux driver packages installed inside WSL (can shadow the Windows driver's libcuda): $drv"; else ok "no Linux NVIDIA driver packages inside WSL"; fi
+  extra=$(find / -xdev -name 'libcuda.so*' 2>/dev/null | grep -v -E '^/usr/lib/wsl/|/stubs/' | tr '\n' ' ')
+  if [ -n "$extra" ]; then flag "libcuda found outside /usr/lib/wsl/lib: $extra"; else ok "libcuda only comes from /usr/lib/wsl/lib"; fi
+
+  echo; echo "--- search paths ---"
+  pc=$(echo "$PATH" | tr ':' '\n' | grep -i cuda)
+  n=$(echo "$pc" | grep -c .)
+  if [ "$n" -gt 1 ]; then flag "PATH has $n CUDA entries: $(echo $pc)"; elif [ "$n" -eq 1 ]; then note "PATH has one CUDA entry: $pc"; else ok "PATH has no CUDA entries"; fi
+  ld=$(echo "${LD_LIBRARY_PATH:-}" | tr ':' '\n' | grep -i -E 'cuda|nvidia')
+  if [ -n "$ld" ]; then note "LD_LIBRARY_PATH contains: $(echo $ld) (searched BEFORE the libraries inside the venv, so the CUDA major must match torch's)"; else ok "LD_LIBRARY_PATH has no CUDA/NVIDIA dirs"; fi
+  gl=$(cat /etc/ld.so.conf.d/* 2>/dev/null | grep -i -E 'cuda|nvidia' | grep -v '/usr/lib/wsl')
+  if [ -n "$gl" ]; then note "system-wide linker config lists: $(echo $gl)"; else ok "no CUDA dirs in the system-wide linker config"; fi
+
+  echo; echo "--- main venv ($VENV) ---"
+  if [ ! -d "$VENV" ]; then
+    note "venv not created yet"
+  else
+    m12=$(ls -1 "$SP" 2>/dev/null | grep -E 'dist-info$' | grep -i -E 'cu12|^cuda_(toolkit|bindings)-12|^nvidia_.*-12\.' | wc -l)
+    m13=$(ls -1 "$SP" 2>/dev/null | grep -E 'dist-info$' | grep -i -E 'cu13|^cuda_(toolkit|bindings)-13|^nvidia_.*-13\.' | wc -l)
+    note "NVIDIA/CUDA wheels in venv: $m12 for CUDA 12, $m13 for CUDA 13"
+    tv=$(ls -1d "$SP"/torch-*.dist-info 2>/dev/null | sed -E 's#.*/torch-(.*)\.dist-info#\1#' | tr '\n' ' ')
+    vv=$(grep -o "TorchVersion('[^']*')" "$SP/torch/version.py" 2>/dev/null | head -1 | cut -d"'" -f2)
+    tvn=$(echo $tv | wc -w)
+    if [ "$tvn" -gt 1 ]; then flag "more than one torch metadata folder: $tv"; fi
+    if [ "$tvn" -eq 1 ] && [ -n "$vv" ] && [ "$(echo $tv)" != "$vv" ]; then flag "torch metadata says $tv but torch/version.py says $vv (files from two installs mixed)"; fi
+    if [ "$tvn" -eq 1 ] && [ "$(echo $tv)" = "$vv" ]; then ok "torch $vv (metadata and version.py agree)"; fi
+    tcu=$(echo "$vv" | sed -n 's/.*+cu\([0-9][0-9]\).*/\1/p')
+    if [ -n "$tcu" ]; then
+      if [ "$tcu" = 13 ]; then other=$m12; else other=$m13; fi
+      if [ "$other" -gt 0 ]; then flag "torch is built for CUDA $tcu but the venv also carries $other wheel(s) for the other CUDA major"; else ok "all NVIDIA wheels match torch's CUDA $tcu"; fi
+    fi
+    pc2=$("$PY" -m pip check 2>&1 | grep -v -i 'No broken requirements' | head -20)
+    if [ -n "$pc2" ]; then flag "pip check reports:"; echo "$pc2" | sed 's/^/          /'; else ok "pip check: no broken requirements"; fi
+  fi
+
+  echo; echo "--- duplicates and extra environments ---"
+  dup=$(s_dupes | grep -c '^   DUPLICATE:')
+  if [ "$dup" -gt 0 ]; then flag "$dup package(s) installed twice in one folder (see 06_duplicate_packages.txt)"; else ok "no duplicate package metadata"; fi
+  nv=$(find / -xdev -name pyvenv.cfg -not -path '*/site-packages/*' 2>/dev/null | wc -l)
+  note "$nv virtualenv(s) on the Linux filesystem (listed in 04_python_everything.txt)"
+  for d in ~/miniconda3 ~/anaconda3 ~/mambaforge ~/miniforge3 ~/.pyenv; do [ -d "$d" ] && flag "extra Python manager present: $d"; done
+
+  echo; echo "--- wheelhouse ($CREATOR/wheelhouse) ---"
+  if [ -x "$PY" ]; then tag=$("$PY" -c 'import sys;print("cp%d%d"%sys.version_info[:2])' 2>/dev/null); fi
+  tag=${tag:-cp312}
+  if [ -d "$CREATOR/wheelhouse" ]; then
+    ls -1 "$CREATOR/wheelhouse" | grep -E '\.whl$' | while read -r w; do
+      case "$w" in
+        *-$tag-*|*-py3-none-*|*-py2.py3-none-*|*-none-any.whl) ok "fits $tag: $w" ;;
+        *) flag "built for a different Python/ABI than $tag, pip will ignore it: $w" ;;
+      esac
+    done
+  else note "no wheelhouse folder"; fi
+
+  echo; echo "--- leftovers and caches ---"
+  for p in "$HOME/fa-build" /tmp/pip-* /tmp/torchinductor_* "$HOME/.cache/torch_extensions" "$HOME/.triton" "$HOME/.nv/ComputeCache" "$HOME/.cache/pip"; do
+    if [ -e "$p" ]; then note "$(du -sh "$p" 2>/dev/null | cut -f1)  $p"; fi
+  done
+}
+
+# ---------------------------------------------------------------- 09 shared-library resolution (ldd; nothing is executed or imported)
+s_ldd() {
+  [ -d "$SP" ] || { echo "no venv yet"; return; }
+  find "$SP" \( -name 'flash_attn_2_cuda*.so' -o -name 'causal_conv1d_cuda*.so' -o -name 'libbitsandbytes_*.so' -o -name 'libtorch_cuda.so' -o -name 'libtorch.so' -o -name '_C*.so' -path '*xformers*' \) 2>/dev/null | while read -r so; do
+    echo "== $so"; ldd "$so" 2>&1 | grep -E 'not found' || echo "   (every library resolves)"
+  done
+}
+
+# ---------------------------------------------------------------- 10 directory listings ("ls of every directory")
+s_ls_roots() {
+  for d in / /usr/local /opt /home /home/* "$ENGINE" "$ENGINE"/* "$CREATOR" /usr/lib/wsl /etc/apt/sources.list.d /tmp /var/tmp; do
+    [ -d "$d" ] || continue
+    echo; echo "################ ls -la $d"; ls -la --time-style=long-iso "$d" 2>&1 | head -150
+  done
+}
+s_tree_home() {
+  find "$HOME" -maxdepth 4 \( -path '*/site-packages/*' -o -path '*/.git/*' -o -path '*/node_modules/*' -o -path '*/huggingface/hub/*/*' -o -path '*/__pycache__*' -o -path '*/unsloth_compiled_cache/*' -o -path '*/.cache/pip/*' -o -path '*/.triton/*' \) -prune -o -printf "$PF" 2>/dev/null
+}
+s_tree_system() {
+  echo "### / (depth 2)"; find / -xdev -maxdepth 2 -printf "$PF" 2>/dev/null
+  echo; echo "### /usr/local and /opt (depth 4; exact library files are listed in 03_cuda_everything.txt)"; find /usr/local /opt -maxdepth 4 -printf "$PF" 2>/dev/null
+  echo; echo "### CUDA/NVIDIA/cuDNN/NCCL-looking entries under /usr (depth 4)"
+  find /usr/lib /usr/include /usr/share -xdev -maxdepth 4 \( -iname '*cuda*' -o -iname '*cudnn*' -o -iname '*nccl*' -o -iname '*nvidia*' -o -iname '*cublas*' \) -printf "$PF" 2>/dev/null | head -400
+}
+
+# ---------------------------------------------------------------- 20+ passive crash evidence
+s_kernel() {
+  echo "--- boots in the journal ---"; journalctl --list-boots --no-pager 2>&1 | tail -30
+  echo; echo "--- OOM kills since $SINCE (time, process, memory) ---"
+  journalctl _TRANSPORT=kernel --since "$SINCE" --no-pager 2>&1 | grep -i -E 'Killed process' | sed -E 's/^(.{15}).*(Killed process [0-9]+ \([^)]*\)).*total-vm:([0-9]+kB).*anon-rss:([0-9]+kB).*/\1  \2  total-vm:\3  anon-rss:\4/' | tail -80
+  echo; echo "--- kernel events since $SINCE: OOM / segfault / GPU bridge / hangs ---"
+  journalctl _TRANSPORT=kernel --since "$SINCE" --no-pager 2>&1 | grep -i -E 'out of memory|oom-kill|oom_reaper|invoked oom|segfault|general protection|invalid opcode|hung task|blocked for more than|page allocation failure|call trace|dxg|nvrm|nvidia|cuda|vmbus|Memory cgroup' | tail -n 1500
+  echo; echo "--- dmesg (current boot, last 1500 lines) ---"; (dmesg -T 2>/dev/null || sudo -n dmesg -T 2>&1) | tail -n 1500
+}
+s_coredump() {
+  if command -v coredumpctl >/dev/null; then coredumpctl list --no-pager 2>&1 | tail -40; else echo "systemd-coredump not installed (no core dumps are kept)"; fi
+  ls -la /var/crash /var/lib/systemd/coredump 2>&1 | head -40
+  echo "core_pattern: $(cat /proc/sys/kernel/core_pattern)   ulimit -c: $(ulimit -c)"
+}
+s_mem() {
+  free -h; echo; head -25 /proc/meminfo
+  echo; echo "--- pressure (PSI) ---"; cat /proc/pressure/memory /proc/pressure/io /proc/pressure/cpu 2>&1
+  echo; swapon --show; echo; echo "--- limits ---"; ulimit -a
+  echo; echo "overcommit_memory / swappiness / max_map_count:"; cat /proc/sys/vm/overcommit_memory /proc/sys/vm/swappiness /proc/sys/vm/max_map_count
+  echo; echo "--- cgroups that have ever had an OOM kill ---"
+  find /sys/fs/cgroup -maxdepth 6 -name memory.events 2>/dev/null | while read -r f; do if grep -q -E '^(oom|oom_kill) [1-9]' "$f"; then echo "== $f"; cat "$f"; fi; done
+}
+s_gpu() { nvidia-smi; echo; nvidia-smi -q; }
+s_logs() {
+  echo "Files modified since $SINCE that look like logs or crash artifacts (names and sizes only; nothing is opened):"
+  find "$HOME" "$CREATOR" "$ENGINE" -maxdepth 5 \( -path '*/venv' -o -path '*/site-packages' -o -path '*/.cache' -o -path '*/node_modules' -o -path '*/.git' -o -path '*/wheelhouse' \) -prune -o -type f \( -name '*.log' -o -name '*.log.*' -o -name 'nohup.out' -o -name 'hs_err*' -o -name 'core' -o -name 'core.[0-9]*' -o -name '*traceback*' -o -name 'trainer_state.json' -o -name '*.pytorch_snapshot*' \) -newermt "$SINCE" -printf '%TY-%Tm-%Td %TH:%TM  %10s  %p\n' 2>/dev/null | sort | tail -n 150
+}
+s_trainer() {
+  PYX=$PY; [ -x "$PYX" ] || PYX=$(command -v python3)
+  "$PYX" - <<'PYEOF'
+import json, os
+hits = []
+for r in (os.environ["ENGINE"], os.environ["CREATOR"]):
+    for dp, dn, fn in os.walk(r):
+        dn[:] = [d for d in dn if d not in ("venv", "site-packages", ".git", "wheelhouse", "hf_cache", "node_modules")]
+        if dp.count(os.sep) - r.count(os.sep) > 5: dn[:] = []
+        if "trainer_state.json" in fn: hits.append(os.path.join(dp, "trainer_state.json"))
+if not hits: print("no trainer_state.json anywhere (no checkpoint has ever been written)")
+for h in sorted(hits):
+    s = json.load(open(h)); lh = s.get("log_history", [])
+    print("==", h, "| global_step", s.get("global_step"), "| max_steps", s.get("max_steps"), "| logged rows", len(lh))
+    for row in lh[-5:]: print("   ", {k: row[k] for k in ("step", "loss", "grad_norm", "learning_rate") if k in row})
+PYEOF
+}
+s_caches() {
+  du -sh "$HOME/.cache/huggingface" "$HOME/.cache/pip" "$HOME/.cache/torch" "$HOME/.triton" "$HOME/.cache/torch_extensions" "$HOME/.nv" /tmp/torchinductor_* /tmp/pip-* 2>/dev/null
+  echo; echo "unsloth_compiled_cache folders:"; find "$HOME" "$CREATOR" "$ENGINE" -maxdepth 4 -type d -name unsloth_compiled_cache 2>/dev/null
+  echo; echo "JIT extension build logs:"; find "$HOME/.cache/torch_extensions" -name '.ninja_log' -printf '%TY-%Tm-%Td %TH:%TM %p\n' 2>/dev/null | tail -20
+}
+s_unsloth_switches() {
+  [ -d "$SP/unsloth" ] || { echo "unsloth not installed yet"; return; }
+  echo "every UNSLOTH_* switch the INSTALLED unsloth reads (handy for verbose/debug runs):"
+  grep -rhoE 'UNSLOTH_[A-Z0-9_]+' "$SP/unsloth" "$SP/unsloth_zoo" 2>/dev/null | sort | uniq -c | sort -rn | head -60
+}
+
+# ---------------------------------------------------------------- 30+ OPT-IN probes (PROBES=1): these import torch & friends and touch the GPU
+s_p_torch() { "$PY" -m torch.utils.collect_env; }
+s_p_cuda() {
+  PYTHONFAULTHANDLER=1 "$PY" - <<'PYEOF'
+import torch, sys, os
+print("python", sys.version.split()[0], "| torch", torch.__version__, "| built for CUDA", torch.version.cuda, "| cudnn", torch.backends.cudnn.version())
+print("cuda available:", torch.cuda.is_available())
+if torch.cuda.is_available():
+    p = torch.cuda.get_device_properties(0)
+    print("device:", p.name, "| capability", torch.cuda.get_device_capability(0), "| total GiB", round(p.total_memory / 2**30, 2))
+    print("compiled arch list:", torch.cuda.get_arch_list())
+    free, total = torch.cuda.mem_get_info()
+    print("mem_get_info free/total GiB:", round(free / 2**30, 2), "/", round(total / 2**30, 2))
+    print("PYTORCH_CUDA_ALLOC_CONF =", os.environ.get("PYTORCH_CUDA_ALLOC_CONF"))
+    x = torch.randn(2048, 2048, device="cuda", dtype=torch.bfloat16); y = (x @ x).float().sum().item(); torch.cuda.synchronize()
+    print("bf16 matmul OK:", y == y)
+PYEOF
+}
+s_p_imports() {
+  for m in torch triton transformers tokenizers safetensors accelerate peft trl datasets bitsandbytes torchao xformers flash_attn causal_conv1d fla unsloth_zoo unsloth; do
+    printf '== import %-16s ' "$m"
+    PYTHONFAULTHANDLER=1 timeout 240 "$PY" -c "import $m as _m; print('OK', getattr(_m, '__version__', '?'))" 2>&1 | tail -4 | tr '\n' ' '
+    echo " [exit=${PIPESTATUS[0]}]"
+  done
+}
+s_p_bnb() { "$PY" -m bitsandbytes; }
+s_p_xformers() { "$PY" -m xformers.info; }
+s_p_smoke() {
+  for t in flash_attn causal_conv1d fla xformers bnb_adamw8bit bnb_paged_adamw8bit; do
+    printf '== %s: ' "$t"; PYTHONFAULTHANDLER=1 timeout 200 "$PY" "$OUT/_smoke.py" "$t" 2>&1 | tail -25; echo "   [exit=${PIPESTATUS[0]}]"
+  done
+}
+s_p_vram() { PYTHONFAULTHANDLER=1 "$PY" "$OUT/_vram_probe.py"; }
+s_p_pinned() { PYTHONFAULTHANDLER=1 "$PY" "$OUT/_pinned_probe.py"; }
+
+export -f redact s_system s_env s_cuda s_python s_venv s_dupes s_toolchain s_conflicts s_ldd s_ls_roots s_tree_home s_tree_system \
+          s_kernel s_coredump s_mem s_gpu s_logs s_trainer s_caches s_unsloth_switches \
+          s_p_torch s_p_cuda s_p_imports s_p_bnb s_p_xformers s_p_smoke s_p_vram s_p_pinned
+
+# ---------------------------------------------------------------- run
+echo "Survey folder: $OUT"; echo
+sec 01_system.txt                 60  s_system
+sec 02_env_and_paths.txt          60  s_env
+sec 03_cuda_everything.txt       400  s_cuda
+sec 04_python_everything.txt     300  s_python
+sec 05_main_venv.txt             180  s_venv
+sec 06_duplicate_packages.txt     60  s_dupes
+sec 07_toolchain_and_apt.txt      90  s_toolchain
+sec 08_CONFLICT_REPORT.txt       600  s_conflicts
+sec 09_library_resolution.txt    120  s_ldd
+sec 10_ls_key_directories.txt    120  s_ls_roots
+sec 11_tree_home_depth4.txt      120  s_tree_home
+sec 12_tree_system.txt           300  s_tree_system
+sec 20_kernel_oom_events.txt     180  s_kernel
+sec 21_coredumps.txt              30  s_coredump
+sec 22_memory_state.txt           30  s_mem
+sec 23_gpu_nvidia_smi.txt         60  s_gpu
+sec 24_recent_logs.txt           180  s_logs
+sec 25_trainer_state.txt         120  s_trainer
+sec 26_cache_sizes.txt           180  s_caches
+sec 27_unsloth_env_switches.txt   60  s_unsloth_switches
+
+if [ "$PROBES" = 1 ]; then
+  cat > "$OUT/_smoke.py" <<'PYEOF'
+import sys, torch
+name = sys.argv[1]
+if not torch.cuda.is_available():
+    raise SystemExit("no CUDA device visible")
+d = "cuda"
+if name == "flash_attn":
+    from flash_attn import flash_attn_func
+    q = torch.randn(1, 256, 8, 64, device=d, dtype=torch.bfloat16, requires_grad=True)
+    flash_attn_func(q, q, q, causal=True).sum().backward()
+elif name == "causal_conv1d":
+    from causal_conv1d import causal_conv1d_fn
+    x = torch.randn(1, 256, 512, device=d, dtype=torch.bfloat16)
+    w = torch.randn(256, 4, device=d, dtype=torch.bfloat16)
+    causal_conv1d_fn(x, w, None, activation="silu")
+elif name == "fla":
+    from fla.ops.gated_delta_rule import chunk_gated_delta_rule
+    print("imported chunk_gated_delta_rule")
+elif name == "xformers":
+    import xformers.ops as xo
+    q = torch.randn(1, 256, 8, 64, device=d, dtype=torch.bfloat16)
+    xo.memory_efficient_attention(q, q, q)
+elif name in ("bnb_adamw8bit", "bnb_paged_adamw8bit"):
+    import bitsandbytes as bnb
+    p = torch.nn.Parameter(torch.randn(256, 256, device=d))
+    opt = (bnb.optim.AdamW8bit if name == "bnb_adamw8bit" else bnb.optim.PagedAdamW8bit)([p])
+    p.sum().backward(); opt.step()
+torch.cuda.synchronize()
+print("OK")
+PYEOF
+  cat > "$OUT/_vram_probe.py" <<'PYEOF'
+import torch
+G = 2**30
+free, total = torch.cuda.mem_get_info()
+print(f"driver reports free={free/G:.2f} GiB of total={total/G:.2f} GiB before allocating")
+chunks, got, CAP = [], 0.0, 14.0
+try:
+    while got < CAP:
+        chunks.append(torch.empty(512 * 2**20, dtype=torch.uint8, device="cuda")); got += 0.5
+    print(f"allocated {got:.1f} GiB without an error")
+except Exception as e:
+    print(f"stopped at {got:.1f} GiB: {type(e).__name__}: {str(e)[:300]}")
+print(f"RESULT: this process could allocate {got:.1f} GiB on a {total/G:.2f} GiB card")
+if got > total / G + 0.25:
+    print("=> MORE than the card physically has: Windows is silently spilling VRAM into system RAM (Sysmem Fallback is ON).")
+elif got < free / G - 1.0:
+    print("=> Far less than the driver said was free: another process is holding VRAM, or this process is being capped.")
+else:
+    print("=> Normal: allocation stops near what the driver reported free.")
+del chunks; torch.cuda.empty_cache()
+PYEOF
+  cat > "$OUT/_pinned_probe.py" <<'PYEOF'
+import os, time, torch
+G = 2**30; target = int(os.environ.get("PIN_GIB", "0")); held, tot = [], 0
+while tot < target:
+    t = time.time(); held.append(torch.empty(G, dtype=torch.uint8, pin_memory=True)); tot += 1
+    print(f"pinned {tot} GiB OK ({time.time()-t:.1f}s for the last GiB)", flush=True)
+print("done")
+PYEOF
+  sec 30_probe_collect_env.txt     240  s_p_torch
+  sec 31_probe_cuda.txt            120  s_p_cuda
+  sec 32_probe_imports.txt        1200  s_p_imports
+  sec 33_probe_bitsandbytes.txt    180  s_p_bnb
+  sec 34_probe_xformers.txt        180  s_p_xformers
+  sec 35_probe_kernel_smoke.txt   1500  s_p_smoke
+  sec 36_probe_vram_alloc.txt      300  s_p_vram
+  if [ "$PIN_GIB" -gt 0 ]; then sec 37_probe_pinned_ram.txt 600 s_p_pinned; fi
+fi
+
+cat > "$OUT/00_README.txt" <<EOF
+WSL survey taken $(date -Is)   (SINCE=$SINCE  PROBES=$PROBES)
+Read first:  08_CONFLICT_REPORT.txt
+01 system | 02 env/PATH | 03 CUDA | 04 Python | 05 main venv | 06 duplicates | 07 apt+toolchain | 09 library resolution
+10-12 directory listings | 20-27 crash evidence (passive) | 30+ opt-in probes (only with PROBES=1)
+EOF
+echo; echo "Done. Files are in:"; echo "  $OUT"; command -v wslpath >/dev/null && echo "  $(wslpath -w "$OUT")"
+echo; echo "Quick look (conflict report):"; grep -E '^(FLAG|note)' "$OUT/08_CONFLICT_REPORT.txt" | cut -c1-220

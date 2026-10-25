@@ -1,0 +1,5 @@
+[moe_track] reference from the production build, batches of 16 (label tier_ref16)
+reference file will be about 3.8 GiB (free on that disk: 83.6 GiB)
+running: <llama.cpp>/build-wsl/bin/llama-perplexity -m ~/models/test-model-Q4_K_M.gguf -f <project>/dataset/calibration-text.txt -c 1024 -b 1024 -ub 1024 --chunks 16 -ngl 99 --n-cpu-moe 28 -fa on --cache-type-k q8_0 --cache-type-v q8_0 -b 16 -ub 16 --kl-divergence-base <project>/logs/moe_trace/kl/tier_ref16.logits.bin
+reference saved: <project>/logs/moe_trace/kl/tier_ref16.logits.bin (3.78 GiB)
+next: python sim/kl_gate.py compare --label <name> --base tier_ref16 [--bin ... --extra ...]

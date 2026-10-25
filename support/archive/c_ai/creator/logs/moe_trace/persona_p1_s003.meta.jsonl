@@ -1,0 +1,10 @@
+{"seq":0,"id":"persona-0030","domain":"persona","prompt_tokens":646,"generated_tokens":414,"finish":"eog","prefill_s":1.601,"decode_s":12.283}
+{"seq":1,"id":"persona-0031","domain":"persona","prompt_tokens":638,"generated_tokens":315,"finish":"eog","prefill_s":1.574,"decode_s":9.142}
+{"seq":2,"id":"persona-0032","domain":"persona","prompt_tokens":717,"generated_tokens":768,"finish":"length","prefill_s":1.486,"decode_s":22.487}
+{"seq":3,"id":"persona-0033","domain":"persona","prompt_tokens":682,"generated_tokens":768,"finish":"length","prefill_s":1.427,"decode_s":22.669}
+{"seq":4,"id":"persona-0034","domain":"persona","prompt_tokens":639,"generated_tokens":276,"finish":"eog","prefill_s":1.295,"decode_s":8.150}
+{"seq":5,"id":"persona-0035","domain":"persona","prompt_tokens":118,"generated_tokens":768,"finish":"length","prefill_s":0.999,"decode_s":22.756}
+{"seq":6,"id":"persona-0036","domain":"persona","prompt_tokens":60,"generated_tokens":177,"finish":"eog","prefill_s":0.721,"decode_s":5.190}
+{"seq":7,"id":"persona-0037","domain":"persona","prompt_tokens":1005,"generated_tokens":768,"finish":"length","prefill_s":1.513,"decode_s":22.671}
+{"seq":8,"id":"persona-0038","domain":"persona","prompt_tokens":632,"generated_tokens":140,"finish":"eog","prefill_s":1.283,"decode_s":4.135}
+{"seq":9,"id":"persona-0039","domain":"persona","prompt_tokens":312,"generated_tokens":768,"finish":"length","prefill_s":1.169,"decode_s":22.479}

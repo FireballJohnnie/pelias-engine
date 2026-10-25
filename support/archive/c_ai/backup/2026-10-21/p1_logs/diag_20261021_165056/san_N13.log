@@ -1,0 +1,56 @@
+========= COMPUTE-SANITIZER
+========= Invalid __global__ write of size 4 bytes
+=========     at void mul_mat_q<(ggml_type)12, (int)16, (bool)0, (ggml_prec)30>(const char *, const int *, const int *, const int *, float *, float *, const float *, uint3, int, int, int, int, int, uint3, uint3, int, int, int, uint3, uint3, int, int, int, uint3)+0x3800
+=========     by thread (2,0,0) in block (0,0,0)
+=========     Access to 0x11ae31c880 is out of bounds
+=========     and is 2435318657 bytes after the nearest allocation at 0x111d09a500 of size 8192 bytes
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: void launch_mul_mat_q<(ggml_type)12, 16, false, (ggml_prec)30>(ggml_backend_cuda_context&, mmq_args const&, CUstream_st*) [0xbd96ab] in libggml-cuda.so.0
+=========         Host Frame: ggml_cuda_mul_mat_q(ggml_backend_cuda_context&, ggml_tensor const*, ggml_tensor const*, ggml_tensor const*, ggml_tensor*) [0x35e2ff] in libggml-cuda.so.0
+=========         Host Frame: ggml_cuda_graph_evaluate_and_capture(ggml_backend_cuda_context*, ggml_cgraph*, bool, bool, void const*) [0x31903e] in libggml-cuda.so.0
+=========         Host Frame: ggml_backend_cuda_graph_compute(ggml_backend*, ggml_cgraph*) [0x319ae1] in libggml-cuda.so.0
+=========         Host Frame: ggml_backend_sched_graph_compute_async [0x3ba8e] in libggml-base.so.0
+=========         Host Frame: llama_context::graph_compute(ggml_cgraph*, bool) [0x216c2f] in libllama.so.0
+=========         Host Frame: llama_context::process_ubatch(llama_ubatch const&, llm_graph_type, llama_memory_context_i*, ggml_status&) [0x21a8e2] in libllama.so.0
+=========         Host Frame: llama_context::decode(llama_batch_ext const&) [0x223189] in libllama.so.0
+=========         Host Frame: std::_Function_handler<void (), server_context_impl::decode(int&, int)::{lambda()#1}>::_M_invoke(std::_Any_data const&) [0x17f3b1] in libllama-server-impl.so
+=========         Host Frame: server_queue::yield_to_queue(std::function<void ()>&&) [0x12f3f8] in libllama-server-impl.so
+=========         Host Frame: server_context_impl::decode(int&, int) [0x18fefe] in libllama-server-impl.so
+=========         Host Frame: server_context_impl::update_slots() [0x191bf1] in libllama-server-impl.so
+=========         Host Frame: server_queue::start_loop(long) [0x133537] in libllama-server-impl.so
+=========         Host Frame: llama_server(common_params&, int, char**) [0xe248b] in libllama-server-impl.so
+=========         Host Frame: llama_server(int, char**) [0xe405a] in libllama-server-impl.so
+=========         Host Frame:  [0x2a600] in libc.so.6
+=========         Host Frame: __libc_start_main [0x2a717] in libc.so.6
+=========         Host Frame: _start [0x1324] in llama-server
+========= 
+========= Invalid __global__ write of size 4 bytes
+=========     at void mul_mat_q<(ggml_type)12, (int)16, (bool)0, (ggml_prec)30>(const char *, const int *, const int *, const int *, float *, float *, const float *, uint3, int, int, int, int, int, uint3, uint3, int, int, int, uint3, uint3, int, int, int, uint3)+0x3800
+=========     by thread (6,0,0) in block (0,0,0)
+=========     Access to 0x11ae31c884 is out of bounds
+=========     and is 2435318661 bytes after the nearest allocation at 0x111d09a500 of size 8192 bytes
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: void launch_mul_mat_q<(ggml_type)12, 16, false, (ggml_prec)30>(ggml_backend_cuda_context&, mmq_args const&, CUstream_st*) [0xbd96ab] in libggml-cuda.so.0
+=========         Host Frame: ggml_cuda_mul_mat_q(ggml_backend_cuda_context&, ggml_tensor const*, ggml_tensor const*, ggml_tensor const*, ggml_tensor*) [0x35e2ff] in libggml-cuda.so.0
+=========         Host Frame: ggml_cuda_graph_evaluate_and_capture(ggml_backend_cuda_context*, ggml_cgraph*, bool, bool, void const*) [0x31903e] in libggml-cuda.so.0
+=========         Host Frame: ggml_backend_cuda_graph_compute(ggml_backend*, ggml_cgraph*) [0x319ae1] in libggml-cuda.so.0
+=========         Host Frame: ggml_backend_sched_graph_compute_async [0x3ba8e] in libggml-base.so.0
+=========         Host Frame: llama_context::graph_compute(ggml_cgraph*, bool) [0x216c2f] in libllama.so.0
+=========         Host Frame: llama_context::process_ubatch(llama_ubatch const&, llm_graph_type, llama_memory_context_i*, ggml_status&) [0x21a8e2] in libllama.so.0
+=========         Host Frame: llama_context::decode(llama_batch_ext const&) [0x223189] in libllama.so.0
+=========         Host Frame: std::_Function_handler<void (), server_context_impl::decode(int&, int)::{lambda()#1}>::_M_invoke(std::_Any_data const&) [0x17f3b1] in libllama-server-impl.so
+=========         Host Frame: server_queue::yield_to_queue(std::function<void ()>&&) [0x12f3f8] in libllama-server-impl.so
+=========         Host Frame: server_context_impl::decode(int&, int) [0x18fefe] in libllama-server-impl.so
+=========         Host Frame: server_context_impl::update_slots() [0x191bf1] in libllama-server-impl.so
+=========         Host Frame: server_queue::start_loop(long) [0x133537] in libllama-server-impl.so
+=========         Host Frame: llama_server(common_params&, int, char**) [0xe248b] in libllama-server-impl.so
+=========         Host Frame: llama_server(int, char**) [0xe405a] in libllama-server-impl.so
+=========         Host Frame:  [0x2a600] in libc.so.6
+=========         Host Frame: __libc_start_main [0x2a717] in libc.so.6
+=========         Host Frame: _start [0x1324] in llama-server
+========= 
+========= Error: process didn't terminate successfully
+=========     The application may have hit an error when dereferencing Unified Memory from the host. Please rerun the application under cuda-gdb or a host debugger to catch host side errors.
+========= Target application returned an error
+========= ERROR SUMMARY: 72 errors
+========= ERROR SUMMARY: 70 errors were not printed. Use --print-limit option to adjust the number of printed errors

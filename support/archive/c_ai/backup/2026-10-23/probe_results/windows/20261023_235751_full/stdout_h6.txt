@@ -1,0 +1,6 @@
+  readers= 0  h2d 26.1 GB/s  zero-copy 26.1 GB/s  cpu alone 0.0 / during h2d 0.0 GB/s
+  readers= 4  h2d 26.1 GB/s  zero-copy 21.5 GB/s  cpu alone 44.6 / during h2d 22.8 GB/s
+  readers= 8  h2d 25.8 GB/s  zero-copy 21.0 GB/s  cpu alone 42.2 / during h2d 22.5 GB/s
+  readers=16  h2d 22.8 GB/s  zero-copy 17.7 GB/s  cpu alone 40.6 / during h2d 23.9 GB/s
+[REC  ] P-H6   H2D 26.1 GB/s unloaded; worst loaded/unloaded ratio 0.87
+        -> C:\AI\cl-sndbx-bkp\stuart-creator\2026-10-23\probe_results\windows\20261023_235751_full\h6_contention.json

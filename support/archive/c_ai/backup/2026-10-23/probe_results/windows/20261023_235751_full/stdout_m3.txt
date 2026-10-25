@@ -1,0 +1,3 @@
+[START] P-M3   holding 24 GiB pinned + 4 GiB pageable for 30 min
+[PASS ] P-M3   held 24+4 GiB for 30.0 min, mismatches 0, swap-in 0 MiB, jitter p99 6.5 ms
+        -> C:\AI\cl-sndbx-bkp\stuart-creator\2026-10-23\probe_results\windows\20261023_235751_full\m3_hold.json

@@ -1,0 +1,35 @@
+[START] P-H7   growing cudaHostAlloc in 1 GiB steps up to 32 GiB
+  pinned  1 GiB ok  alloc 0.06 s  host avail 54.6 GiB
+  pinned  2 GiB ok  alloc 0.06 s  host avail 53.5 GiB
+  pinned  3 GiB ok  alloc 0.06 s  host avail 52.5 GiB
+  pinned  4 GiB ok  alloc 0.06 s  host avail 51.5 GiB
+  pinned  5 GiB ok  alloc 0.06 s  host avail 50.5 GiB
+  pinned  6 GiB ok  alloc 0.06 s  host avail 49.5 GiB
+  pinned  7 GiB ok  alloc 0.06 s  host avail 48.5 GiB
+  pinned  8 GiB ok  alloc 0.06 s  host avail 47.5 GiB
+  pinned  9 GiB ok  alloc 0.06 s  host avail 46.5 GiB
+  pinned 10 GiB ok  alloc 0.06 s  host avail 45.5 GiB
+  pinned 11 GiB ok  alloc 0.06 s  host avail 44.5 GiB
+  pinned 12 GiB ok  alloc 0.06 s  host avail 43.5 GiB
+  pinned 13 GiB ok  alloc 0.06 s  host avail 42.5 GiB
+  pinned 14 GiB ok  alloc 0.06 s  host avail 41.5 GiB
+  pinned 15 GiB ok  alloc 0.06 s  host avail 40.5 GiB
+  pinned 16 GiB ok  alloc 0.06 s  host avail 39.5 GiB
+  pinned 17 GiB ok  alloc 0.06 s  host avail 38.5 GiB
+  pinned 18 GiB ok  alloc 0.06 s  host avail 37.5 GiB
+  pinned 19 GiB ok  alloc 0.06 s  host avail 36.5 GiB
+  pinned 20 GiB ok  alloc 0.06 s  host avail 35.5 GiB
+  pinned 21 GiB ok  alloc 0.06 s  host avail 34.4 GiB
+  pinned 22 GiB ok  alloc 0.07 s  host avail 33.4 GiB
+  pinned 23 GiB ok  alloc 0.06 s  host avail 32.4 GiB
+  pinned 24 GiB ok  alloc 0.06 s  host avail 31.4 GiB
+  pinned 25 GiB ok  alloc 0.06 s  host avail 30.4 GiB
+  pinned 26 GiB ok  alloc 0.06 s  host avail 29.4 GiB
+  pinned 27 GiB ok  alloc 0.06 s  host avail 28.4 GiB
+  pinned 28 GiB ok  alloc 0.06 s  host avail 27.4 GiB
+  pinned 29 GiB ok  alloc 0.07 s  host avail 26.4 GiB
+  pinned 30 GiB ok  alloc 0.06 s  host avail 25.4 GiB
+  pinned 31 GiB ok  alloc 0.06 s  host avail 24.4 GiB
+  pinned 32 GiB ok  alloc 0.06 s  host avail 23.4 GiB
+[PASS ] P-H7   held 32 GiB pinned (target 32), swap-in 0 MiB, integrity failures 0; reached_target
+        -> C:\AI\cl-sndbx-bkp\stuart-creator\2026-10-23\probe_results\windows\20261023_235751_full\h7_pinned_limit.json

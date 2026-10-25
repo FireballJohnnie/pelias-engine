@@ -1,0 +1,4 @@
+probe	exit_code	seconds
+selftest	0	0
+h8	3	0
+h12	0	19

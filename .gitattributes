@@ -1,0 +1,4 @@
+# Preserve the original line endings of archived material, byte for byte,
+# so the hashes in support/MANIFEST.tsv stay valid on any checkout.
+support/archive/** -text
+support/tier_build/** -text

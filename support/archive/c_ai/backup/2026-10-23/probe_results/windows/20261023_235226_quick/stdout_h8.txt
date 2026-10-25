@@ -1,0 +1,2 @@
+[PASS ] P-H8   free after context: CUDA 10.85 / NVML 10.87 of 11.99 GiB; need >= 10.70 (margin +0.15)
+        -> C:\AI\cl-sndbx-bkp\stuart-creator\2026-10-23\probe_results\windows\20261023_235226_quick\h8_vram.json

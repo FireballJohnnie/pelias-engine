@@ -1,0 +1,6 @@
+kernels.cu
+cpu_bw.cpp
+main.cpp
+main.obj
+cpu_bw.obj
+kernels.obj

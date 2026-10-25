@@ -1,0 +1,13 @@
+
+====================================================================================================
+SPEED   label=tier-n40-hotashotsetb7.5-by32   file=test-model-Q4_K_M.gguf   context 32768   sampling temp 1.0 top-p 0.95 top-k 20
+note: tier-n40-hotashotsetb7.5-by32: tier 2ca15f5; --n-cpu-moe 40 --fit off -lv 4
+warm-up requests (not counted): 50.4, 47.0 tokens/s
+GPU memory in use (whole card, includes the desktop): before the first request 10.7 GiB, highest seen 10.7 GiB, of 12.0 GiB
+
+depth      prompt tok     prompt tok/s     wait for 1st token generation tok/s (median, range)   reps
+short              61             55.0                  1.1 s            51.9  (49.5-52.5)    3/3
+4000             4027            925.1                  4.4 s            50.1  (48.7-51.2)    3/3
+12000           12014            870.9                 13.8 s            45.9  (44.0-48.9)    3/3
+
+Read it as: generation tok/s is how fast the answer streams; prompt tok/s and the wait for the first token are what a client with a long prompt feels.

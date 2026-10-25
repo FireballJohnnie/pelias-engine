@@ -1,0 +1,146 @@
+{
+  "label": "tier-n38-hotashotsetb7.0-by32",
+  "command": [
+    "/home/user/llama-pelias-tier/build-wsl/bin/llama-server",
+    "-m",
+    "~/models/test-model-Q4_K_M.gguf",
+    "--alias",
+    "stuart-creator",
+    "--host",
+    "127.0.0.1",
+    "--port",
+    "8012",
+    "--jinja",
+    "-np",
+    "1",
+    "-c",
+    "32768",
+    "-n",
+    "-1",
+    "--no-context-shift",
+    "-ngl",
+    "99",
+    "--flash-attn",
+    "on",
+    "--cache-type-k",
+    "q8_0",
+    "--cache-type-v",
+    "q8_0",
+    "--reasoning-format",
+    "deepseek",
+    "--chat-template-kwargs",
+    "{\"enable_thinking\":true}",
+    "--temp",
+    "1.0",
+    "--top-p",
+    "0.95",
+    "--top-k",
+    "20",
+    "--min-p",
+    "0.0",
+    "--n-cpu-moe",
+    "38",
+    "--fit",
+    "off",
+    "-lv",
+    "4",
+    "-t",
+    "6",
+    "-tb",
+    "8",
+    "--load-mode",
+    "none",
+    "-ub",
+    "2048"
+  ],
+  "env": {
+    "PELIAS_HOT_SET": "<project>/logs/pelias_hot_set_b7.0.txt",
+    "PELIAS_TIER_BYPASS_N": "32",
+    "PELIAS_TIER_MAX_MIB": "7300",
+    "PELIAS_TIER_VERBOSE": "1"
+  },
+  "reference_source": "the production command saved 2026-10-21 12:18:38",
+  "diff_vs_production": {
+    "added": {
+      "--fit": [
+        [
+          "off"
+        ]
+      ],
+      "--load-mode": [
+        [
+          "none"
+        ]
+      ],
+      "--n-cpu-moe": [
+        [
+          "38"
+        ]
+      ],
+      "--threads": [
+        [
+          "6"
+        ]
+      ],
+      "--threads-batch": [
+        [
+          "8"
+        ]
+      ],
+      "--ubatch-size": [
+        [
+          "2048"
+        ]
+      ],
+      "--verbosity": [
+        [
+          "4"
+        ]
+      ]
+    },
+    "removed": {
+      "--override-tensor": [
+        [
+          ".ffn_.*_exps.=CPU"
+        ]
+      ]
+    },
+    "changed": {
+      "--model": {
+        "production": [
+          [
+            "<project>/gguf/test-model-Q4_K_M.gguf"
+          ]
+        ],
+        "candidate": [
+          [
+            "~/models/test-model-Q4_K_M.gguf"
+          ]
+        ]
+      }
+    },
+    "same": [
+      "--alias",
+      "--cache-type-k",
+      "--cache-type-v",
+      "--chat-template-kwargs",
+      "--ctx-size",
+      "--flash-attn",
+      "--host",
+      "--jinja",
+      "--min-p",
+      "--n-gpu-layers",
+      "--no-context-shift",
+      "--parallel",
+      "--port",
+      "--predict",
+      "--reasoning-format",
+      "--temp",
+      "--top-k",
+      "--top-p"
+    ]
+  },
+  "build": "tier",
+  "commit": "2ca15f5404760548c39e7b92bd43116a09414a1a",
+  "started": "2026-10-22 17:20:55"
+}

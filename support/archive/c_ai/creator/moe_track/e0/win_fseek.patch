@@ -1,0 +1,27 @@
+diff --git a/src/llama-pelias-tier.cpp b/src/llama-pelias-tier.cpp
+index 541c38f..55d3abc 100755
+--- a/src/llama-pelias-tier.cpp
++++ b/src/llama-pelias-tier.cpp
+@@ -24,6 +24,13 @@
+ // ---------------------------------------------------------------------------------------------------------------------------------------
+ // environment
+ // ---------------------------------------------------------------------------------------------------------------------------------------
++// 64-bit seek in the model file: fseeko/off_t are POSIX; on Windows off_t is 32 bits and the model file is over 20 GiB
++#ifdef _WIN32
++#define PELIAS_FSEEK(fp, off) _fseeki64((fp), (long long) (off), SEEK_SET)
++#else
++#define PELIAS_FSEEK(fp, off) fseeko((fp), (off_t) (off), SEEK_SET)
++#endif
++
+ static const char * env_str(const char * name) {
+     const char * v = std::getenv(name);
+     return (v && *v) ? v : nullptr;
+@@ -409,7 +416,7 @@ void pelias_tier_attach(const llama_model & model, const std::string & gguf_path
+             staging.resize(s.slice);
+             for (size_t j = 0; j < p.ids->size(); ++j) {
+                 const size_t off = s.file_off + (size_t) (*p.ids)[j] * s.slice;
+-                if (fseeko(fp.get(), (off_t) off, SEEK_SET) != 0 || std::fread(staging.data(), 1, s.slice, fp.get()) != s.slice) {
++                if (PELIAS_FSEEK(fp.get(), off) != 0 || std::fread(staging.data(), 1, s.slice, fp.get()) != s.slice) {
+                     LLAMA_LOG_ERROR("%s: pelias-tier: layer %d: read error at offset %zu\n", __func__, p.il, off);
+                     good = false;
+                     return;

@@ -1,0 +1,182 @@
+{
+  "n_decode_tokens": 121160,
+  "fit_tokens": 84503,
+  "heldout_tokens": 36657,
+  "n_moe_layers": 40,
+  "n_expert": 256,
+  "n_expert_used": 8,
+  "expert_bytes_per_layer_mean": 1904640,
+  "all_experts_gib": 18.164,
+  "budget_gib": 5.6,
+  "hit_rate_definition": "byte-weighted: bytes of picked experts found in the bank / bytes of all picked experts",
+  "bank_gib_used": 5.5986,
+  "bank_experts": 3148,
+  "bank_experts_per_layer": [
+    102,
+    97,
+    92,
+    81,
+    79,
+    74,
+    73,
+    71,
+    69,
+    70,
+    81,
+    87,
+    78,
+    74,
+    71,
+    75,
+    75,
+    82,
+    73,
+    73,
+    65,
+    67,
+    83,
+    89,
+    76,
+    77,
+    75,
+    72,
+    81,
+    87,
+    69,
+    81,
+    83,
+    81,
+    76,
+    73,
+    73,
+    87,
+    86,
+    90
+  ],
+  "insample_hit_rate_at_budget": 0.73163,
+  "heldout_hit_rate_at_budget": 0.73787,
+  "insample_hit_rate_count": 0.73252,
+  "heldout_hit_rate_count": 0.7388,
+  "heldout_detail": {
+    "tokens": 36657,
+    "hit_rate_bytes": 0.73787,
+    "hit_rate_count": 0.7388,
+    "per_layer_hit": [
+      0.6016,
+      0.6015,
+      0.5994,
+      0.6446,
+      0.6802,
+      0.631,
+      0.6979,
+      0.7195,
+      0.7589,
+      0.7498,
+      0.7198,
+      0.7338,
+      0.7428,
+      0.7444,
+      0.7793,
+      0.7635,
+      0.7414,
+      0.7731,
+      0.7593,
+      0.7469,
+      0.774,
+      0.7594,
+      0.759,
+      0.7695,
+      0.786,
+      0.7805,
+      0.7667,
+      0.7346,
+      0.7516,
+      0.8044,
+      0.7338,
+      0.7857,
+      0.7642,
+      0.7571,
+      0.7519,
+      0.7728,
+      0.7704,
+      0.8065,
+      0.7802,
+      0.7554
+    ],
+    "miss_per_step_hist": [
+      0.20789,
+      0.25127,
+      0.20029,
+      0.13672,
+      0.08826,
+      0.05488,
+      0.03341,
+      0.01859,
+      0.00869
+    ],
+    "steps_with_any_miss": 0.79211
+  },
+  "curve": [
+    {
+      "budget_gib": 2.0,
+      "insample": 0.42006,
+      "heldout": 0.42574
+    },
+    {
+      "budget_gib": 3.0,
+      "insample": 0.53282,
+      "heldout": 0.54082
+    },
+    {
+      "budget_gib": 4.0,
+      "insample": 0.62201,
+      "heldout": 0.62976
+    },
+    {
+      "budget_gib": 5.0,
+      "insample": 0.69453,
+      "heldout": 0.70152
+    },
+    {
+      "budget_gib": 5.6,
+      "insample": 0.73163,
+      "heldout": 0.73787
+    },
+    {
+      "budget_gib": 6.0,
+      "insample": 0.75421,
+      "heldout": 0.76015
+    },
+    {
+      "budget_gib": 8.0,
+      "insample": 0.84563,
+      "heldout": 0.8496
+    }
+  ],
+  "per_domain_heldout": {
+    "agent": {
+      "heldout_tokens": 4882,
+      "bank_from_other_domains": 0.75388,
+      "bank_from_all_fit": 0.76194,
+      "bank_from_own_domain": 0.80667
+    },
+    "code": {
+      "heldout_tokens": 11755,
+      "bank_from_other_domains": 0.70999,
+      "bank_from_all_fit": 0.72606,
+      "bank_from_own_domain": 0.73441
+    },
+    "persona": {
+      "heldout_tokens": 14771,
+      "bank_from_other_domains": 0.7384,
+      "bank_from_all_fit": 0.77428,
+      "bank_from_own_domain": 0.78662
+    },
+    "reasoning": {
+      "heldout_tokens": 5249,
+      "bank_from_other_domains": 0.61888,
+      "bank_from_all_fit": 0.63946,
+      "bank_from_own_domain": 0.70736
+    }
+  }
+}

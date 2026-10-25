@@ -1,0 +1,10 @@
+{"seq":0,"id":"persona-0000","domain":"persona","prompt_tokens":638,"generated_tokens":351,"finish":"eog"}
+{"seq":1,"id":"persona-0001","domain":"persona","prompt_tokens":2494,"generated_tokens":768,"finish":"length"}
+{"seq":2,"id":"persona-0002","domain":"persona","prompt_tokens":648,"generated_tokens":340,"finish":"eog"}
+{"seq":3,"id":"persona-0003","domain":"persona","prompt_tokens":635,"generated_tokens":197,"finish":"eog"}
+{"seq":4,"id":"persona-0004","domain":"persona","prompt_tokens":681,"generated_tokens":768,"finish":"length"}
+{"seq":5,"id":"persona-0005","domain":"persona","prompt_tokens":168,"generated_tokens":483,"finish":"eog"}
+{"seq":6,"id":"persona-0006","domain":"persona","prompt_tokens":2136,"generated_tokens":768,"finish":"length"}
+{"seq":7,"id":"persona-0007","domain":"persona","prompt_tokens":776,"generated_tokens":768,"finish":"length"}
+{"seq":8,"id":"persona-0008","domain":"persona","prompt_tokens":649,"generated_tokens":335,"finish":"eog"}
+{"seq":9,"id":"persona-0009","domain":"persona","prompt_tokens":639,"generated_tokens":337,"finish":"eog"}

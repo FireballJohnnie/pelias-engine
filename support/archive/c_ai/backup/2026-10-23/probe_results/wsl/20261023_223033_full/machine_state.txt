@@ -1,0 +1,9 @@
+kernel=6.18.54.1-microsoft-standard-WSL2
+cpu=AMD Ryzen 7 5800X3D 8-Core Processor
+mem_total_kib=49265784
+gpu=NVIDIA GeForce RTX 4070, 617.42, 3120 MHz, 10501 MHz, 200.00 W
+nvcc=Build cuda_13.0.r13.0/compiler.36424714_0
+wslconfig_sha=f58a21f67f998b5c
+thp=[always] madvise never
+memlock=65536
+probe_sources_sha=4e72e5a3b6043dfe

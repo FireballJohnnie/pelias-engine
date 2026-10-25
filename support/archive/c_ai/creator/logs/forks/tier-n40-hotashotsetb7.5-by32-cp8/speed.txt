@@ -1,0 +1,29 @@
+[speed] http://127.0.0.1:8012; file test-model-Q4_K_M.gguf; context 32768; depths [0, 4000, 12000]; 2 warm-up + 3 measured requests per depth; up to 256 new tokens each
+[warm-up 1/2] 60 prompt tokens, 64 new tokens, 49.5 tokens/s
+[warm-up 2/2] 60 prompt tokens, 64 new tokens, 44.7 tokens/s
+[speed] depth short: filler of 0 tokens (none)
+[depth short #1] prompt     61 tok at   132.5 tok/s, wait   0.5s, generated   49 tok at   48.9 tok/s
+[depth short #2] prompt     61 tok at   121.7 tok/s, wait   0.5s, generated  104 tok at   45.7 tok/s
+[depth short #3] prompt     61 tok at   132.8 tok/s, wait   0.5s, generated  256 tok at   46.8 tok/s
+[speed] depth 4000: filler of 3955 tokens (counted by the server)
+[depth 4000  #1] prompt   4027 tok at  1621.6 tok/s, wait   2.5s, generated  122 tok at   44.2 tok/s
+[depth 4000  #2] prompt   4027 tok at  1620.7 tok/s, wait   2.5s, generated  139 tok at   52.9 tok/s
+[depth 4000  #3] prompt   4027 tok at  1635.8 tok/s, wait   2.5s, generated  253 tok at   46.6 tok/s
+[speed] depth 12000: filler of 11941 tokens (counted by the server)
+[depth 12000 #1] prompt  12014 tok at  1659.5 tok/s, wait   7.3s, generated  256 tok at   48.7 tok/s
+[depth 12000 #2] prompt  12014 tok at  1684.8 tok/s, wait   7.2s, generated  238 tok at   46.5 tok/s
+[depth 12000 #3] prompt  12014 tok at  1660.0 tok/s, wait   7.3s, generated  256 tok at   46.8 tok/s
+
+====================================================================================================
+SPEED   label=tier-n40-hotashotsetb7.5-by32-cp8   file=test-model-Q4_K_M.gguf   context 32768   sampling temp 1.0 top-p 0.95 top-k 20
+note: tier-n40-hotashotsetb7.5-by32-cp8: tier 2ca15f5; --n-cpu-moe 40 --fit off -lv 4 --ctx-checkpoints 8
+warm-up requests (not counted): 49.5, 44.7 tokens/s
+GPU memory in use (whole card, includes the desktop): before the first request 10.6 GiB, highest seen 10.7 GiB, of 12.0 GiB
+
+depth      prompt tok     prompt tok/s     wait for 1st token generation tok/s (median, range)   reps
+short              61            132.5                  0.5 s            46.8  (45.7-48.9)    3/3
+4000             4027           1621.6                  2.5 s            46.6  (44.2-52.9)    3/3
+12000           12014           1660.0                  7.3 s            46.8  (46.5-48.7)    3/3
+
+Read it as: generation tok/s is how fast the answer streams; prompt tok/s and the wait for the first token are what a client with a long prompt feels.
+[speed] saved to <project>/logs/speed_server/20261022_175025_tier-n40-hotashotsetb7.5-by32-cp8.json and <project>/logs/speed_server/20261022_175025_tier-n40-hotashotsetb7.5-by32-cp8.txt

@@ -1,0 +1,13 @@
+
+====================================================================================================
+SPEED   label=J-base   file=test-model-Q4_K_M.gguf   context 32768   sampling temp 1.0 top-p 0.95 top-k 20
+note: J sampling test base; tier 7.5 GiB set, bypass 32, --load-mode none -ub 2048 -t 6 -tb 8
+warm-up requests (not counted): 48.1, 52.2 tokens/s
+GPU memory in use (whole card, includes the desktop): before the first request 10.5 GiB, highest seen 10.6 GiB, of 12.0 GiB
+
+depth      prompt tok     prompt tok/s     wait for 1st token generation tok/s (median, range)   reps
+short              61            129.1                  0.5 s            50.8  (48.0-55.0)    3/3
+4000             4027           1631.3                  2.5 s            51.2  (48.7-54.4)    3/3
+12000           12014           1673.7                  7.2 s            46.8  (45.3-48.3)    3/3
+
+Read it as: generation tok/s is how fast the answer streams; prompt tok/s and the wait for the first token are what a client with a long prompt feels.

@@ -1,0 +1,655 @@
+[1/358] Building C object ggml\src\CMakeFiles\ggml-base.dir\ggml-alloc.c.obj
+[2/358] Building CXX object ggml\src\CMakeFiles\ggml-base.dir\ggml.cpp.obj
+[3/358] Building CXX object ggml\src\CMakeFiles\ggml-base.dir\ggml-threading.cpp.obj
+[4/358] Building C object ggml\src\CMakeFiles\ggml-base.dir\ggml.c.obj
+[5/358] Building C object ggml\src\CMakeFiles\ggml-cpu.dir\ggml-cpu\ggml-cpu.c.obj
+[6/358] Building CXX object ggml\src\CMakeFiles\ggml-cpu.dir\ggml-cpu\hbm.cpp.obj
+[7/358] Building CXX object ggml\src\CMakeFiles\ggml-base.dir\ggml-opt.cpp.obj
+[8/358] Building C object ggml\src\CMakeFiles\ggml-base.dir\ggml-quants.c.obj
+[9/358] Building CXX object ggml\src\CMakeFiles\ggml-base.dir\ggml-backend.cpp.obj
+[10/358] Building CXX object ggml\src\CMakeFiles\ggml-cpu.dir\ggml-cpu\ggml-cpu.cpp.obj
+[11/358] Building CXX object ggml\src\CMakeFiles\ggml-cpu.dir\ggml-cpu\traits.cpp.obj
+[12/358] Building C object ggml\src\CMakeFiles\ggml-cpu.dir\ggml-cpu\quants.c.obj
+[13/358] Building CXX object ggml\src\CMakeFiles\ggml-cpu.dir\ggml-cpu\amx\amx.cpp.obj
+[14/358] Building CXX object ggml\src\CMakeFiles\ggml-cpu.dir\ggml-cpu\amx\mmq.cpp.obj
+[15/358] Building CXX object ggml\src\CMakeFiles\ggml-cpu.dir\ggml-cpu\tiled\tiled-kernel.cpp.obj
+C:\AI\win-build\llama-pelias-tier\ggml\src\ggml-cpu\tiled\tiled-kernel.cpp(290): warning C4068: unknown pragma 'GCC'
+C:\AI\win-build\llama-pelias-tier\ggml\src\ggml-cpu\tiled\tiled-kernel.cpp(299): warning C4068: unknown pragma 'GCC'
+C:\AI\win-build\llama-pelias-tier\ggml\src\ggml-cpu\tiled\tiled-kernel.cpp(307): warning C4068: unknown pragma 'GCC'
+C:\AI\win-build\llama-pelias-tier\ggml\src\ggml-cpu\tiled\tiled-kernel.cpp(330): warning C4068: unknown pragma 'GCC'
+C:\AI\win-build\llama-pelias-tier\ggml\src\ggml-cpu\tiled\tiled-kernel.cpp(339): warning C4068: unknown pragma 'GCC'
+C:\AI\win-build\llama-pelias-tier\ggml\src\ggml-cpu\tiled\tiled-kernel.cpp(347): warning C4068: unknown pragma 'GCC'
+C:\AI\win-build\llama-pelias-tier\ggml\src\ggml-cpu\tiled\tiled-kernel.cpp(368): warning C4068: unknown pragma 'GCC'
+[16/358] Building CXX object ggml\src\CMakeFiles\ggml-base.dir\ggml-backend-meta.cpp.obj
+[17/358] Building CXX object ggml\src\CMakeFiles\ggml-cpu.dir\ggml-cpu\binary-ops.cpp.obj
+[18/358] Building CXX object ggml\src\CMakeFiles\ggml-cpu.dir\ggml-cpu\vec.cpp.obj
+[19/358] Building CXX object ggml\src\CMakeFiles\ggml-base.dir\gguf.cpp.obj
+[20/358] Building CXX object ggml\src\CMakeFiles\ggml-cpu.dir\ggml-cpu\tiled\tiled.cpp.obj
+[21/358] Building CXX object ggml\src\CMakeFiles\ggml-cpu.dir\ggml-cpu\repack.cpp.obj
+[22/358] Building C object ggml\src\CMakeFiles\ggml-cpu.dir\ggml-cpu\arch\x86\quants.c.obj
+[23/358] Building CXX object ggml\src\CMakeFiles\ggml-cpu.dir\ggml-cpu\llamafile\sgemm.cpp.obj
+[24/358] Building CXX object ggml\src\CMakeFiles\ggml-cpu.dir\ggml-cpu\unary-ops.cpp.obj
+[25/358] Linking CXX shared library bin\ggml-base.dll
+[26/358] Building CXX object ggml\src\CMakeFiles\ggml-cpu.dir\ggml-cpu\arch\x86\repack.cpp.obj
+[27/358] Building CXX object ggml\src\CMakeFiles\ggml-cpu.dir\ggml-cpu\ops.cpp.obj
+[28/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\argmax.cu.obj
+argmax.cu
+[29/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\acc.cu.obj
+acc.cu
+[30/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\add-id.cu.obj
+add-id.cu
+[31/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\arange.cu.obj
+arange.cu
+[32/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\allreduce.cu.obj
+allreduce.cu
+[33/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\clamp.cu.obj
+clamp.cu
+[34/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\conv-transpose-1d.cu.obj
+conv-transpose-1d.cu
+[35/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\col2im-1d.cu.obj
+col2im-1d.cu
+[36/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\conv2d-dw.cu.obj
+conv2d-dw.cu
+[37/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\conv2d-transpose.cu.obj
+conv2d-transpose.cu
+[38/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\concat.cu.obj
+concat.cu
+[39/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\conv2d.cu.obj
+conv2d.cu
+[40/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\count-equal.cu.obj
+count-equal.cu
+[41/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\cross-entropy-loss.cu.obj
+cross-entropy-loss.cu
+[42/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\convert.cu.obj
+convert.cu
+[43/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\cpy.cu.obj
+cpy.cu
+[44/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\binbcast.cu.obj
+binbcast.cu
+[45/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\conv3d.cu.obj
+conv3d.cu
+[46/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\diag.cu.obj
+diag.cu
+[47/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\diagmask.cu.obj
+diagmask.cu
+[48/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\dsv4-hc.cu.obj
+dsv4-hc.cu
+[49/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\fattn-tile.cu.obj
+fattn-tile.cu
+[50/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\fill.cu.obj
+fill.cu
+[51/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\fwht.cu.obj
+fwht.cu
+[52/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\gated_delta_net.cu.obj
+gated_delta_net.cu
+[53/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\gla.cu.obj
+gla.cu
+[54/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\ggml-cuda.cu.obj
+ggml-cuda.cu
+[55/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\im2col.cu.obj
+im2col.cu
+[56/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\getrows.cu.obj
+getrows.cu
+[57/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\cumsum.cu.obj
+cumsum.cu
+[58/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\mmf.cu.obj
+mmf.cu
+[59/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\mmid.cu.obj
+mmid.cu
+[60/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\lightning-indexer.cu.obj
+lightning-indexer.cu
+[61/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\mmq.cu.obj
+mmq.cu
+[62/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\moe-weighted-reduction.cu.obj
+moe-weighted-reduction.cu
+[63/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\norm.cu.obj
+norm.cu
+[64/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\opt-step-adamw.cu.obj
+opt-step-adamw.cu
+[65/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\fattn.cu.obj
+fattn.cu
+[66/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\argsort.cu.obj
+argsort.cu
+[67/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\opt-step-sgd.cu.obj
+opt-step-sgd.cu
+[68/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\out-prod.cu.obj
+out-prod.cu
+[69/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\pad.cu.obj
+pad.cu
+[70/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\pad_reflect_1d.cu.obj
+pad_reflect_1d.cu
+[71/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\mean.cu.obj
+mean.cu
+[72/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\pool2d.cu.obj
+pool2d.cu
+[73/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\pool1d.cu.obj
+pool1d.cu
+[74/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\roll.cu.obj
+roll.cu
+[75/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\quantize.cu.obj
+quantize.cu
+[76/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\scale.cu.obj
+scale.cu
+[77/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\set.cu.obj
+set.cu
+[78/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\rope.cu.obj
+rope.cu
+[79/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\set-rows.cu.obj
+set-rows.cu
+[80/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\snake.cu.obj
+snake.cu
+[81/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\softcap.cu.obj
+softcap.cu
+[82/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\ssm-conv.cu.obj
+ssm-conv.cu
+[83/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\solve_tri.cu.obj
+solve_tri.cu
+[84/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\sumrows.cu.obj
+sumrows.cu
+[85/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\softmax.cu.obj
+softmax.cu
+[86/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\tri.cu.obj
+tri.cu
+[87/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\tsembd.cu.obj
+tsembd.cu
+[88/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\topk-moe.cu.obj
+topk-moe.cu
+[89/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\unary.cu.obj
+unary.cu
+[90/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\upscale.cu.obj
+upscale.cu
+[91/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\wkv.cu.obj
+wkv.cu
+[92/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\mmvf.cu.obj
+mmvf.cu
+[93/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\sum.cu.obj
+sum.cu
+[94/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\ssm-scan.cu.obj
+ssm-scan.cu
+[95/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\top-k.cu.obj
+top-k.cu
+[96/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\fattn-tile-instance-dkq320-dv256.cu.obj
+fattn-tile-instance-dkq320-dv256.cu
+[97/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\fattn-tile-instance-dkq192-dv128.cu.obj
+fattn-tile-instance-dkq192-dv128.cu
+[98/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\mmvq.cu.obj
+mmvq.cu
+[99/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\fattn-tile-instance-dkq40-dv40.cu.obj
+fattn-tile-instance-dkq40-dv40.cu
+[100/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\fattn-tile-instance-dkq112-dv112.cu.obj
+fattn-tile-instance-dkq112-dv112.cu
+[101/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\fattn-tile-instance-dkq128-dv128.cu.obj
+fattn-tile-instance-dkq128-dv128.cu
+[102/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\fattn-tile-instance-dkq64-dv64.cu.obj
+fattn-tile-instance-dkq64-dv64.cu
+[103/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\fattn-tile-instance-dkq576-dv512.cu.obj
+fattn-tile-instance-dkq576-dv512.cu
+[104/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\fattn-tile-instance-dkq72-dv72.cu.obj
+fattn-tile-instance-dkq72-dv72.cu
+[105/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\fattn-tile-instance-dkq80-dv80.cu.obj
+fattn-tile-instance-dkq80-dv80.cu
+[106/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\fattn-tile-instance-dkq96-dv96.cu.obj
+fattn-tile-instance-dkq96-dv96.cu
+[107/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\fattn-mma-f16-instance-ncols1_1-ncols2_32.cu.obj
+fattn-mma-f16-instance-ncols1_1-ncols2_32.cu
+[108/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\fattn-mma-f16-instance-ncols1_1-ncols2_16.cu.obj
+fattn-mma-f16-instance-ncols1_1-ncols2_16.cu
+[109/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\fattn-tile-instance-dkq512-dv512.cu.obj
+fattn-tile-instance-dkq512-dv512.cu
+[110/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\fattn-mma-f16-instance-ncols1_2-ncols2_16.cu.obj
+fattn-mma-f16-instance-ncols1_2-ncols2_16.cu
+[111/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\fattn-mma-f16-instance-ncols1_2-ncols2_32.cu.obj
+fattn-mma-f16-instance-ncols1_2-ncols2_32.cu
+[112/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\fattn-tile-instance-dkq256-dv256.cu.obj
+fattn-tile-instance-dkq256-dv256.cu
+[113/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\fattn-mma-f16-instance-ncols1_16-ncols2_1.cu.obj
+fattn-mma-f16-instance-ncols1_16-ncols2_1.cu
+[114/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\fattn-mma-f16-instance-ncols1_16-ncols2_2.cu.obj
+fattn-mma-f16-instance-ncols1_16-ncols2_2.cu
+[115/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\fattn-mma-f16-instance-ncols1_1-ncols2_8.cu.obj
+fattn-mma-f16-instance-ncols1_1-ncols2_8.cu
+[116/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\fattn-mma-f16-instance-ncols1_4-ncols2_16.cu.obj
+fattn-mma-f16-instance-ncols1_4-ncols2_16.cu
+[117/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\fattn-mma-f16-instance-ncols1_2-ncols2_4.cu.obj
+fattn-mma-f16-instance-ncols1_2-ncols2_4.cu
+[118/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\fattn-mma-f16-instance-ncols1_2-ncols2_8.cu.obj
+fattn-mma-f16-instance-ncols1_2-ncols2_8.cu
+[119/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\fattn-mma-f16-instance-ncols1_16-ncols2_4.cu.obj
+fattn-mma-f16-instance-ncols1_16-ncols2_4.cu
+[120/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\fattn-mma-f16-instance-ncols1_32-ncols2_1.cu.obj
+fattn-mma-f16-instance-ncols1_32-ncols2_1.cu
+[121/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\fattn-mma-f16-instance-ncols1_4-ncols2_2.cu.obj
+fattn-mma-f16-instance-ncols1_4-ncols2_2.cu
+[122/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\fattn-mma-f16-instance-ncols1_32-ncols2_2.cu.obj
+fattn-mma-f16-instance-ncols1_32-ncols2_2.cu
+[123/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\fattn-mma-f16-instance-ncols1_4-ncols2_4.cu.obj
+fattn-mma-f16-instance-ncols1_4-ncols2_4.cu
+[124/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\fattn-mma-f16-instance-ncols1_8-ncols2_2.cu.obj
+fattn-mma-f16-instance-ncols1_8-ncols2_2.cu
+[125/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\fattn-mma-f16-instance-ncols1_4-ncols2_8.cu.obj
+fattn-mma-f16-instance-ncols1_4-ncols2_8.cu
+[126/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\fattn-mma-f16-instance-ncols1_8-ncols2_1.cu.obj
+fattn-mma-f16-instance-ncols1_8-ncols2_1.cu
+[127/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\fattn-mma-f16-instance-ncols1_8-ncols2_4.cu.obj
+fattn-mma-f16-instance-ncols1_8-ncols2_4.cu
+[128/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\fattn-mma-f16-instance-ncols1_64-ncols2_1.cu.obj
+fattn-mma-f16-instance-ncols1_64-ncols2_1.cu
+[129/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\mmq-instance-iq1_s.cu.obj
+mmq-instance-iq1_s.cu
+[130/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\fattn-mma-f16-instance-ncols1_8-ncols2_8.cu.obj
+fattn-mma-f16-instance-ncols1_8-ncols2_8.cu
+[131/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\mmq-instance-iq2_xxs.cu.obj
+mmq-instance-iq2_xxs.cu
+[132/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\mmq-instance-iq2_s.cu.obj
+mmq-instance-iq2_s.cu
+[133/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\mmq-instance-iq2_xs.cu.obj
+mmq-instance-iq2_xs.cu
+[134/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\mmq-instance-iq3_s.cu.obj
+mmq-instance-iq3_s.cu
+[135/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\mmq-instance-iq3_xxs.cu.obj
+mmq-instance-iq3_xxs.cu
+[136/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\mmq-instance-iq4_nl.cu.obj
+mmq-instance-iq4_nl.cu
+[137/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\mmq-instance-iq4_xs.cu.obj
+mmq-instance-iq4_xs.cu
+[138/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\mmq-instance-q1_0.cu.obj
+mmq-instance-q1_0.cu
+[139/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\mmq-instance-q2_0.cu.obj
+mmq-instance-q2_0.cu
+[140/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\mmq-instance-q4_0.cu.obj
+mmq-instance-q4_0.cu
+[141/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\mmq-instance-q3_k.cu.obj
+mmq-instance-q3_k.cu
+[142/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\mmq-instance-q4_1.cu.obj
+mmq-instance-q4_1.cu
+[143/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\mmq-instance-mxfp4.cu.obj
+mmq-instance-mxfp4.cu
+[144/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\mmq-instance-q2_k.cu.obj
+mmq-instance-q2_k.cu
+[145/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\mmq-instance-q4_k.cu.obj
+mmq-instance-q4_k.cu
+[146/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\mmq-instance-q5_0.cu.obj
+mmq-instance-q5_0.cu
+[147/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\mmq-instance-nvfp4.cu.obj
+mmq-instance-nvfp4.cu
+[148/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\mmf-instance-ncols_1.cu.obj
+mmf-instance-ncols_1.cu
+[149/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\mmf-instance-ncols_10.cu.obj
+mmf-instance-ncols_10.cu
+[150/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\mmf-instance-ncols_11.cu.obj
+mmf-instance-ncols_11.cu
+[151/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\mmq-instance-q5_1.cu.obj
+mmq-instance-q5_1.cu
+[152/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\mmf-instance-ncols_12.cu.obj
+mmf-instance-ncols_12.cu
+[153/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\mmq-instance-q8_0.cu.obj
+mmq-instance-q8_0.cu
+[154/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\mmf-instance-ncols_13.cu.obj
+mmf-instance-ncols_13.cu
+[155/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\mmq-instance-q5_k.cu.obj
+mmq-instance-q5_k.cu
+[156/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\mmq-instance-q6_k.cu.obj
+mmq-instance-q6_k.cu
+[157/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\mmf-instance-ncols_2.cu.obj
+mmf-instance-ncols_2.cu
+[158/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\mmf-instance-ncols_14.cu.obj
+mmf-instance-ncols_14.cu
+[159/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\mmf-instance-ncols_3.cu.obj
+mmf-instance-ncols_3.cu
+[160/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\mmf-instance-ncols_4.cu.obj
+mmf-instance-ncols_4.cu
+[161/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\mmf-instance-ncols_15.cu.obj
+mmf-instance-ncols_15.cu
+[162/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\mmf-instance-ncols_5.cu.obj
+mmf-instance-ncols_5.cu
+[163/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\mmf-instance-ncols_16.cu.obj
+mmf-instance-ncols_16.cu
+[164/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\mmf-instance-ncols_6.cu.obj
+mmf-instance-ncols_6.cu
+[165/358] Building CXX object ggml\src\CMakeFiles\ggml.dir\ggml-backend-dl.cpp.obj
+[166/358] Building CXX object ggml\src\CMakeFiles\ggml.dir\ggml-backend-reg.cpp.obj
+[167/358] Linking CXX shared library bin\ggml-cpu.dll
+[168/358] Building CXX object src\CMakeFiles\llama.dir\Unity\unity_9_cxx.cxx.obj
+[169/358] Building CXX object src\CMakeFiles\llama.dir\Unity\unity_8_cxx.cxx.obj
+[170/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\mmf-instance-ncols_7.cu.obj
+mmf-instance-ncols_7.cu
+[171/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\mmf-instance-ncols_8.cu.obj
+mmf-instance-ncols_8.cu
+[172/358] Building CXX object src\CMakeFiles\llama.dir\Unity\unity_7_cxx.cxx.obj
+[173/358] Building CXX object src\CMakeFiles\llama.dir\Unity\unity_6_cxx.cxx.obj
+[174/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\fattn-vec-instance-f16-f16.cu.obj
+fattn-vec-instance-f16-f16.cu
+[175/358] Building CXX object src\CMakeFiles\llama.dir\Unity\unity_4_cxx.cxx.obj
+[176/358] Building CXX object src\CMakeFiles\llama.dir\Unity\unity_5_cxx.cxx.obj
+[177/358] Building CXX object src\CMakeFiles\llama.dir\Unity\unity_2_cxx.cxx.obj
+[178/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\fattn-vec-instance-bf16-bf16.cu.obj
+fattn-vec-instance-bf16-bf16.cu
+[179/358] Building CXX object src\CMakeFiles\llama.dir\Unity\unity_3_cxx.cxx.obj
+[180/358] Building CXX object src\CMakeFiles\llama.dir\llama.cpp.obj
+[181/358] Building CXX object src\CMakeFiles\llama.dir\Unity\unity_0_cxx.cxx.obj
+[182/358] Building CXX object src\CMakeFiles\llama.dir\Unity\unity_1_cxx.cxx.obj
+[183/358] Building CXX object src\CMakeFiles\llama.dir\llama-adapter.cpp.obj
+[184/358] Building CXX object src\CMakeFiles\llama.dir\llama-arch.cpp.obj
+[185/358] Building CXX object src\CMakeFiles\llama.dir\llama-cparams.cpp.obj
+[186/358] Building CXX object src\CMakeFiles\llama.dir\llama-batch.cpp.obj
+[187/358] Building CXX object src\CMakeFiles\llama.dir\llama-chat.cpp.obj
+[188/358] Building CXX object src\CMakeFiles\llama.dir\llama-hparams.cpp.obj
+[189/358] Building CXX object src\CMakeFiles\llama.dir\llama-io.cpp.obj
+[190/358] Building CXX object src\CMakeFiles\llama.dir\llama-context.cpp.obj
+[191/358] Building CXX object src\CMakeFiles\llama.dir\llama-grammar.cpp.obj
+[192/358] Building CXX object src\CMakeFiles\llama.dir\llama-impl.cpp.obj
+[193/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\mmf-instance-ncols_9.cu.obj
+mmf-instance-ncols_9.cu
+[194/358] Building CXX object src\CMakeFiles\llama.dir\llama-graph.cpp.obj
+C:\Program Files\Microsoft Visual Studio\18\Professional\VC\Tools\MSVC\14.44.35207\include\memory(3630): warning C4244: 'argument': conversion from 'const int64_t' to 'uint32_t', possible loss of data
+C:\Program Files\Microsoft Visual Studio\18\Professional\VC\Tools\MSVC\14.44.35207\include\memory(3630): note: the template instantiation context (the oldest one first) is
+C:\AI\win-build\llama-pelias-tier\src\llama-graph.cpp(2609): note: see reference to function template instantiation 'std::unique_ptr<llm_graph_input_out_ids,std::default_delete<llm_graph_input_out_ids>> std::make_unique<llm_graph_input_out_ids,const llama_hparams&,const llama_cparams&,const int64_t&,0>(const llama_hparams &,const llama_cparams &,const int64_t &)' being compiled
+[195/358] Building CXX object src\CMakeFiles\llama.dir\llama-kv-cache-iswa.cpp.obj
+[196/358] Building CXX object src\CMakeFiles\llama.dir\llama-kv-cache-dsa-iswa.cpp.obj
+[197/358] Building CXX object src\CMakeFiles\llama.dir\llama-kv-cache-dsa.cpp.obj
+[198/358] Building CXX object src\CMakeFiles\llama.dir\llama-kv-cache-msa.cpp.obj
+[199/358] Building CXX object src\CMakeFiles\llama.dir\llama-memory.cpp.obj
+[200/358] Building CXX object src\CMakeFiles\llama.dir\llama-memory-hybrid.cpp.obj
+[201/358] Building CXX object src\CMakeFiles\llama.dir\llama-memory-hybrid-iswa.cpp.obj
+[202/358] Building CXX object src\CMakeFiles\llama.dir\llama-kv-cache.cpp.obj
+[203/358] Building CXX object src\CMakeFiles\llama.dir\llama-kv-cache-dsv4.cpp.obj
+[204/358] Building CXX object src\CMakeFiles\llama.dir\llama-memory-hybrid-idx.cpp.obj
+[205/358] Building CXX object src\CMakeFiles\llama.dir\llama-mmap.cpp.obj
+[206/358] Building CXX object src\CMakeFiles\llama.dir\llama-memory-recurrent.cpp.obj
+[207/358] Building CXX object src\CMakeFiles\llama.dir\llama-model-saver.cpp.obj
+[208/358] Building CXX object src\CMakeFiles\llama.dir\llama-pelias-tier.cpp.obj
+[209/358] Building CXX object src\CMakeFiles\llama.dir\llama-model-loader.cpp.obj
+[210/358] Building CXX object src\CMakeFiles\llama.dir\llama-sampler.cpp.obj
+[211/358] Building CXX object src\CMakeFiles\llama.dir\llama-quant.cpp.obj
+C:\Program Files\Microsoft Visual Studio\18\Professional\VC\Tools\MSVC\14.44.35207\include\type_traits(1680): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Program Files\Microsoft Visual Studio\18\Professional\VC\Tools\MSVC\14.44.35207\include\type_traits(1680): note: the template instantiation context (the oldest one first) is
+C:\AI\win-build\llama-pelias-tier\src\llama-quant.cpp(275): note: see reference to function template instantiation 'std::thread &std::vector<std::thread,std::allocator<std::thread>>::emplace_back<llama_tensor_dequantize_impl::<lambda_3d6bdcb7ad149e26c148c5318ace554d>&,ggml_type&,const uint8_t*,float*,size_t&>(llama_tensor_dequantize_impl::<lambda_3d6bdcb7ad149e26c148c5318ace554d> &,ggml_type &,const uint8_t *&&,float *&&,size_t &)' being compiled
+C:\AI\win-build\llama-pelias-tier\src\llama-quant.cpp(275): note: see the first reference to 'std::vector<std::thread,std::allocator<std::thread>>::emplace_back' in 'llama_tensor_dequantize_impl'
+C:\Program Files\Microsoft Visual Studio\18\Professional\VC\Tools\MSVC\14.44.35207\include\vector(924): note: see reference to function template instantiation '_Ty &std::vector<_Ty,std::allocator<_Ty>>::_Emplace_one_at_back<llama_tensor_dequantize_impl::<lambda_3d6bdcb7ad149e26c148c5318ace554d>&,ggml_type&,const unsigned char*,float*,size_t&>(llama_tensor_dequantize_impl::<lambda_3d6bdcb7ad149e26c148c5318ace554d> &,ggml_type &,const unsigned char *&&,float *&&,size_t &)' being compiled
+        with
+        [
+            _Ty=std::thread
+        ]
+C:\Program Files\Microsoft Visual Studio\18\Professional\VC\Tools\MSVC\14.44.35207\include\vector(845): note: see reference to function template instantiation '_Ty &std::vector<_Ty,std::allocator<_Ty>>::_Emplace_back_with_unused_capacity<llama_tensor_dequantize_impl::<lambda_3d6bdcb7ad149e26c148c5318ace554d>&,ggml_type&,const unsigned char*,float*,size_t&>(llama_tensor_dequantize_impl::<lambda_3d6bdcb7ad149e26c148c5318ace554d> &,ggml_type &,const unsigned char *&&,float *&&,size_t &)' being compiled
+        with
+        [
+            _Ty=std::thread
+        ]
+C:\Program Files\Microsoft Visual Studio\18\Professional\VC\Tools\MSVC\14.44.35207\include\vector(863): note: see reference to function template instantiation 'void std::_Default_allocator_traits<_Alloc>::construct<_Ty,llama_tensor_dequantize_impl::<lambda_3d6bdcb7ad149e26c148c5318ace554d>&,ggml_type&,const unsigned char*,float*,size_t&>(_Alloc &,_Objty *const ,llama_tensor_dequantize_impl::<lambda_3d6bdcb7ad149e26c148c5318ace554d> &,ggml_type &,const unsigned char *&&,float *&&,size_t &)' being compiled
+        with
+        [
+            _Alloc=std::allocator<std::thread>,
+            _Ty=std::thread,
+            _Objty=std::thread
+        ]
+C:\Program Files\Microsoft Visual Studio\18\Professional\VC\Tools\MSVC\14.44.35207\include\xmemory(732): note: see reference to function template instantiation 'std::thread::thread<llama_tensor_dequantize_impl::<lambda_3d6bdcb7ad149e26c148c5318ace554d>&,ggml_type&,_T,float*,size_t&,0>(_Fn,ggml_type &,_T &&,float *&&,size_t &)' being compiled
+        with
+        [
+            _T=const uint8_t *,
+            _Fn=llama_tensor_dequantize_impl::<lambda_3d6bdcb7ad149e26c148c5318ace554d> &
+        ]
+C:\Program Files\Microsoft Visual Studio\18\Professional\VC\Tools\MSVC\14.44.35207\include\thread(93): note: see reference to function template instantiation 'void std::thread::_Start<llama_tensor_dequantize_impl::<lambda_3d6bdcb7ad149e26c148c5318ace554d>&,ggml_type&,_Ty,float*,size_t&>(_Fn,ggml_type &,_Ty &&,float *&&,size_t &)' being compiled
+        with
+        [
+            _Ty=const uint8_t *,
+            _Fn=llama_tensor_dequantize_impl::<lambda_3d6bdcb7ad149e26c148c5318ace554d> &
+        ]
+C:\Program Files\Microsoft Visual Studio\18\Professional\VC\Tools\MSVC\14.44.35207\include\thread(76): note: see reference to function template instantiation 'unsigned int (__cdecl *std::thread::_Get_invoke<std::thread::_Start::_Tuple,0,1,2,3,4>(std::integer_sequence<size_t,0,1,2,3,4>) noexcept)(void *) noexcept' being compiled
+C:\Program Files\Microsoft Visual Studio\18\Professional\VC\Tools\MSVC\14.44.35207\include\thread(67): note: see reference to function template instantiation 'unsigned int std::thread::_Invoke<_Tuple,0,1,2,3,4>(void *) noexcept' being compiled
+        with
+        [
+            _Tuple=std::thread::_Start::_Tuple
+        ]
+C:\Program Files\Microsoft Visual Studio\18\Professional\VC\Tools\MSVC\14.44.35207\include\thread(60): note: see reference to function template instantiation 'void std::invoke<llama_tensor_dequantize_impl::<lambda_3d6bdcb7ad149e26c148c5318ace554d>,ggml_type,const uint8_t*,_Ty*,unsigned __int64>(_Callable &&,_Ty1 &&,const uint8_t *&&,_Ty *&&,unsigned __int64 &&) noexcept(false)' being compiled
+        with
+        [
+            _Ty=float,
+            _Callable=llama_tensor_dequantize_impl::<lambda_3d6bdcb7ad149e26c148c5318ace554d>,
+            _Ty1=ggml_type
+        ]
+[212/358] Building CXX object vendor\hash\CMakeFiles\vendor-hash.dir\hash.cpp.obj
+[213/358] Building C object vendor\hash\CMakeFiles\vendor-hash.dir\xxhash\xxhash.c.obj
+[214/358] Building CXX object vendor\hash\CMakeFiles\vendor-hash.dir\sha1\sha1.c.obj
+[215/358] Building C object vendor\hash\CMakeFiles\vendor-hash.dir\sha256\sha256.c.obj
+[216/358] Building CXX object src\CMakeFiles\llama.dir\llama-model.cpp.obj
+C:\Program Files\Microsoft Visual Studio\18\Professional\VC\Tools\MSVC\14.44.35207\include\utility(274): warning C4244: 'initializing': conversion from '_Ty' to '_Ty2', possible loss of data
+        with
+        [
+            _Ty=int64_t
+        ]
+        and
+        [
+            _Ty2=uint32_t
+        ]
+C:\Program Files\Microsoft Visual Studio\18\Professional\VC\Tools\MSVC\14.44.35207\include\utility(274): note: the template instantiation context (the oldest one first) is
+C:\AI\win-build\llama-pelias-tier\src\llama-model.cpp(647): note: see reference to function template instantiation 'std::pair<int64_t,uint32_t>::pair<const int64_t&,int64_t,0>(_Other1,_Other2 &&) noexcept' being compiled
+        with
+        [
+            _Other1=const int64_t &,
+            _Other2=int64_t
+        ]
+C:\AI\win-build\llama-pelias-tier\src\llama-model.cpp(647): note: see the first reference to 'std::pair<int64_t,uint32_t>::pair' in 'llama_meta_device_get_split_state::<lambda_0f5f3ea86ff59845c4cabcc1c4d6369f>::operator ()'
+C:\Program Files\Microsoft Visual Studio\18\Professional\VC\Tools\MSVC\14.44.35207\include\utility(274): warning C4244: 'initializing': conversion from 'const int64_t' to '_Ty2', possible loss of data
+        with
+        [
+            _Ty2=uint32_t
+        ]
+C:\Program Files\Microsoft Visual Studio\18\Professional\VC\Tools\MSVC\14.44.35207\include\utility(274): note: the template instantiation context (the oldest one first) is
+C:\AI\win-build\llama-pelias-tier\src\llama-model.cpp(650): note: see reference to function template instantiation 'std::pair<int64_t,uint32_t>::pair<const int64_t&,const int64_t&,0>(_Other1,_Other2) noexcept' being compiled
+        with
+        [
+            _Other1=const int64_t &,
+            _Other2=const int64_t &
+        ]
+C:\AI\win-build\llama-pelias-tier\src\llama-model.cpp(650): note: see the first reference to 'std::pair<int64_t,uint32_t>::pair' in 'llama_meta_device_get_split_state::<lambda_0f5f3ea86ff59845c4cabcc1c4d6369f>::operator ()'
+[217/358] Building CXX object src\CMakeFiles\llama.dir\llama-vocab.cpp.obj
+[218/358] Linking CXX static library vendor\hash\vendor-hash.lib
+[219/358] Building CXX object common\CMakeFiles\llama-common-base.dir\build-info.cpp.obj
+[220/358] Linking CXX static library common\llama-common-base.lib
+[221/358] Building CXX object src\CMakeFiles\llama.dir\unicode.cpp.obj
+[222/358] Building CXX object common\CMakeFiles\llama-common.dir\parsers\parsers.cpp.obj
+[223/358] Building CXX object common\CMakeFiles\llama-common.dir\parsers\cohere2moe.cpp.obj
+[224/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\fattn-vec-instance-q8_0-q8_0.cu.obj
+fattn-vec-instance-q8_0-q8_0.cu
+[225/358] Building CXX object common\CMakeFiles\llama-common.dir\parsers\deepseek.cpp.obj
+[226/358] Building CXX object common\CMakeFiles\llama-common.dir\parsers\functionary-v3-2.cpp.obj
+[227/358] Building CXX object common\CMakeFiles\llama-common.dir\parsers\gemma4.cpp.obj
+[228/358] Building CUDA object ggml\src\ggml-cuda\CMakeFiles\ggml-cuda.dir\template-instances\fattn-vec-instance-q4_0-q4_0.cu.obj
+fattn-vec-instance-q4_0-q4_0.cu
+[229/358] Building CXX object common\CMakeFiles\llama-common.dir\parsers\gigachat-v3.cpp.obj
+[230/358] Building CXX object common\CMakeFiles\llama-common.dir\parsers\gpt-oss.cpp.obj
+[231/358] Linking CUDA shared library bin\ggml-cuda.dll
+[232/358] Building CXX object common\CMakeFiles\llama-common.dir\parsers\kimi-k2.cpp.obj
+[233/358] Linking CXX shared library bin\ggml.dll
+[234/358] Building CXX object common\CMakeFiles\llama-common.dir\parsers\kimi-k3.cpp.obj
+[235/358] Building CXX object vendor\cpp-httplib\CMakeFiles\cpp-httplib.dir\httplib.cpp.obj
+[236/358] Linking CXX static library vendor\cpp-httplib\cpp-httplib.lib
+[237/358] Building CXX object common\CMakeFiles\llama-common.dir\parsers\ling3.cpp.obj
+[238/358] Building CXX object common\CMakeFiles\llama-common.dir\parsers\lfm2.cpp.obj
+[239/358] Building CXX object common\CMakeFiles\llama-common.dir\parsers\llm-jp-harmony.cpp.obj
+[240/358] Building CXX object common\CMakeFiles\llama-common.dir\parsers\minicpm5.cpp.obj
+[241/358] Building CXX object common\CMakeFiles\llama-common.dir\parsers\ministral3.cpp.obj
+[242/358] Building CXX object common\CMakeFiles\llama-common.dir\parsers\minimax-m3.cpp.obj
+[243/358] Building CXX object common\CMakeFiles\llama-common.dir\parsers\qwen3-coder.cpp.obj
+[244/358] Building CXX object common\CMakeFiles\llama-common.dir\parsers\muse-glimmer.cpp.obj
+[245/358] Building CXX object common\CMakeFiles\llama-common.dir\chat-auto-parser-generator.cpp.obj
+[246/358] Building CXX object common\CMakeFiles\llama-common.dir\chat-auto-parser-helpers.cpp.obj
+[247/358] Building CXX object common\CMakeFiles\llama-common.dir\chat-diff-analyzer.cpp.obj
+[248/358] Building CXX object common\CMakeFiles\llama-common.dir\console.cpp.obj
+[249/358] Building CXX object common\CMakeFiles\llama-common.dir\chat-peg-parser.cpp.obj
+[250/358] Building CXX object common\CMakeFiles\llama-common.dir\debug.cpp.obj
+[251/358] Building CXX object common\CMakeFiles\llama-common.dir\common.cpp.obj
+[252/358] Building CXX object common\CMakeFiles\llama-common.dir\imatrix-loader.cpp.obj
+[253/358] Building CXX object common\CMakeFiles\llama-common.dir\chat.cpp.obj
+[254/358] Building CXX object common\CMakeFiles\llama-common.dir\fit.cpp.obj
+[255/358] Building CXX object common\CMakeFiles\llama-common.dir\llguidance.cpp.obj
+[256/358] Building CXX object src\CMakeFiles\llama.dir\unicode-data.cpp.obj
+[257/358] Building CXX object common\CMakeFiles\llama-common.dir\hf-cache.cpp.obj
+[258/358] Building CXX object common\CMakeFiles\llama-common.dir\json-schema.cpp.obj
+[259/358] Linking CXX shared library bin\llama.dll
+[260/358] Building CXX object common\CMakeFiles\llama-common.dir\log.cpp.obj
+[261/358] Building CXX object common\CMakeFiles\llama-common.dir\json-schema-to-grammar.cpp.obj
+[262/358] Building CXX object common\CMakeFiles\llama-common.dir\ngram-mod.cpp.obj
+[263/358] Building CXX object common\CMakeFiles\llama-common.dir\download.cpp.obj
+[264/358] Building CXX object common\CMakeFiles\llama-common.dir\ngram-cache.cpp.obj
+[265/358] Building CXX object common\CMakeFiles\llama-common.dir\ngram-map.cpp.obj
+[266/358] Building CXX object common\CMakeFiles\llama-common.dir\json.cpp.obj
+[267/358] Building CXX object common\CMakeFiles\llama-common.dir\reasoning-budget.cpp.obj
+[268/358] Building CXX object common\CMakeFiles\llama-common.dir\subproc.cpp.obj
+[269/358] Building CXX object common\CMakeFiles\llama-common.dir\unicode.cpp.obj
+[270/358] Building CXX object common\CMakeFiles\llama-common.dir\trie.cpp.obj
+[271/358] Building CXX object common\CMakeFiles\llama-common.dir\sampling.cpp.obj
+[272/358] Building CXX object common\CMakeFiles\llama-common.dir\preset.cpp.obj
+[273/358] Building CXX object common\CMakeFiles\llama-common.dir\jinja\lexer.cpp.obj
+[274/358] Building CXX object common\CMakeFiles\llama-common.dir\jinja\string.cpp.obj
+[275/358] Building CXX object common\CMakeFiles\llama-common.dir\speculative.cpp.obj
+[276/358] Building CXX object common\CMakeFiles\llama-common.dir\jinja\runtime.cpp.obj
+[277/358] Building CXX object common\CMakeFiles\llama-common.dir\jinja\parser.cpp.obj
+[278/358] Building CXX object common\CMakeFiles\llama-common.dir\jinja\caps.cpp.obj
+[279/358] Building CXX object common\CMakeFiles\llama-common.dir\peg-parser.cpp.obj
+[280/358] Building CXX object common\CMakeFiles\llama-common.dir\jinja\value.cpp.obj
+[281/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\mtmd-helper-gen.cpp.obj
+[282/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\mtmd-image.cpp.obj
+[283/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\mtmd-audio.cpp.obj
+C:\Program Files\Microsoft Visual Studio\18\Professional\VC\Tools\MSVC\14.44.35207\include\xutility(5310): warning C4244: '=': conversion from 'const _Ty' to 'float', possible loss of data
+        with
+        [
+            _Ty=double
+        ]
+C:\Program Files\Microsoft Visual Studio\18\Professional\VC\Tools\MSVC\14.44.35207\include\xutility(5310): note: the template instantiation context (the oldest one first) is
+C:\AI\win-build\llama-pelias-tier\tools\mtmd\mtmd-audio.cpp(323): note: see reference to function template instantiation 'void std::fill<std::_Vector_iterator<std::_Vector_val<std::_Simple_types<_Ty>>>,double>(const _FwdIt,const _FwdIt,const double &)' being compiled
+        with
+        [
+            _Ty=float,
+            _FwdIt=std::_Vector_iterator<std::_Vector_val<std::_Simple_types<float>>>
+        ]
+C:\Program Files\Microsoft Visual Studio\18\Professional\VC\Tools\MSVC\14.44.35207\include\xutility(5310): warning C4244: '=': conversion from 'const _Ty' to 'float', possible loss of data
+        with
+        [
+            _Ty=int
+        ]
+C:\Program Files\Microsoft Visual Studio\18\Professional\VC\Tools\MSVC\14.44.35207\include\xutility(5310): note: the template instantiation context (the oldest one first) is
+C:\AI\win-build\llama-pelias-tier\tools\mtmd\mtmd-audio.cpp(407): note: see reference to function template instantiation 'void std::fill<std::_Vector_iterator<std::_Vector_val<std::_Simple_types<_Ty>>>,int>(const _FwdIt,const _FwdIt,const int &)' being compiled
+        with
+        [
+            _Ty=float,
+            _FwdIt=std::_Vector_iterator<std::_Vector_val<std::_Simple_types<float>>>
+        ]
+C:\Program Files\Microsoft Visual Studio\18\Professional\VC\Tools\MSVC\14.44.35207\include\type_traits(1680): warning C4244: 'argument': conversion from '__int64' to 'int', possible loss of data
+C:\Program Files\Microsoft Visual Studio\18\Professional\VC\Tools\MSVC\14.44.35207\include\type_traits(1680): note: the template instantiation context (the oldest one first) is
+C:\AI\win-build\llama-pelias-tier\tools\mtmd\mtmd-audio.cpp(1318): note: see reference to function template instantiation 'std::thread::thread<void(__cdecl &)(int,const float *,int,const std::vector<float,std::allocator<float>> &,int,int,int,int,int,const mtmd_audio_cache &,mtmd_audio_mel &),int,const float*&,const int&,std::reference_wrapper<const std::vector<float,std::allocator<float>>>,unsigned __int64,const int&,const int&,const int&,int64_t&,std::reference_wrapper<const mtmd_audio_cache>,std::reference_wrapper<mtmd_audio_mel>,0>(_Fn,int &&,const float *&,const int &,std::reference_wrapper<const std::vector<float,std::allocator<float>>> &&,unsigned __int64 &&,const int &,const int &,const int &,int64_t &,std::reference_wrapper<const mtmd_audio_cache> &&,std::reference_wrapper<mtmd_audio_mel> &&)' being compiled
+        with
+        [
+            _Fn=void (__cdecl &)(int,const float *,int,const std::vector<float,std::allocator<float>> &,int,int,int,int,int,const mtmd_audio_cache &,mtmd_audio_mel &)
+        ]
+C:\Program Files\Microsoft Visual Studio\18\Professional\VC\Tools\MSVC\14.44.35207\include\thread(93): note: see reference to function template instantiation 'void std::thread::_Start<void(__cdecl &)(int,const float *,int,const std::vector<float,std::allocator<float>> &,int,int,int,int,int,const mtmd_audio_cache &,mtmd_audio_mel &),_Ty,const float*&,const int&,std::reference_wrapper<const std::vector<float,std::allocator<float>>>,unsigned __int64,const int&,const int&,const int&,int64_t&,std::reference_wrapper<const mtmd_audio_cache>,std::reference_wrapper<mtmd_audio_mel>>(_Fn,_Ty &&,const float *&,const int &,std::reference_wrapper<const std::vector<float,std::allocator<float>>> &&,unsigned __int64 &&,const int &,const int &,const int &,int64_t &,std::reference_wrapper<const mtmd_audio_cache> &&,std::reference_wrapper<mtmd_audio_mel> &&)' being compiled
+        with
+        [
+            _Ty=int,
+            _Fn=void (__cdecl &)(int,const float *,int,const std::vector<float,std::allocator<float>> &,int,int,int,int,int,const mtmd_audio_cache &,mtmd_audio_mel &)
+        ]
+C:\Program Files\Microsoft Visual Studio\18\Professional\VC\Tools\MSVC\14.44.35207\include\thread(76): note: see reference to function template instantiation 'unsigned int (__cdecl *std::thread::_Get_invoke<std::thread::_Start::_Tuple,0,1,2,3,4,5,6,7,8,9,10,11>(std::integer_sequence<size_t,0,1,2,3,4,5,6,7,8,9,10,11>) noexcept)(void *) noexcept' being compiled
+C:\Program Files\Microsoft Visual Studio\18\Professional\VC\Tools\MSVC\14.44.35207\include\thread(67): note: see reference to function template instantiation 'unsigned int std::thread::_Invoke<_Tuple,0,1,2,3,4,5,6,7,8,9,10,11>(void *) noexcept' being compiled
+        with
+        [
+            _Tuple=std::thread::_Start::_Tuple
+        ]
+C:\Program Files\Microsoft Visual Studio\18\Professional\VC\Tools\MSVC\14.44.35207\include\thread(60): note: see reference to function template instantiation 'void std::invoke<void(__cdecl *)(int,const float *,int,const std::vector<float,std::allocator<float>> &,int,int,int,int,int,const mtmd_audio_cache &,mtmd_audio_mel &),int,const float*,int,std::reference_wrapper<const std::vector<float,std::allocator<float>>>,unsigned __int64,int,int,int,__int64,std::reference_wrapper<const mtmd_audio_cache>,std::reference_wrapper<mtmd_audio_mel>>(_Callable &&,_Ty1 &&,const float *&&,int &&,std::reference_wrapper<const std::vector<float,std::allocator<float>>> &&,unsigned __int64 &&,int &&,int &&,int &&,__int64 &&,std::reference_wrapper<const mtmd_audio_cache> &&,std::reference_wrapper<mtmd_audio_mel> &&) noexcept(false)' being compiled
+        with
+        [
+            _Callable=void (__cdecl *)(int,const float *,int,const std::vector<float,std::allocator<float>> &,int,int,int,int,int,const mtmd_audio_cache &,mtmd_audio_mel &),
+            _Ty1=int
+        ]
+C:\Program Files\Microsoft Visual Studio\18\Professional\VC\Tools\MSVC\14.44.35207\include\type_traits(1680): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+[284/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\mtmd.cpp.obj
+[285/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\cogvlm.cpp.obj
+[286/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\conformer.cpp.obj
+[287/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\deepseek4v.cpp.obj
+[288/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\dots3note.cpp.obj
+[289/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\dotsocr.cpp.obj
+[290/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\mtmd-helper.cpp.obj
+[291/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\exaone4_5.cpp.obj
+[292/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\gemma4a.cpp.obj
+[293/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\gemma4v.cpp.obj
+[294/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\gemma4ua.cpp.obj
+[295/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\gemma4uv.cpp.obj
+[296/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\glm4v.cpp.obj
+[297/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\granite-speech.cpp.obj
+[298/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\granite4-vision.cpp.obj
+[299/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\clip.cpp.obj
+C:\Program Files\Microsoft Visual Studio\18\Professional\VC\Tools\MSVC\14.44.35207\include\xutility(5310): warning C4244: '=': conversion from 'const _Ty' to 'float', possible loss of data
+        with
+        [
+            _Ty=double
+        ]
+C:\Program Files\Microsoft Visual Studio\18\Professional\VC\Tools\MSVC\14.44.35207\include\xutility(5310): note: the template instantiation context (the oldest one first) is
+C:\AI\win-build\llama-pelias-tier\tools\mtmd\clip.cpp(4995): note: see reference to function template instantiation 'void std::fill<std::_Vector_iterator<std::_Vector_val<std::_Simple_types<_Ty>>>,double>(const _FwdIt,const _FwdIt,const double &)' being compiled
+        with
+        [
+            _Ty=float,
+            _FwdIt=std::_Vector_iterator<std::_Vector_val<std::_Simple_types<float>>>
+        ]
+[300/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\hunyuanvl.cpp.obj
+[301/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\internvl.cpp.obj
+[302/358] Building CXX object common\CMakeFiles\llama-common.dir\arg.cpp.obj
+[303/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\kimivl.cpp.obj
+[304/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\kimik25.cpp.obj
+[305/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\nemotron-v2-vl.cpp.obj
+[306/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\muse-glimmer.cpp.obj
+[307/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\llama4.cpp.obj
+[308/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\minicpmv.cpp.obj
+[309/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\llava.cpp.obj
+[310/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\paddleocr.cpp.obj
+[311/358] Provisioning UI assets
+-- UI: downloading from b11399: https://huggingface.co/buckets/ggml-org/llama-ui/resolve/b11399/dist.tar.gz
+-- UI: archive verified and extracted
+-- UI: HF download succeeded, stamp updated (ggml-org/llama-ui|b11399, resolved: b11399)
+-- UI: gzip compression applied (C:/AI/win-build/llama-pelias-tier/build-win/tools/ui/ui-gzip/_gzip)
+-- UI: embedded 70 assets
+[312/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\pixtral.cpp.obj
+[313/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\qwen2vl.cpp.obj
+[314/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\minimax-m3.cpp.obj
+[315/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\qwen3vl.cpp.obj
+[316/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\ling3vl.cpp.obj
+[317/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\mimovl.cpp.obj
+[318/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\qwen3a.cpp.obj
+[319/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\mimo-audio.cpp.obj
+[320/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\qwen3tts-spkenc.cpp.obj
+[321/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\pockettts-seanet.cpp.obj
+[322/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\qwen3tts-gen.cpp.obj
+[323/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\pockettts-spkenc.cpp.obj
+[324/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\step3vl.cpp.obj
+[325/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\siglip.cpp.obj
+[326/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\whisper-enc.cpp.obj
+[327/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\deepseekocr.cpp.obj
+[328/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\pockettts-gen.cpp.obj
+[329/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\deepseekocr2.cpp.obj
+[330/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\youtuvl.cpp.obj
+[331/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\mobilenetv5.cpp.obj
+[332/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\yasa2.cpp.obj
+[333/358] Building CXX object tools\mtmd\CMakeFiles\mtmd.dir\models\parakeet.cpp.obj
+[334/358] Linking CXX shared library bin\llama-common.dll
+[335/358] Building CXX object tools\ui\CMakeFiles\llama-ui.dir\ui.cpp.obj
+[336/358] Building CXX object tools\server\CMakeFiles\server-context.dir\server-chat.cpp.obj
+[337/358] Building CXX object tools\server\CMakeFiles\server-context.dir\server-queue.cpp.obj
+[338/358] Building CXX object tools\server\CMakeFiles\server-context.dir\server-task.cpp.obj
+[339/358] Building CXX object tools\server\CMakeFiles\server-context.dir\server-stream.cpp.obj
+[340/358] Linking CXX shared library bin\mtmd.dll
+[341/358] Linking CXX static library tools\ui\llama-ui.lib
+[342/358] Building CXX object tools\server\CMakeFiles\server-context.dir\server-decision.cpp.obj
+[343/358] Building CXX object tools\server\CMakeFiles\server-context.dir\server-common.cpp.obj
+[344/358] Building CXX object tools\server\CMakeFiles\server-context.dir\server-mcp.cpp.obj
+[345/358] Building CXX object tools\perplexity\CMakeFiles\llama-perplexity.dir\main.cpp.obj
+[346/358] Building CXX object tools\server\CMakeFiles\llama-server.dir\main.cpp.obj
+[347/358] Building CXX object tools\server\CMakeFiles\server-context.dir\server-context.cpp.obj
+[348/358] Building CXX object tools\perplexity\CMakeFiles\llama-perplexity-impl.dir\perplexity.cpp.obj
+[349/358] Linking CXX shared library bin\llama-perplexity-impl.dll
+[350/358] Linking CXX executable bin\llama-perplexity.exe
+[351/358] Building CXX object tools\server\CMakeFiles\server-context.dir\server-schema.cpp.obj
+[352/358] Building CXX object tools\server\CMakeFiles\server-context.dir\server-tools.cpp.obj
+[353/358] Linking CXX static library tools\server\server-context.lib
+[354/358] Building CXX object tools\server\CMakeFiles\llama-server-impl.dir\server-http.cpp.obj
+[355/358] Building CXX object tools\server\CMakeFiles\llama-server-impl.dir\server.cpp.obj
+[356/358] Building CXX object tools\server\CMakeFiles\llama-server-impl.dir\server-models.cpp.obj
+[357/358] Linking CXX shared library bin\llama-server-impl.dll
+[358/358] Linking CXX executable bin\llama-server.exe

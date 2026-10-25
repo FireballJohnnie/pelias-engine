@@ -1,0 +1,11 @@
+﻿run: 20261023_234529_facts   (results folder: C:\AI\cl-sndbx-bkp\stuart-creator\2026-10-23\probe_results\windows\20261023_234529_facts)
+Collecting read-only Windows facts ...
+Facts saved: C:\AI\cl-sndbx-bkp\stuart-creator\2026-10-23\probe_results\windows\20261023_234529_facts\facts_windows.txt
+
+Build tools:
+  nvcc (CUDA toolkit): C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.4\bin\nvcc.exe
+  Visual Studio C++ tools: C:\Program Files\Microsoft Visual Studio\18\Professional\Common7\Tools\VsDevCmd.bat
+  nvidia-smi: C:\WINDOWS\system32\nvidia-smi.exe
+machine_state_sha: 91552e04fbf813bb
+
+Facts only - nothing was built or run. Tell Claude it is done.

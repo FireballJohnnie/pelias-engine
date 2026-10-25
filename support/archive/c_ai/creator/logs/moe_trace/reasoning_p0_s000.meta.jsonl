@@ -1,0 +1,10 @@
+{"seq":0,"id":"reasoning-0000","domain":"reasoning","prompt_tokens":91,"generated_tokens":265,"finish":"eog","prefill_s":1.265,"decode_s":8.233}
+{"seq":1,"id":"reasoning-0001","domain":"reasoning","prompt_tokens":72,"generated_tokens":213,"finish":"eog","prefill_s":0.765,"decode_s":6.467}
+{"seq":2,"id":"reasoning-0002","domain":"reasoning","prompt_tokens":58,"generated_tokens":252,"finish":"eog","prefill_s":0.888,"decode_s":7.638}
+{"seq":3,"id":"reasoning-0003","domain":"reasoning","prompt_tokens":66,"generated_tokens":197,"finish":"eog","prefill_s":0.790,"decode_s":5.913}
+{"seq":4,"id":"reasoning-0004","domain":"reasoning","prompt_tokens":58,"generated_tokens":279,"finish":"eog","prefill_s":0.798,"decode_s":8.440}
+{"seq":5,"id":"reasoning-0005","domain":"reasoning","prompt_tokens":61,"generated_tokens":335,"finish":"eog","prefill_s":0.750,"decode_s":10.023}
+{"seq":6,"id":"reasoning-0006","domain":"reasoning","prompt_tokens":61,"generated_tokens":498,"finish":"eog","prefill_s":0.747,"decode_s":14.856}
+{"seq":7,"id":"reasoning-0007","domain":"reasoning","prompt_tokens":61,"generated_tokens":330,"finish":"eog","prefill_s":0.941,"decode_s":9.920}
+{"seq":8,"id":"reasoning-0008","domain":"reasoning","prompt_tokens":56,"generated_tokens":205,"finish":"eog","prefill_s":0.881,"decode_s":6.347}
+{"seq":9,"id":"reasoning-0009","domain":"reasoning","prompt_tokens":57,"generated_tokens":308,"finish":"eog","prefill_s":0.827,"decode_s":9.368}

@@ -1,0 +1,3 @@
+b9d9c9762edb52f43bbcf3e9604dc138b89142bbaca5e70cc872b822bbbb6871  microbench/03_handoff_latency.cu
+c873c30bc62574df4cc793f4485b205581c3b8ca97f4cace1649d8ec69fef2ab  microbench/04_dual_bus_test.cu
+d7f596ff28b4e278863c7214b8578f197599fca04e5d59b4124533a9ba80f24b  lib/cuda_shim.h

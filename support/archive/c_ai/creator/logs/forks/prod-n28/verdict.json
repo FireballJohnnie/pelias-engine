@@ -1,0 +1,53 @@
+{
+  "label": "prod-n28",
+  "spec": "prod:n=28",
+  "family": "prod",
+  "build": "prod",
+  "commit": "2ca15f5404760548c39e7b92bd43116a09414a1a",
+  "status": "measured",
+  "notes": [],
+  "reference": "the production command saved 2026-10-21 12:18:38",
+  "load_seconds": 4.0,
+  "vram_after_load_mib": 8732,
+  "check_exit": 0,
+  "speed_file": "<project>/logs/speed_server/20261021_133216_prod-n28.json",
+  "verdict": {
+    "baseline": "<project>/logs/speed_server/20261020_032031_q4km-ncmoe28-ctx131k-ub2048.json",
+    "result": "<project>/logs/speed_server/20261021_133216_prod-n28.json",
+    "metrics": {
+      "gen_short": 41.89176741135262,
+      "gen_12k": 41.84281447863852,
+      "prefill_12k": 1253.1627652318368,
+      "vram_peak_gib": 8.599609375,
+      "baseline_gen_short": 41.14014673319002,
+      "baseline_gen_12k": 38.78118786930526,
+      "baseline_prefill_12k": 1192.4506578131127
+    },
+    "p1": {
+      "pass": true,
+      "lines": [
+        "[gate P1] PASS",
+        "   generation, short prompt: 41.14 -> 41.89  (+1.8%)",
+        "   generation at 12k depth: 38.78 -> 41.84  (+7.9%)",
+        "   prompt reading at 12k: 1192.45 -> 1253.16  (+5.1%)",
+        "   generation spread at depth 0: baseline 0.3%, candidate 3.7% (a gain smaller than this is noise)",
+        "   generation spread at depth 12000: baseline 5.5%, candidate 1.6% (a gain smaller than this is noise)",
+        "   GPU peak 8.60 GiB (limit 11.2)",
+        "   improved by >= 5.0%: ['generation at 12k depth', 'prompt reading at 12k']; regressed by >= 3.0%: none",
+        "   keep this change"
+      ]
+    },
+    "g3": {
+      "pass": false,
+      "lines": [
+        "[gate G3] FAIL",
+        "   generation at 12k 41.84 tok/s (need >= 55.0)",
+        "   prompt reading at 12k 1253 tok/s (need >= 1150)",
+        "   GPU peak 8.60 GiB (limit 11.2)",
+        "   vs baseline q4km-ncmoe28-ctx131k-ub2048: 1.08x generation at 12k",
+        "   accuracy is a separate gate: run the persona probe, capability suite and sim/kl_gate.py on the candidate before adopting it"
+      ]
+    }
+  },
+  "finished": "2026-10-21 13:33:41"
+}

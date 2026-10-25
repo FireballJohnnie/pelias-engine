@@ -1,0 +1,59 @@
+{
+  "label": "tier-n40-hotashotsetb7.5-by32",
+  "spec": "tier:n=40,bypass=32,cap=7800,hot=<project>/logs/pelias_hot_set_b7.5.txt",
+  "family": "tier",
+  "build": "tier",
+  "commit": "2ca15f5404760548c39e7b92bd43116a09414a1a",
+  "status": "measured",
+  "notes": [
+    "Phase 6: the expert files stay in RAM exactly as in the control; the bank is an extra copy of the hot experts in VRAM (cap 7800 MiB). Batches of fewer than 32 tokens use bank + RAM, larger ones take the stock path",
+    "the log line 'pelias-tier: hot bank active for N layers' proves the bank exists; 'running without a hot bank' means it was refused and the run is a plain control"
+  ],
+  "reference": "the production command saved 2026-10-21 12:18:38",
+  "load_seconds": 26.0,
+  "vram_after_load_mib": 10663,
+  "tier_active": true,
+  "tier_layers": 40,
+  "tier_mib": 7606.6,
+  "check_exit": 0,
+  "speed_file": "<project>/logs/speed_server/20261022_200051_tier-n40-hotashotsetb7.5-by32.json",
+  "verdict": {
+    "baseline": "<project>/logs/speed_server/20261020_032031_q4km-ncmoe28-ctx131k-ub2048.json",
+    "result": "<project>/logs/speed_server/20261022_200051_tier-n40-hotashotsetb7.5-by32.json",
+    "metrics": {
+      "gen_short": 53.38690120708688,
+      "gen_12k": 49.14091761611374,
+      "prefill_12k": 1680.6856705109053,
+      "vram_peak_gib": 10.51953125,
+      "baseline_gen_short": 41.14014673319002,
+      "baseline_gen_12k": 38.78118786930526,
+      "baseline_prefill_12k": 1192.4506578131127
+    },
+    "p1": {
+      "pass": true,
+      "lines": [
+        "[gate P1] PASS",
+        "   generation, short prompt: 41.14 -> 53.39  (+29.8%)",
+        "   generation at 12k depth: 38.78 -> 49.14  (+26.7%)",
+        "   prompt reading at 12k: 1192.45 -> 1680.69  (+40.9%)",
+        "   generation spread at depth 0: baseline 0.3%, candidate 3.3% (a gain smaller than this is noise)",
+        "   generation spread at depth 12000: baseline 5.5%, candidate 7.5% (a gain smaller than this is noise)",
+        "   GPU peak 10.52 GiB (limit 11.2)",
+        "   improved by >= 5.0%: ['generation, short prompt', 'generation at 12k depth', 'prompt reading at 12k']; regressed by >= 3.0%: none",
+        "   keep this change"
+      ]
+    },
+    "g3": {
+      "pass": false,
+      "lines": [
+        "[gate G3] FAIL",
+        "   generation at 12k 49.14 tok/s (need >= 55.0)",
+        "   prompt reading at 12k 1681 tok/s (need >= 1150)",
+        "   GPU peak 10.52 GiB (limit 11.2)",
+        "   vs baseline q4km-ncmoe28-ctx131k-ub2048: 1.27x generation at 12k",
+        "   accuracy is a separate gate: run the persona probe, capability suite and sim/kl_gate.py on the candidate before adopting it"
+      ]
+    }
+  },
+  "finished": "2026-10-22 20:01:58"
+}

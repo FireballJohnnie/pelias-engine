@@ -1,0 +1,31 @@
+run: 20261024_030512_tdr   machine_state_sha: 56ce7ab148a293ce
+GPU temperature now: 31 C   |   free host memory: 46.0 GiB
+Close browsers, games, video and any other GPU or LLM program before this run.
+Note: PELIAS_GGUF is not set, so the model-file read test (m4) will be skipped.
+
+DISPLAY-TIMEOUT TEST. Each stage runs one long GPU kernel. Windows may reset the display driver: the screen can flicker or go black for a few seconds, and programs using the GPU can crash. Save your work first.
+
+=== h13  (03:05:18, timeout 240s)
+[START] P-H13  running a GPU kernel for about 2 s total (stage 2s) - the display may flicker or the driver may reset
+[PASS ] P-H13  stage 2s: wall 2.00 s (asked 2), completed=yes, device usable after=yes
+        -> /home/user/pelias_probe_results/20261024_030512_tdr/h13_2s.json
+
+=== h13  (03:05:25, timeout 240s)
+[START] P-H13  running a GPU kernel for about 5 s total (stage 5s) - the display may flicker or the driver may reset
+[PASS ] P-H13  stage 5s: wall 5.00 s (asked 5), completed=yes, device usable after=yes
+        -> /home/user/pelias_probe_results/20261024_030512_tdr/h13_5s.json
+
+=== h13  (03:05:35, timeout 240s)
+[START] P-H13  running a GPU kernel for about 30 s total (stage 30s) - the display may flicker or the driver may reset
+[PASS ] P-H13  stage 30s: wall 30.00 s (asked 30), completed=yes, device usable after=yes
+        -> /home/user/pelias_probe_results/20261024_030512_tdr/h13_30s.json
+
+=== h13  (03:06:14, timeout 240s)
+[START] P-H13  running a GPU kernel for about 10 s total (stage queued) - the display may flicker or the driver may reset
+[PASS ] P-H13  stage queued: wall 10.00 s (asked 10), completed=yes, device usable after=yes
+        -> /home/user/pelias_probe_results/20261024_030512_tdr/h13_queued.json
+
+=== h13  (03:06:29, timeout 240s)
+[START] P-H13  running a GPU kernel for about 10 s total (stage graph) - the display may flicker or the driver may reset
+[PASS ] P-H13  stage graph: wall 10.00 s (asked 10), completed=yes, device usable after=yes
+        -> /home/user/pelias_probe_results/20261024_030512_tdr/h13_graph.json

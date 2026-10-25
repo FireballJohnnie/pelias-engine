@@ -1,0 +1,6 @@
+5d: wrote <project>/logs/forks/tier-n40-hotashotsetb7.5-by32/prompt_reuse_5d.json
+    exact repeat of request 2 read 4 of 8018 prompt tokens again
+[gate 5d] PASS
+   second request processed 2049 of 8018 prompt tokens (cache reused: 5969)
+   first request 4332 ms, second 1280 ms
+   RESULT: prefix reuse works; multi-turn use does not pay a full re-read.

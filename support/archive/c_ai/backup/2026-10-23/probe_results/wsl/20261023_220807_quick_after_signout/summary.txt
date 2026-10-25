@@ -1,0 +1,3 @@
+[PASS ] SELFTEST all checks passed
+[FAIL ] P-H8   CUDA free 10.83 of 11.99 GiB (need >= 11.2)
+[PASS ] P-H12  all-three overlap: tensor many-short default 0.47 best 0.92 (compute_first_interleaved_flushed); tensor one-long default 0.00; vram-read default 0.41; copy engines reported 5; best H2D+D2H 0.84

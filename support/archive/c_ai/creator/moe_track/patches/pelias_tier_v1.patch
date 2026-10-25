@@ -1,0 +1,273 @@
+diff --git a/ggml/src/ggml-cpu/ggml-cpu.c b/ggml/src/ggml-cpu/ggml-cpu.c
+index 7c274c0..27ff2f1 100644
+--- a/ggml/src/ggml-cpu/ggml-cpu.c
++++ b/ggml/src/ggml-cpu/ggml-cpu.c
+@@ -1652,7 +1652,11 @@ static void ggml_compute_forward_mul_mat_id(
+             for (int id = 0; id < n_ids; ++id) {
+                 const int32_t i02 = *(const int32_t *) ((const char *) ids->data + iid1*ids->nb[1] + id*ids->nb[0]);
+ 
+-                assert(i02 >= 0 && i02 < n_as);
++                if (i02 < 0) {
++                    continue; // pelias-tier: a negative expert id means "no work for this row"; its output is zero-filled below
++                }
++
++                assert(i02 < n_as);
+ 
+                 MMID_MATRIX_ROW(i02, matrix_row_counts[i02]) = (struct mmid_row_mapping) {id, iid1};
+                 matrix_row_counts[i02] += 1;
+@@ -1668,6 +1672,15 @@ static void ggml_compute_forward_mul_mat_id(
+ 
+     ggml_barrier(params->threadpool);
+ 
++    // pelias-tier: rows whose expert id is negative were skipped above; they must read as zero
++    for (int64_t iid1 = ith; iid1 < ids->ne[1]; iid1 += nth) {
++        for (int id = 0; id < n_ids; ++id) {
++            if (*(const int32_t *) ((const char *) ids->data + iid1*ids->nb[1] + id*ids->nb[0]) < 0) {
++                memset((char *) dst->data + id*nb1 + iid1*nb2, 0, ne0*sizeof(float));
++            }
++        }
++    }
++
+     for (int cur_a = 0; cur_a < n_as; ++cur_a) {
+         const int64_t cne1 = matrix_row_counts[cur_a];
+ 
+diff --git a/ggml/src/ggml-cpu/repack.cpp b/ggml/src/ggml-cpu/repack.cpp
+index 2632ae3..377e931 100644
+--- a/ggml/src/ggml-cpu/repack.cpp
++++ b/ggml/src/ggml-cpu/repack.cpp
+@@ -4855,7 +4855,11 @@ template <typename BLOC_TYPE, int64_t INTER_SIZE, int64_t NB_COLS, ggml_type PAR
+                     const int32_t i02 =
+                         *(const int32_t *) ((const char *) ids->data + iid1 * ids->nb[1] + id * ids->nb[0]);
+ 
+-                    GGML_ASSERT(i02 >= 0 && i02 < n_as);
++                    if (i02 < 0) {
++                        continue; // pelias-tier: a negative expert id means "no work for this row"; its output is zero-filled below
++                    }
++
++                    GGML_ASSERT(i02 < n_as);
+ 
+                     MMID_MATRIX_ROW(i02, matrix_row_counts[i02]) = { id, iid1 };
+                     matrix_row_counts[i02] += 1;
+@@ -4865,6 +4869,15 @@ template <typename BLOC_TYPE, int64_t INTER_SIZE, int64_t NB_COLS, ggml_type PAR
+ 
+         ggml_barrier(params->threadpool);
+ 
++        // pelias-tier: rows whose expert id is negative were skipped above; they must read as zero
++        for (int32_t iid1 = ith; iid1 < ids->ne[1]; iid1 += nth) {
++            for (int32_t id = 0; id < n_ids; ++id) {
++                if (*(const int32_t *) ((const char *) ids->data + iid1 * ids->nb[1] + id * ids->nb[0]) < 0) {
++                    memset((char *) dst->data + id * nb1 + iid1 * nb2, 0, ne0 * sizeof(float));
++                }
++            }
++        }
++
+         // compute each matrix multiplication in sequence
+         for (int cur_a = 0; cur_a < n_as; ++cur_a) {
+             const int64_t cne1 = matrix_row_counts[cur_a];
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index afdaddc..2896140 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -36,6 +36,7 @@ set(LLAMA_CORE_SOURCES
+     llama-model-loader.cpp
+     llama-model-saver.cpp
+     llama-model.cpp
++    llama-pelias-tier.cpp
+     llama-quant.cpp
+     llama-sampler.cpp
+     llama-vocab.cpp
+diff --git a/src/llama-graph.cpp b/src/llama-graph.cpp
+index 16a3ed2..3f09c7f 100644
+--- a/src/llama-graph.cpp
++++ b/src/llama-graph.cpp
+@@ -2,6 +2,7 @@
+ 
+ #include "llama-impl.h"
+ #include "llama-model.h"
++#include "llama-pelias-tier.h"
+ #include "llama-batch.h"
+ #include "llama-cparams.h"
+ #include "llama-sampler.h"
+@@ -2174,6 +2175,25 @@ ggml_tensor * llm_graph_context::build_moe_ffn(
+ 
+     cur = ggml_reshape_3d(ctx0, cur, n_embd, 1, n_tokens);
+ 
++    // pelias-tier: hot experts from a VRAM bank, the others from RAM. Only for the plain SwiGLU expert block without biases, scales,
++    // clamps or LoRA on the experts, only for small batches (bigger ones take the stock path that ggml can offload), and only when a
++    // hot-set file was given (PELIAS_HOT_SET). Otherwise this block is skipped and the stock code below runs unchanged.
++    if (!weight_before_ffn && type_op == LLM_FFN_SILU && n_tokens < pelias_tier_dual_max_tokens() &&
++        !gate_inp_b && !up_exps_b && !gate_exps_b && !down_exps_b && !gate_up_exps_b &&
++        !up_exps_s && !gate_exps_s && !down_exps_s &&
++        arch != LLM_ARCH_MISTRAL4 && !(il >= 0 && hparams.swiglu_clamp_exp[il] > 1e-6f)) {
++        if (const pelias_tier_layer * pt = pelias_tier_find(down_exps)) {
++            bool lora_on_experts = false;
++            for (const auto & lora : *loras) {
++                lora_on_experts = lora_on_experts || lora.first->get_weight(down_exps) || lora.first->get_weight(up_exps) ||
++                                  lora.first->get_weight(gate_exps) || lora.first->get_weight(gate_up_exps);
++            }
++            if (!lora_on_experts) {
++                return build_moe_tier(cur, selected_experts, weights, pt, il);
++            }
++        }
++    }
++
+     if (weight_before_ffn) {
+         // repeat cur to [n_embd, n_expert_used, n_tokens]
+         ggml_tensor * repeated = ggml_repeat_4d(ctx0, cur, n_embd, n_expert_used, n_tokens, 1);
+@@ -2376,6 +2396,86 @@ ggml_tensor * llm_graph_context::build_moe_ffn(
+     return moe_out;
+ }
+ 
++// pelias-tier: dual-branch expert block. Hot experts run from the VRAM bank (weights on the GPU), the others from the original tensors (weights in RAM).
++// Both branches use the router's choice unchanged; an expert that is not in a branch is turned into an id that makes that branch do no work:
++//   hot branch  : slot 0 of the bank is an all-zero expert, so a miss contributes exactly 0
++//   cold branch : id -1, which ggml-cpu skips and fills with zeros
++// For every (selected expert, token) exactly one branch holds the real result and the other holds exact zeros, so adding the two branch outputs
++// element by element loses nothing, and the rest of the block (weights, sum over the selected experts) is the stock code in the stock order:
++// the result is bit-identical to the stock path whenever the per-expert matrix products themselves are.
++ggml_tensor * llm_graph_context::build_moe_tier(
++         ggml_tensor * cur,
++         ggml_tensor * selected_experts,
++         ggml_tensor * weights,
++   const pelias_tier_layer * pt,
++                 int   il) const {
++    const int64_t n_embd_  = cur->ne[0];
++    const int64_t n_used   = selected_experts->ne[0];
++    const int64_t n_tok    = selected_experts->ne[1];
++    pelias_tier_note_dual_build(il, (int) n_tok);
++
++    // expert id -> id for each branch, by table lookup on a flat id list
++    ggml_tensor * sel = selected_experts;
++    if (!ggml_is_contiguous(sel)) {
++        sel = ggml_cont(ctx0, sel);
++    }
++    ggml_tensor * sel_flat = ggml_reshape_2d(ctx0, sel, n_used * n_tok, 1);
++
++    ggml_tensor * ids_hot  = ggml_reshape_2d(ctx0, ggml_get_rows(ctx0, pt->tab_hot,  sel_flat), n_used, n_tok);
++    ggml_tensor * ids_cold = ggml_reshape_2d(ctx0, ggml_get_rows(ctx0, pt->tab_cold, sel_flat), n_used, n_tok);
++    cb(ids_hot,  "pelias_ids_hot",  il);
++    cb(ids_cold, "pelias_ids_cold", il);
++
++    // one branch: up/gate (or the merged gate_up), SwiGLU, down  ->  [n_embd, n_used, n_tok], not yet weighted
++    auto branch = [&](ggml_tensor * w_up, ggml_tensor * w_gate, ggml_tensor * w_gate_up, ggml_tensor * w_down, ggml_tensor * ids) {
++        ggml_tensor * gate = nullptr;
++        ggml_tensor * up   = nullptr;
++        if (w_gate_up) {
++            ggml_tensor * gu = build_lora_mm_id(w_gate_up, cur, ids);                        // [2*n_ff, n_used, n_tok]
++            const int64_t n_ff = gu->ne[0] / 2;
++            gate = ggml_view_3d(ctx0, gu, n_ff, gu->ne[1], gu->ne[2], gu->nb[1], gu->nb[2], 0);
++            up   = ggml_view_3d(ctx0, gu, n_ff, gu->ne[1], gu->ne[2], gu->nb[1], gu->nb[2], n_ff * gu->nb[0]);
++        } else {
++            up   = build_lora_mm_id(w_up,   cur, ids);                                        // [n_ff, n_used, n_tok]
++            gate = build_lora_mm_id(w_gate, cur, ids);
++        }
++        ggml_tensor * act = ggml_swiglu_split(ctx0, gate, up);
++        return build_lora_mm_id(w_down, act, ids);                                            // [n_embd, n_used, n_tok]
++    };
++
++    // hot branch first (GPU), then the cold branch (CPU); the original tensors are the model's own
++    ggml_tensor * ex_hot = branch(pt->up, pt->gate, pt->gate_up, pt->down, ids_hot);
++    cb(ex_hot, "ffn_moe_hot_down", il);
++    ggml_build_forward_expand(gf, ex_hot);
++
++    ggml_tensor * ex_cold = branch(pt->orig_up, pt->orig_gate, pt->orig_gate_up, pt->orig_down, ids_cold);
++    cb(ex_cold, "ffn_moe_cold_down", il);
++    ggml_build_forward_expand(gf, ex_cold);
++
++    ggml_tensor * experts = ggml_add(ctx0, ex_hot, ex_cold);      // exact: one of the two is zero in every (expert, token) slot
++    cb(experts, "ffn_moe_down", il);
++    experts = ggml_mul(ctx0, experts, weights);
++    cb(experts, "ffn_moe_weighted", il);
++    ggml_build_forward_expand(gf, experts);
++
++    // sum over the selected experts, exactly as the stock code does it
++    const uint32_t n_used_il = hparams.n_expert_used(il);
++    ggml_tensor * moe_out = nullptr;
++    for (uint32_t i = 0; i < n_used_il; ++i) {
++        ggml_tensor * v = ggml_view_2d(ctx0, experts, n_embd_, n_tok, experts->nb[2], i * experts->nb[1]);
++        ggml_build_forward_expand(gf, v);
++        moe_out = moe_out ? ggml_add(ctx0, moe_out, v) : v;
++        if (i > 0) {
++            ggml_build_forward_expand(gf, moe_out);
++        }
++    }
++    if (n_used_il == 1) {
++        moe_out = ggml_cont(ctx0, moe_out);
++    }
++    cb(moe_out, "ffn_moe_out", il);
++    return moe_out;
++}
++
+ // input embeddings with optional lora
+ ggml_tensor * llm_graph_context::build_inp_embd(ggml_tensor * tok_embd) const {
+     const int64_t n_embd_inp = hparams.n_embd_inp();
+diff --git a/src/llama-graph.h b/src/llama-graph.h
+index 366eccb..072df94 100644
+--- a/src/llama-graph.h
++++ b/src/llama-graph.h
+@@ -94,6 +94,7 @@ struct llama_cross {
+ };
+ 
+ struct llm_graph_params;
++struct pelias_tier_layer;   // pelias-tier hot bank, see llama-pelias-tier.h
+ 
+ //
+ // llm_graph_input
+@@ -1162,6 +1163,15 @@ struct llm_graph_context {
+              ggml_tensor * down_exps_s = nullptr,
+              ggml_tensor * selected_experts_in = nullptr) const;
+ 
++    // pelias-tier: the tail of build_moe_ffn when a layer has a VRAM hot bank (see llama-pelias-tier.h).
++    //   cur [n_embd, 1, n_tokens], selected_experts [n_expert_used, n_tokens] I32, weights [1, n_expert_used, n_tokens] F32 (already normalised and scaled)
++    ggml_tensor * build_moe_tier(
++             ggml_tensor * cur,
++             ggml_tensor * selected_experts,
++             ggml_tensor * weights,
++       const pelias_tier_layer * pt,
++                     int   il) const;
++
+     //
+     // inputs
+     //
+diff --git a/src/llama-model.cpp b/src/llama-model.cpp
+index 97e0cee..7ca17a0 100644
+--- a/src/llama-model.cpp
++++ b/src/llama-model.cpp
+@@ -1,4 +1,5 @@
+ #include "llama-model.h"
++#include "llama-pelias-tier.h"
+ 
+ #include "llama-arch.h"
+ #include "llama-ext.h"
+@@ -1287,6 +1288,7 @@ llama_model::llama_model(const llama_model_params & params) : params(params), pi
+ }
+ 
+ llama_model::~llama_model() {
++    pelias_tier_detach(this);   // pelias-tier: frees this model's hot banks (no-op unless PELIAS_HOT_SET is set)
+     for (auto * lora : loras) {
+         delete lora;
+     }
+diff --git a/src/llama.cpp b/src/llama.cpp
+index 9beb148..8aa5e37 100644
+--- a/src/llama.cpp
++++ b/src/llama.cpp
+@@ -10,6 +10,7 @@
+ #include "llama-model-loader.h"
+ #include "llama-model-saver.h"
+ #include "llama-model.h"
++#include "llama-pelias-tier.h"
+ 
+ #include "ggml.h"
+ #include "ggml-cpp.h"
+@@ -370,6 +371,11 @@ static std::pair<int, llama_model *> llama_model_load(struct gguf_context * meta
+             return {-2, nullptr};
+         }
+ 
++        // pelias-tier: copy the profile-chosen hot experts into a VRAM bank (no-op unless PELIAS_HOT_SET is set)
++        if (!fname.empty() && splits.empty()) {
++            pelias_tier_attach(*model, fname);
++        }
++
+         return {0, model_ptr.release()};
+     } catch (const std::exception & err) {
+         LLAMA_LOG_ERROR("%s: error loading model: %s\n", __func__, err.what());

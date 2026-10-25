@@ -1,0 +1,109 @@
+﻿run: 20261023_235226_quick   (results folder: C:\AI\cl-sndbx-bkp\stuart-creator\2026-10-23\probe_results\windows\20261023_235226_quick)
+Collecting read-only Windows facts ...
+Facts saved: C:\AI\cl-sndbx-bkp\stuart-creator\2026-10-23\probe_results\windows\20261023_235226_quick\facts_windows.txt
+
+Build tools:
+  nvcc (CUDA toolkit): C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.4\bin\nvcc.exe
+  Visual Studio C++ tools: C:\Program Files\Microsoft Visual Studio\18\Professional\Common7\Tools\VsDevCmd.bat
+  nvidia-smi: C:\WINDOWS\system32\nvidia-smi.exe
+machine_state_sha: 484178e916e7c5f1
+Building:
+  [1/4] kernels.cu (nvcc)
+  [2/4] cpu_bw.cpp (cl /arch:AVX2)
+  [3/4] main.cpp (cl)
+  [4/4] link (nvcc)
+
+Free memory now: 55.6 GiB. Close browsers, games, video and any other GPU or LLM program before this run.
+Note: no -Gguf given, so the model-file read test (m4) will be skipped.
+
+=== selftest  (23:52:40, timeout 300s)
+  [ok  ] cuda_init - NVIDIA GeForce RTX 4070, sm_89, 46 SMs, 11.99 GiB
+  [ok  ] empty_kernel
+  [ok  ] mma_bf16_fp32acc_m16n8k16 - 58.6 T(FL)OPS in a 20 ms burst (not a benchmark)
+  [ok  ] mma_fp16_fp32acc_m16n8k16 - 58.6 T(FL)OPS in a 20 ms burst (not a benchmark)
+  [ok  ] mma_int8_int32acc_m16n8k32 - 234.5 T(FL)OPS in a 20 ms burst (not a benchmark)
+  [ok  ] mma_fp8_e4m3_fp32acc_m16n8k32 - 130.7 T(FL)OPS in a 18 ms burst (not a benchmark)
+  [ok  ] canary_gemm - cpu-check error/tolerance 0.006 (must be <= 1), two runs identical: yes
+  [ok  ] streaming_kernels - write pattern ok, copy ok
+  [ok  ] spin_kernel - asked 100 ms, took 100 ms
+  [ok  ] graph_replay - counter 30 (expected 30)
+  [ok  ] pinned_roundtrip - 64 MiB host->device->host compared byte for byte
+  [ok  ] shared_memory_optin - 99 KiB dynamic shared memory per block: ok
+  [ok  ] cpu_checksum - AVX2 sum equals the plain 64-bit word sum
+  [ok  ] nvml - NVIDIA GeForce RTX 4070, driver 617.42
+[PASS ] SELFTEST all checks passed
+        -> C:\AI\cl-sndbx-bkp\stuart-creator\2026-10-23\probe_results\windows\20261023_235226_quick\selftest.json
+
+=== state  (23:52:41, timeout 60s)
+[REC  ] STATE  windows-native, 63.92 GiB RAM, driver 617.42
+        -> C:\AI\cl-sndbx-bkp\stuart-creator\2026-10-23\probe_results\windows\20261023_235226_quick\state.json
+
+=== h8  (23:52:42, timeout 120s)
+[PASS ] P-H8   free after context: CUDA 10.85 / NVML 10.87 of 11.99 GiB; need >= 10.70 (margin +0.15)
+        -> C:\AI\cl-sndbx-bkp\stuart-creator\2026-10-23\probe_results\windows\20261023_235226_quick\h8_vram.json
+
+=== h1  (23:52:43, timeout 120s)
+[PASS ] P-H1   NVIDIA GeForce RTX 4070 sm=46 opt-in smem=101376 B ramp-ok=101376 B regs=64
+        -> C:\AI\cl-sndbx-bkp\stuart-creator\2026-10-23\probe_results\windows\20261023_235226_quick\h1_device.json
+
+=== h2  (23:52:43, timeout 300s)
+[REC  ] P-H2   VRAM read 534 / write 488 / copy 473 GB/s (median)
+        -> C:\AI\cl-sndbx-bkp\stuart-creator\2026-10-23\probe_results\windows\20261023_235226_quick\h2_bandwidth.json
+
+=== h3  (23:52:45, timeout 300s)
+[PASS ] P-H3   sustained TFLOPS/TOPS: bf16 65.2 int8 260.8 fp16 65.2 fp8 130.5 
+        -> C:\AI\cl-sndbx-bkp\stuart-creator\2026-10-23\probe_results\windows\20261023_235226_quick\h3_peak.json
+
+=== h10  (23:52:58, timeout 300s)
+[PASS ] P-H10  1000 runs, 0 mismatches, 1 distinct hashes, cpu-check ratio 0.006
+        -> C:\AI\cl-sndbx-bkp\stuart-creator\2026-10-23\probe_results\windows\20261023_235226_quick\h10_canary.json
+
+=== h4  (23:53:00, timeout 300s)
+[PASS ] P-H4   1.0 min, 587 cycles, 0 mismatches, thermal samples 0, throttle: gpu_idle
+        -> C:\AI\cl-sndbx-bkp\stuart-creator\2026-10-23\probe_results\windows\20261023_235226_quick\h4_soak.json
+
+=== h5  (23:54:01, timeout 300s)
+[PASS ] P-H5   at 256 MiB: pinned H2D 26.3 / pinned D2H 26.3 / pageable H2D 10.7 GB/s
+        -> C:\AI\cl-sndbx-bkp\stuart-creator\2026-10-23\probe_results\windows\20261023_235226_quick\h5_transfer.json
+
+=== h6  (23:54:03, timeout 300s)
+  readers= 0  h2d 26.1 GB/s  zero-copy 26.1 GB/s  cpu alone 0.0 / during h2d 0.0 GB/s
+  readers= 4  h2d 26.1 GB/s  zero-copy 21.4 GB/s  cpu alone 46.4 / during h2d 23.6 GB/s
+  readers= 8  h2d 25.8 GB/s  zero-copy 21.0 GB/s  cpu alone 42.3 / during h2d 23.3 GB/s
+  readers=16  h2d 21.9 GB/s  zero-copy 19.7 GB/s  cpu alone 40.5 / during h2d 24.9 GB/s
+[REC  ] P-H6   H2D 26.1 GB/s unloaded; worst loaded/unloaded ratio 0.84
+        -> C:\AI\cl-sndbx-bkp\stuart-creator\2026-10-23\probe_results\windows\20261023_235226_quick\h6_contention.json
+
+=== h12  (23:54:19, timeout 300s)
+[PASS ] P-H12  all-three overlap: tensor many-short default 0.47 best 0.92 (compute_first_interleaved_flushed); tensor one-long default 0.00; vram-read default 0.48; copy engines reported 5; best H2D+D2H 0.84
+        -> C:\AI\cl-sndbx-bkp\stuart-creator\2026-10-23\probe_results\windows\20261023_235226_quick\h12_overlap.json
+
+=== h7  (23:54:38, timeout 600s)
+[START] P-H7   growing cudaHostAlloc in 1 GiB steps up to 6 GiB
+  pinned  1 GiB ok  alloc 0.06 s  host avail 54.5 GiB
+  pinned  2 GiB ok  alloc 0.06 s  host avail 53.5 GiB
+  pinned  3 GiB ok  alloc 0.06 s  host avail 52.5 GiB
+  pinned  4 GiB ok  alloc 0.06 s  host avail 51.5 GiB
+  pinned  5 GiB ok  alloc 0.06 s  host avail 50.5 GiB
+  pinned  6 GiB ok  alloc 0.06 s  host avail 49.5 GiB
+[REC  ] P-H7   held 6 GiB pinned (target 6), swap-in 0 MiB, integrity failures 0; reached_target
+        -> C:\AI\cl-sndbx-bkp\stuart-creator\2026-10-23\probe_results\windows\20261023_235226_quick\h7_pinned_limit.json
+
+=== m3  (23:54:41, timeout 600s)
+[START] P-M3   holding 6 GiB pinned + 2 GiB pageable for 1 min
+[REC  ] P-M3   held 6+2 GiB for 1.0 min, mismatches 0, swap-in 0 MiB, jitter p99 6.5 ms
+        -> C:\AI\cl-sndbx-bkp\stuart-creator\2026-10-23\probe_results\windows\20261023_235226_quick\m3_hold.json
+
+=== m4  (23:55:44, timeout 600s)
+[SKIP ] P-M4   no model file given: set PELIAS_GGUF or pass --gguf PATH (the path is never written to the results)
+        -> C:\AI\cl-sndbx-bkp\stuart-creator\2026-10-23\probe_results\windows\20261023_235226_quick\m4_modelfile.json
+
+=== h9  (23:55:45, timeout 300s)
+[PASS ] P-H9   eager 2.317 vs graph 0.716 us/kernel (saving 69%), exact=yes, param-update=ok
+        -> C:\AI\cl-sndbx-bkp\stuart-creator\2026-10-23\probe_results\windows\20261023_235226_quick\h9_graphs.json
+
+================ summary (20261023_235226_quick)
+
+Results folder: C:\AI\cl-sndbx-bkp\stuart-creator\2026-10-23\probe_results\windows\20261023_235226_quick
+Events from the display driver during this run: events_during_run.txt (look for Display id 4101 or nvlddmkm entries).
+Tell Claude when the run is done.

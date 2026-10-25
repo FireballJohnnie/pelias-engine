@@ -1,0 +1,2 @@
+[PASS ] P-H9   eager 2.317 vs graph 0.716 us/kernel (saving 69%), exact=yes, param-update=ok
+        -> C:\AI\cl-sndbx-bkp\stuart-creator\2026-10-23\probe_results\windows\20261023_235226_quick\h9_graphs.json

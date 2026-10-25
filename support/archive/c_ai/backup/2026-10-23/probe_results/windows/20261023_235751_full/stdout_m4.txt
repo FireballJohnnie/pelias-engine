@@ -1,0 +1,2 @@
+[SKIP ] P-M4   no model file given: set PELIAS_GGUF or pass --gguf PATH (the path is never written to the results)
+        -> C:\AI\cl-sndbx-bkp\stuart-creator\2026-10-23\probe_results\windows\20261023_235751_full\m4_modelfile.json

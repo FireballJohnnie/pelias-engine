@@ -1,0 +1,673 @@
+### date
+Fri Oct 23 22:30:33 EDT 2026
+
+### uname -a
+Linux Pelias 6.18.54.1-microsoft-standard-WSL2 #1 SMP PREEMPT_DYNAMIC Tue Oct  6 19:13:07 UTC 2026 x86_64 GNU/Linux
+
+### /proc/version
+Linux version 6.18.54.1-microsoft-standard-WSL2 (root@9b80f41eb17c) (gcc (GCC) 13.2.0, GNU ld (GNU Binutils) 2.41) #1 SMP PREEMPT_DYNAMIC Tue Oct  6 19:13:07 UTC 2026
+
+### wsl detection
+WSL2 kernel
+
+### device nodes (dxg = the WSL2 GPU bridge; nvidia* = native driver)
+ls: cannot access '/dev/nvidia*': No such file or directory
+ls: cannot access '/dev/nvidia-uvm*': No such file or directory
+crw-rw-rw- 1 root root 10, 258 Oct 23 22:19 /dev/dxg
+
+/dev/dri:
+total 0
+crw-rw---- 1 root video  226,   0 Oct 23 22:19 card0
+crw-rw---- 1 root render 226, 128 Oct 23 22:19 renderD128
+
+### native NVIDIA driver files (absent on WSL2)
+ls: cannot access '/proc/driver/nvidia': No such file or directory
+cat: /proc/driver/nvidia/version: No such file or directory
+
+### /usr/lib/wsl/lib listing
+total 410512
+-r-xr-xr-x 3 root root    188024 Sep 18 00:49 libcuda.so
+-r-xr-xr-x 3 root root    188024 Sep 18 00:49 libcuda.so.1
+-r-xr-xr-x 3 root root    188024 Sep 18 00:49 libcuda.so.1.1
+-r-xr-xr-x 1 root root  12198904 Aug 20 16:56 libcudadebugger.so.1
+-r-xr-xr-x 1 root root    801840 Oct 20  2023 libd3d12.so
+-r-xr-xr-x 1 root root   6880344 Oct 20  2023 libd3d12core.so
+-r-xr-xr-x 1 root root    942048 Mar 31  2024 libdxcore.so
+-r-xr-xr-x 2 root root  27446016 Sep 18 00:49 libnvcuvid.so
+-r-xr-xr-x 2 root root  27446016 Sep 18 00:49 libnvcuvid.so.1
+-r-xr-xr-x 1 root root 154232352 Aug 20 16:56 libnvdxdlkernels.so
+-r-xr-xr-x 2 root root    272512 Aug 20 16:56 libnvidia-encode.so
+-r-xr-xr-x 2 root root    272512 Aug 20 16:56 libnvidia-encode.so.1
+-r-xr-xr-x 2 root root 117883752 Sep 30 23:06 libnvidia-gpucomp.so
+lrwxrwxrwx 1 root root        20 Oct 23 22:19 libnvidia-gpucomp.so.615.78.05 -> libnvidia-gpucomp.so
+-r-xr-xr-x 1 root root    291000 Aug 20 16:56 libnvidia-ml.so.1
+-r-xr-xr-x 2 root root   5484728 Sep 30 23:06 libnvidia-ngx.so.1
+-r-xr-xr-x 2 root root     67608 Aug 20 16:56 libnvidia-opticalflow.so
+-r-xr-xr-x 2 root root     67608 Aug 20 16:56 libnvidia-opticalflow.so.1
+-r-xr-xr-x 1 root root     14224 Aug 20 16:56 libnvoptix.so.1
+lrwxrwxrwx 1 root root        15 Oct 23 22:19 libnvoptix_loader.so.1 -> libnvoptix.so.1
+-r-xr-xr-x 2 root root  58435480 Sep 30 23:06 libnvwgf2umx.so
+-r-xr-xr-x 2 root root   6174848 Sep 30 23:06 nvidia-ngx-updater
+-r-xr-xr-x 2 root root    848736 Sep 30 23:06 nvidia-smi
+
+### expected libraries present?
+present  libcuda.so.1
+present  libcuda.so
+present  libnvidia-ml.so.1
+missing  libnvidia-ml.so
+missing  libnvidia-ptxjitcompiler.so.1
+present  libnvcuvid.so.1
+present  libnvidia-encode.so.1
+present  libd3d12.so
+present  libd3d12core.so
+present  libdxcore.so
+present  libcudadebugger.so.1
+present  libnvidia-opticalflow.so.1
+
+### ldconfig entries (cuda/nvidia/dxcore)
+	libpcsamplingutil.so (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libpcsamplingutil.so
+	libnvtx3interop.so.1 (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnvtx3interop.so.1
+	libnvtx3interop.so (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnvtx3interop.so
+	libnvrtc.so.13 (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnvrtc.so.13
+	libnvrtc.so (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnvrtc.so
+	libnvrtc.alt.so.13 (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnvrtc.alt.so.13
+	libnvrtc.alt.so (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnvrtc.alt.so
+	libnvrtc-builtins.so.13.0 (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnvrtc-builtins.so.13.0
+	libnvrtc-builtins.so (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnvrtc-builtins.so
+	libnvrtc-builtins.alt.so.13.0 (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnvrtc-builtins.alt.so.13.0
+	libnvrtc-builtins.alt.so (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnvrtc-builtins.alt.so
+	libnvperf_target.so (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnvperf_target.so
+	libnvperf_host.so (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnvperf_host.so
+	libnvjpeg.so.13 (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnvjpeg.so.13
+	libnvjpeg.so (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnvjpeg.so
+	libnvidia-opticalflow.so.1 (libc6,x86-64) => /usr/lib/wsl/lib/libnvidia-opticalflow.so.1
+	libnvidia-ngx.so.1 (libc6,x86-64) => /usr/lib/wsl/lib/libnvidia-ngx.so.1
+	libnvidia-ml.so.1 (libc6,x86-64) => /usr/lib/wsl/lib/libnvidia-ml.so.1
+	libnvidia-gpucomp.so.615.78.05 (libc6,x86-64) => /usr/lib/wsl/lib/libnvidia-gpucomp.so.615.78.05
+	libnvidia-encode.so.1 (libc6,x86-64) => /usr/lib/wsl/lib/libnvidia-encode.so.1
+	libnvfatbin.so.13 (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnvfatbin.so.13
+	libnvfatbin.so (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnvfatbin.so
+	libnvblas.so.13 (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnvblas.so.13
+	libnvblas.so (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnvblas.so
+	libnvJitLink.so.13 (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnvJitLink.so.13
+	libnvJitLink.so (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnvJitLink.so
+	libnpps.so.13 (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnpps.so.13
+	libnpps.so (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnpps.so
+	libnppitc.so.13 (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnppitc.so.13
+	libnppitc.so (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnppitc.so
+	libnppisu.so.13 (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnppisu.so.13
+	libnppisu.so (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnppisu.so
+	libnppist.so.13 (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnppist.so.13
+	libnppist.so (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnppist.so
+	libnppim.so.13 (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnppim.so.13
+	libnppim.so (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnppim.so
+	libnppig.so.13 (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnppig.so.13
+	libnppig.so (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnppig.so
+	libnppif.so.13 (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnppif.so.13
+	libnppif.so (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnppif.so
+	libnppidei.so.13 (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnppidei.so.13
+	libnppidei.so (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnppidei.so
+	libnppicc.so.13 (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnppicc.so.13
+	libnppicc.so (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnppicc.so
+	libnppial.so.13 (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnppial.so.13
+	libnppial.so (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnppial.so
+	libnppc.so.13 (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnppc.so.13
+	libnppc.so (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libnppc.so
+	libd3d12core.so (libc6,x86-64) => /usr/lib/wsl/lib/libd3d12core.so
+	libd3d12.so (libc6,x86-64) => /usr/lib/wsl/lib/libd3d12.so
+	libdxcore.so (libc6,x86-64) => /usr/lib/wsl/lib/libdxcore.so
+	libcusparse.so.12 (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libcusparse.so.12
+	libcusparse.so (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libcusparse.so
+	libcusolverMg.so.12 (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libcusolverMg.so.12
+	libcusolverMg.so (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libcusolverMg.so
+	libcusolver.so.12 (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libcusolver.so.12
+	libcusolver.so (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libcusolver.so
+	libcurand.so.10 (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libcurand.so.10
+	libcurand.so (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libcurand.so
+	libcupti.so.13 (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libcupti.so.13
+
+### kernel modules (lsmod)
+Module                  Size  Used by
+sch_fq_codel           20480  1
+autofs4                45056  0
+br_netfilter           28672  0
+bridge                286720  1 br_netfilter
+stp                    12288  1 bridge
+llc                    12288  2 bridge,stp
+ip_tables              28672  0
+tun                    53248  0
+--- modinfo nvidia:
+modinfo: ERROR: Module nvidia not found.
+
+### dmesg lines about dxg / nvidia / vmbus (may be empty without root)
+[    0.000000] Command line: initrd=\initrd.img WSL_ROOT_INIT=1 panic=-1 nr_cpus=16 hv_utils.timesync_implicit=1 printk.devkmsg=on page_reporting.page_reporting_order=5 hv_pci_swiotlb=67108864 hv_storvsc.storvsc_max_hw_queues=4 console=hvc0 debug pty.legacy_count=0 WSL_ENABLE_CRASH_DUMP=1 transparent_hugepage=always swiotlb=65536
+[    0.030435] Kernel command line: initrd=\initrd.img WSL_ROOT_INIT=1 panic=-1 nr_cpus=16 hv_utils.timesync_implicit=1 printk.devkmsg=on page_reporting.page_reporting_order=5 hv_pci_swiotlb=67108864 hv_storvsc.storvsc_max_hw_queues=4 console=hvc0 debug pty.legacy_count=0 WSL_ENABLE_CRASH_DUMP=1 transparent_hugepage=always swiotlb=65536
+[    0.158914] APIC: send_IPI() replaced with hv_send_ipi()
+[    0.158918] APIC: send_IPI_mask() replaced with hv_send_ipi_mask()
+[    0.158920] APIC: send_IPI_mask_allbutself() replaced with hv_send_ipi_mask_allbutself()
+[    0.158922] APIC: send_IPI_allbutself() replaced with hv_send_ipi_allbutself()
+[    0.158923] APIC: send_IPI_all() replaced with hv_send_ipi_all()
+[    0.158925] APIC: send_IPI_self() replaced with hv_send_ipi_self()
+[    0.158932] APIC: eoi() replaced with hv_apic_eoi_write()
+[    0.158950] APIC: read() replaced with hv_apic_read()
+[    0.158966] APIC: write() replaced with hv_apic_write()
+[    0.158967] APIC: icr_write() replaced with hv_apic_icr_write()
+[    0.158968] APIC: icr_read() replaced with hv_apic_icr_read()
+[    0.263618] hv_pci: reserved swiotlb pool [0x0000000004000000..0x0000000008000000)
+[    0.291957] hv_vmbus: Vmbus version:5.3
+[    0.291957] hv_vmbus: Unknown GUID: 6e382d18-3336-4f4b-acc4-2b7703d4df4a
+[    0.291957] hv_vmbus: Unknown GUID: dde9cbc0-5060-4436-9448-ea1254a5d177
+[    0.366680] hv_vmbus: registering driver hv_pci
+[    0.367035] hv_pci c4b741f5-5582-4c98-8f8b-2e082933c396: PCI VMBus probing: Using version 0x10004
+[    0.367910] hv_pci c4b741f5-5582-4c98-8f8b-2e082933c396: PCI host bridge to bus 5582:00
+[    0.377726] hv_pci 9a92121d-d688-427a-8bd7-7bc10179c241: PCI VMBus probing: Using version 0x10004
+[    0.378207] hv_pci 9a92121d-d688-427a-8bd7-7bc10179c241: PCI host bridge to bus d688:00
+[    0.450922] hv_vmbus: registering driver hv_storvsc
+[    0.451988] hv_vmbus: registering driver hv_netvsc
+[    0.452551] hv_vmbus: registering driver hyperv_keyboard
+[    0.459523] hv_utils: Registering HyperV Utility Driver
+[    0.459766] hv_vmbus: registering driver hv_utils
+[    0.460062] hv_vmbus: registering driver hv_balloon
+[    0.460479] hv_utils: TimeSync IC version 4.0
+[    0.460480] hv_vmbus: registering driver dxgkrnl
+[    0.462071] hv_balloon: Using Dynamic Memory protocol version 2.0
+[    0.463078] hv_balloon: Cold memory discard hint enabled with order 5
+[    0.468762] hv_vmbus: registering driver hv_sock
+[    0.589587] hv_pci d834e7b1-2559-479d-a072-e89f2898a034: PCI VMBus probing: Using version 0x10004
+[    0.591035] hv_pci d834e7b1-2559-479d-a072-e89f2898a034: PCI host bridge to bus 2559:00
+[    1.204364] hv_pci ed1cd3b8-efbc-4325-90b5-8238a6ad7cdc: PCI VMBus probing: Using version 0x10004
+[    1.206180] hv_pci ed1cd3b8-efbc-4325-90b5-8238a6ad7cdc: PCI host bridge to bus efbc:00
+[    1.983181] misc dxg: dxgk: dxgkio_is_feature_enabled: Ioctl failed: -22
+[    1.986801] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -22
+[    1.987262] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -22
+[    1.987708] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -22
+[    1.988203] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -2
+[    2.540987] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -2
+[    2.858953] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -2
+[    2.859471] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -2
+[    2.859967] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -2
+[    2.860408] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -2
+[    2.860915] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -2
+[    2.861357] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -2
+[    2.862171] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -2
+[    2.862554] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -2
+[    2.862992] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -2
+[    2.863401] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -2
+[    2.863787] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -2
+[    2.864250] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -2
+[    2.864782] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -2
+[    2.865229] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -2
+[    2.865648] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -2
+[    2.866059] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -2
+[    3.055166] misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -2
+
+### PCI devices (vendor 0x10de = NVIDIA)
+2559:00:00.0 vendor=0x1af4 device=0x105a class=0x088000
+5582:00:00.0 vendor=0x1af4 device=0x1043 class=0x010000
+d688:00:00.0 vendor=0x1414 device=0x008e class=0x030200
+efbc:00:00.0 vendor=0x1af4 device=0x105a class=0x088000
+(lspci:)
+2559:00:00.0 System peripheral: Red Hat, Inc. Virtio 1.0 file system (rev 01)
+5582:00:00.0 SCSI storage controller: Red Hat, Inc. Virtio 1.0 console (rev 01)
+d688:00:00.0 3D controller: Microsoft Corporation Basic Render Driver
+efbc:00:00.0 System peripheral: Red Hat, Inc. Virtio 1.0 file system (rev 01)
+
+### ulimit -a (ulimit -l is RLIMIT_MEMLOCK)
+real-time non-blocking time  (microseconds, -R) unlimited
+core file size              (blocks, -c) 0
+data seg size               (kbytes, -d) unlimited
+scheduling priority                 (-e) 0
+file size                   (blocks, -f) unlimited
+pending signals                     (-i) 192406
+max locked memory           (kbytes, -l) 65536
+max memory size             (kbytes, -m) unlimited
+open files                          (-n) 10240
+pipe size                (512 bytes, -p) 8
+POSIX message queues         (bytes, -q) 819200
+real-time priority                  (-r) 0
+stack size                  (kbytes, -s) 8192
+cpu time                   (seconds, -t) unlimited
+max user processes                  (-u) 192406
+virtual memory              (kbytes, -v) unlimited
+file locks                          (-x) unlimited
+
+### /proc/self/limits
+Limit                     Soft Limit           Hard Limit           Units     
+Max cpu time              unlimited            unlimited            seconds   
+Max file size             unlimited            unlimited            bytes     
+Max data size             unlimited            unlimited            bytes     
+Max stack size            8388608              unlimited            bytes     
+Max core file size        0                    unlimited            bytes     
+Max resident set          unlimited            unlimited            bytes     
+Max processes             192406               192406               processes 
+Max open files            10240                1048576              files     
+Max locked memory         67108864             67108864             bytes     
+Max address space         unlimited            unlimited            bytes     
+Max file locks            unlimited            unlimited            locks     
+Max pending signals       192406               192406               signals   
+Max msgqueue size         819200               819200               bytes     
+Max nice priority         0                    0                    
+Max realtime priority     0                    0                    
+Max realtime timeout      unlimited            unlimited            us        
+
+### memory
+               total        used        free      shared  buff/cache   available
+Mem:           48111        1060       46614           4         859       47050
+Swap:          49152           0       49152
+
+NAME     TYPE      SIZE USED PRIO
+/dev/sdc partition  48G   0B   -2
+
+MemTotal:       49265784 kB
+MemFree:        47732960 kB
+MemAvailable:   48179088 kB
+SwapTotal:      50331648 kB
+SwapFree:       50331648 kB
+AnonHugePages:     28672 kB
+ShmemHugePages:        0 kB
+FileHugePages:         0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+
+### transparent hugepages and vm settings
+/sys/kernel/mm/transparent_hugepage/enabled: [always] madvise never
+/sys/kernel/mm/transparent_hugepage/defrag: always defer defer+madvise [madvise] never
+/proc/sys/vm/swappiness: 60
+/proc/sys/vm/overcommit_memory: 0
+/proc/sys/vm/max_map_count: 1048576
+
+### cpu
+Architecture:                            x86_64
+CPU op-mode(s):                          32-bit, 64-bit
+Address sizes:                           48 bits physical, 48 bits virtual
+Byte Order:                              Little Endian
+CPU(s):                                  16
+On-line CPU(s) list:                     0-15
+Vendor ID:                               AuthenticAMD
+Model name:                              AMD Ryzen 7 5800X3D 8-Core Processor
+CPU family:                              25
+Model:                                   33
+Thread(s) per core:                      2
+Core(s) per socket:                      8
+Socket(s):                               1
+Stepping:                                2
+BogoMIPS:                                6787.32
+Flags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology tsc_reliable nonstop_tsc cpuid extd_apicid tsc_known_freq pni pclmulqdq ssse3 fma cx16 sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext perfctr_core ssbd ibrs ibpb stibp vmmcall fsgsbase bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves clzero xsaveerptr arat umip vaes vpclmulqdq rdpid fsrm
+Hypervisor vendor:                       Microsoft
+Virtualization type:                     full
+L1d cache:                               256 KiB (8 instances)
+L1i cache:                               256 KiB (8 instances)
+L2 cache:                                4 MiB (8 instances)
+L3 cache:                                96 MiB (1 instance)
+NUMA node(s):                            1
+NUMA node0 CPU(s):                       0-15
+Vulnerability Gather data sampling:      Not affected
+
+fma sse4_2 aes avx bmi1 avx2 bmi2 
+### /etc/wsl.conf
+[boot]
+systemd=true
+command="/bin/bash -c 'nohup /usr/local/bin/ai-wormhole-sync.sh >/dev/null 2>&1 &'"
+
+[user]
+default=user
+
+[automount]
+enabled = true
+mountFsTab = true
+options = "metadata,noatime"
+
+### .wslconfig (Windows side, read only)
+[wsl2]
+memory=48GB
+processors=16
+swap=48GB
+swapFile=<project>\\wsl_swap.vhdx
+localhostForwarding=true
+kernelCommandLine=transparent_hugepage=always swiotlb=65536
+virtiofs=true
+
+[experimental]
+autoMemoryReclaim=disabled
+sparseVhd=false
+### environment (only CUDA / NVIDIA / WSL / LD_LIBRARY_PATH / PATH)
+WSL_DISTRO_NAME=Ubuntu
+WSL_INTEROP=/run/WSL/326_interop
+LD_LIBRARY_PATH=/usr/lib/wsl/lib:
+WSLENV=HF_TOKEN/u:HUGGING_FACE_HUB_TOKEN/u
+PATH=/home/user/.local/bin:/home/user/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files/WindowsApps/MicrosoftCorporationII.WindowsSubsystemForLinux_3.0.4.0_x64__8wekyb3d8bbwe:/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin:/mnt/c/Program Files/Eclipse Adoptium/jre-21.0.12.101-hotspot/bin:/mnt/c/VulkanSDK/1.4.357.0/Bin:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/Program Files/dotnet/:/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/:/mnt/c/Program Files/nodejs/:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files/CMake/bin:/mnt/c/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.1/:/mnt/c/Program Files/eSpeak NG/:/mnt/c/Program Files/WSL:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/Program Files/GitHub CLI/:/mnt/c/Program Files (x86)/cloudflared/:/mnt/c/Program Files/WSL/:/mnt/c/Users/user/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/user/AppData/Local/Programs/Ollama:/mnt/c/Users/user/AppData/Local/Programs/Python/Python312:/mnt/c/Users/user/AppData/Local/Programs/Python/Python312/Scripts:/mnt/c/Users/user/AppData/Local/Programs/Python/Python312:/mnt/c/Users/user/AppData/Local/Programs/Python/Python312/Scripts:/mnt/c/Users/user/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Windows/System32:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Program Files/NVIDIA Corporation/NVSMI:/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin:/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/libnvvp:/mnt/c/Users/user/.dotnet/tools:/snap/bin
+
+### toolchain
+g++: g++ (Ubuntu 15.2.0-16ubuntu1) 15.2.0
+gcc: gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0
+cmake: cmake version 4.2.3
+nvcc: Cuda compilation tools, release 13.0, V13.0.88 Build cuda_13.0.r13.0/compiler.36424714_0 
+/usr/local/cuda
+/usr/local/cuda-13
+/usr/local/cuda-13.0
+compute-sanitizer: /usr/local/cuda/bin/compute-sanitizer
+nsys: /usr/local/bin/nsys  ncu: missing
+
+### nvidia-smi (summary)
+Fri Oct 23 22:30:34 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 615.78.05              KMD Version: 617.42        CUDA UMD Version: 13.4     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA GeForce RTX 4070        On  |   00000000:07:00.0  On |                  N/A |
+| 58%   32C    P0             34W /  200W |     643MiB /  12282MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|    0   N/A  N/A              34      G   /Xwayland                             N/A      |
++-----------------------------------------------------------------------------------------+
+
+### nvidia-smi (csv query)
+name, driver_version, pstate, clocks.current.sm [MHz], clocks.current.memory [MHz], clocks.max.sm [MHz], clocks.max.memory [MHz], power.draw [W], power.limit [W], temperature.gpu, pcie.link.gen.current, pcie.link.gen.max, pcie.link.width.current, pcie.link.width.max, memory.total [MiB], memory.used [MiB], memory.free [MiB], utilization.gpu [%]
+NVIDIA GeForce RTX 4070, 617.42, P0, 2490 MHz, 11501 MHz, 3120 MHz, 10501 MHz, 34.49 W, 200.00 W, 32, 4, 4, 16, 16, 12282 MiB, 643 MiB, 11368 MiB, 0 %
+
+### nvidia-smi -q (full)
+
+==============NVSMI LOG==============
+
+Timestamp                                              : Fri Oct 23 22:30:34 2026
+Driver Version                                         : 617.42 [Deprecated; will be removed in CUDA 14.0. Use KMD Version instead]
+CUDA Version                                           : 13.4 [Deprecated; will be removed in CUDA 14.0. Use CUDA UMD Version instead]
+KMD Version                                            : 617.42
+CUDA UMD Version                                       : 13.4
+
+Attached GPUs                                          : 1
+GPU 00000000:07:00.0
+    Product Name                                       : NVIDIA GeForce RTX 4070
+    Product Brand                                      : GeForce
+    Product Architecture                               : Ada Lovelace
+    Display Mode                                       : Requested functionality has been deprecated
+    Display Attached                                   : Yes
+    Display Active                                     : Enabled
+    Persistence Mode                                   : Enabled
+    Addressing Mode                                    : N/A
+    MIG Mode
+        Current                                        : N/A
+        Pending                                        : N/A
+    Accounting Mode                                    : Disabled
+    Accounting Mode Buffer Size                        : 4000
+    Driver Model
+        Current                                        : WDDM
+        Pending                                        : WDDM
+    Serial Number                                      : N/A
+    GPU UUID                                           : GPU-763e6fc9-75c4-d3ec-1d71-1525e153ec87
+    GPU PDI                                            : 0x86e34dc4fcbdc4da
+    Minor Number                                       : N/A
+    VBIOS Version                                      : 95.04.3e.08.be
+    MultiGPU Board                                     : No
+    Board ID                                           : 0x700
+    Board Part Number                                  : N/A
+    GPU Part Number                                    : 2786-251-A1
+    FRU Part Number                                    : N/A
+    Platform Info
+        Chassis Serial Number                          : N/A
+        Slot Number                                    : N/A
+        Tray Index                                     : N/A
+        Host ID                                        : N/A
+        Peer Type                                      : N/A
+        Module Id                                      : 1
+        GPU Fabric GUID                                : N/A
+    Inforom Version
+        Image Version                                  : G002.0000.00.03
+        OEM Object                                     : 2.0
+        ECC Object                                     : N/A
+        Power Management Object                        : N/A
+    Inforom BBX Object Flush
+        Latest Timestamp                               : N/A
+        Latest Duration                                : N/A
+    Inforom Time Data
+        Time Run                                       : N/A
+    GPU Operation Mode
+        Current                                        : N/A
+        Pending                                        : N/A
+    GPU C2C Mode                                       : N/A
+    GPU Virtualization Mode
+        Virtualization Mode                            : None
+        Host VGPU Mode                                 : N/A
+        vGPU Heterogeneous Mode                        : N/A
+    GPU Recovery Action                                : None
+    GSP Firmware Version                               : N/A
+    IBMNPU
+        Relaxed Ordering Mode                          : N/A
+    PCI
+        Bus                                            : 0x07
+        Device                                         : 0x00
+        Domain                                         : 0x0000
+        Device Id                                      : 0x278610DE
+        Bus Id                                         : 00000000:07:00.0
+        Sub System Id                                  : 0x40EE1458
+        GPU Link Info
+            PCIe Generation
+                Max                                    : 4
+                Current                                : 4
+                Device Current                         : 4
+                Device Max                             : 4
+                Host Max                               : 4
+            Link Width
+                Max                                    : 16x
+                Current                                : 16x
+        Bridge Chip
+            Type                                       : N/A
+            Firmware                                   : N/A
+        Replays Since Reset                            : 0
+        Replay Number Rollovers                        : 0
+        Tx Throughput                                  : 0 KB/s
+        Rx Throughput                                  : 0 KB/s
+        Atomic Caps Outbound                           : N/A
+        Atomic Caps Inbound                            : N/A
+    Fan Speed                                          : 58 %
+    Performance State                                  : P0
+    Clocks Event Reasons
+        Idle                                           : Active
+        Applications Clocks Setting                    : Not Active
+        SW Power Cap                                   : Not Active
+        HW Slowdown                                    : Not Active
+            HW Thermal Slowdown                        : Not Active
+            HW Power Brake Slowdown                    : Not Active
+        Sync Boost                                     : Not Active
+        SW Thermal Slowdown                            : Not Active
+        Display Clock Setting                          : Not Active
+        Board Limit                                    : Not Active
+        Reliability                                    : Not Active
+    Clocks Event Reasons Counters
+        SW Power Capping                               : 0 us
+        Sync Boost                                     : 0 us
+        SW Thermal Slowdown                            : 0 us
+        HW Thermal Slowdown                            : 0 us
+        HW Power Braking                               : 0 us
+    Sparse Operation Mode                              : N/A
+    FB Memory Usage
+        Total                                          : 12282 MiB
+        Reserved                                       : 272 MiB
+        Used                                           : 643 MiB
+        Free                                           : 11368 MiB
+    BAR1 Memory Usage
+        Total                                          : 16384 MiB
+        Used                                           : 0 MiB
+        Free                                           : 16384 MiB
+    Conf Compute Protected Memory Usage
+        Total                                          : N/A
+        Used                                           : N/A
+        Free                                           : N/A
+    Compute Mode                                       : Default
+    Utilization
+        GPU                                            : 0 %
+        Memory                                         : 1 %
+        Encoder                                        : 0 %
+        Decoder                                        : 0 %
+        JPEG                                           : 0 %
+        OFA                                            : 0 %
+    Encoder Stats
+        Active Sessions                                : 0
+        Average FPS                                    : 0
+        Average Latency                                : 0
+    FBC Stats
+        Active Sessions                                : 0
+        Average FPS                                    : 0
+        Average Latency                                : 0
+    DRAM Encryption Mode
+        Current                                        : N/A
+        Pending                                        : N/A
+    ECC Mode
+        Current                                        : N/A
+        Pending                                        : N/A
+    ECC Errors
+        Volatile
+            SRAM Correctable                           : N/A
+            SRAM Uncorrectable Parity                  : N/A
+            SRAM Uncorrectable SEC-DED                 : N/A
+            DRAM Correctable                           : N/A
+            DRAM Uncorrectable                         : N/A
+        Aggregate
+            SRAM Correctable                           : N/A
+            SRAM Uncorrectable Parity                  : N/A
+            SRAM Uncorrectable SEC-DED                 : N/A
+            DRAM Correctable                           : N/A
+            DRAM Uncorrectable                         : N/A
+            SRAM Threshold Exceeded                    : N/A
+        Aggregate Uncorrectable SRAM Sources
+            SRAM L2                                    : N/A
+            SRAM SM                                    : N/A
+            SRAM Microcontroller                       : N/A
+            SRAM PCIE                                  : N/A
+            SRAM Other                                 : N/A
+        Channel Repair Pending                         : No
+        TPC Repair Pending                             : No
+        Unrepairable Memory                            : N/A
+    Retired Pages
+        Single Bit ECC                                 : N/A
+        Double Bit ECC                                 : N/A
+        Pending Page Blacklist                         : N/A
+    Remapped Rows
+        Correctable Error                              : 0
+        Inactive Correctable Error                     : 0
+        Uncorrectable Error                            : 0
+        Inactive Uncorrectable Error                   : 0
+        Pending                                        : No
+        Remapping Failure Occurred                     : No
+        Bank Remap Availability Histogram
+            Max                                        : 96 bank(s)
+            High                                       : 0 bank(s)
+            Partial                                    : 0 bank(s)
+            Low                                        : 0 bank(s)
+            None                                       : 0 bank(s)
+    Remapped Banks                                     : N/A
+    Temperature
+        GPU Current Temp                               : 32 C
+        GPU Current Max Temp                           : N/A
+        GPU Current T.Limit Temp                       : 52 C
+        GPU Shutdown T.Limit Temp Specification        : -7 C
+        GPU Slowdown T.Limit Temp Specification        : -2 C
+        GPU Max Operating T.Limit Temp Specification   : 0 C
+        GPU Target Temperature Specification           : 84 C
+        Memory Current Temp                            : N/A
+        Memory Max Operating T.Limit Temp Specification: N/A
+    GPU Power Readings
+        Average Power Draw                             : 34.49 W
+        Instantaneous Power Draw                       : 34.34 W
+        GPU Ceiling Power Limit
+            Current Power Limit                        : 200.00 W
+            Requested Power Limit                      : 200.00 W
+            Default Power Limit                        : 200.00 W
+        GPU Base Power
+            Current Base Power                         : N/A
+            Requested Base Power                       : N/A
+            Default Base Power                         : N/A
+            Adaptive TGP Adjusted Base Power           : N/A
+        Min Power Limit                                : 100.00 W
+        Max Power Limit                                : 216.00 W
+    GPU Memory Power Readings 
+        Average Power Draw                             : N/A
+        Instantaneous Power Draw                       : N/A
+    Module Power Readings
+        Average Power Draw                             : N/A
+        Instantaneous Power Draw                       : N/A
+        Current Power Limit                            : N/A
+        Requested Power Limit                          : N/A
+        Default Power Limit                            : N/A
+        Min Power Limit                                : N/A
+        Max Power Limit                                : N/A
+    Power Smoothing                                    : N/A
+    Workload Power Profiles
+        Requested Profiles                             : N/A
+        Enforced Profiles                              : N/A
+    EDPp Multiplier                                    : N/A
+    Clocks
+        Graphics                                       : 2490 MHz
+        SM                                             : 2490 MHz
+        Memory                                         : 11501 MHz
+        Video                                          : 2025 MHz
+    Applications Clocks
+        Graphics                                       : Requested functionality has been deprecated
+        Memory                                         : Requested functionality has been deprecated
+    Default Applications Clocks
+        Graphics                                       : Requested functionality has been deprecated
+        Memory                                         : Requested functionality has been deprecated
+    Deferred Clocks
+        Memory                                         : N/A
+    Max Clocks
+        Graphics                                       : 3120 MHz
+        SM                                             : 3120 MHz
+        Memory                                         : 10501 MHz
+        Video                                          : 2415 MHz
+    Max Customer Boost Clocks
+        Graphics                                       : N/A
+    Clock Policy
+        Auto Boost                                     : N/A
+        Auto Boost Default                             : N/A
+    DLA Clocks
+        Engine                                         : N/A
+        Max Engine                                     : N/A
+    Fabric
+        State                                          : N/A
+        Status                                         : N/A
+        CliqueId                                       : N/A
+        ClusterUUID                                    : N/A
+        Health
+            Summary                                    : N/A
+            Bandwidth                                  : N/A
+            Route Recovery in progress                 : N/A
+            Route Unhealthy                            : N/A
+            Access Timeout Recovery                    : N/A
+            Incorrect Configuration                    : N/A
+            Partition Assigned                         : N/A
+            Global Fabric Manager State                : N/A
+        Cliques                                        : 
+    Processes
+        GPU instance ID                   : N/A
+        Compute instance ID               : N/A
+        Process ID                        : 34
+            Type                          : G
+            Name                          : /Xwayland
+            Used GPU Memory               : Not available in WDDM driver model
+    Capabilities
+        EGM                                            : disabled
+
+
+### who is using the GPU from inside WSL
+pid, process_name, used_gpu_memory [MiB]
+    PID COMMAND           RSS
+    286 unattended-upgr 32880
+    173 networkd-dispat 30352
+     55 systemd-journal 26360
+      1 systemd         15472
+     72 systemd-resolve 14524
+    371 systemd         13508
+     94 systemd-udevd   12688
+

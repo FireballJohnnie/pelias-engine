@@ -1,0 +1,2 @@
+[PASS ] P-H12  all-three overlap: tensor many-short default 0.52 best 0.92 (compute_first_interleaved_flushed); tensor one-long default -0.00; vram-read default 0.42; copy engines reported 5; best H2D+D2H 0.84
+        -> C:\AI\cl-sndbx-bkp\stuart-creator\2026-10-23\probe_results\windows\20261023_235751_full\h12_overlap.json

@@ -1,0 +1,2 @@
+[PASS ] P-H3   sustained TFLOPS/TOPS: bf16 65.2 int8 260.8 fp16 65.2 fp8 130.5 
+        -> C:\AI\cl-sndbx-bkp\stuart-creator\2026-10-23\probe_results\windows\20261023_235226_quick\h3_peak.json

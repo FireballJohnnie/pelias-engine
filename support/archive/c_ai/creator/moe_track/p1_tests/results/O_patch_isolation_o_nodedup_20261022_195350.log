@@ -1,0 +1,53 @@
+This stops the llama-server on port 8012 and leaves it stopped when the last variant ends.
+
+=== tier-n40-hotashotsetb7.5-by32 (tier:n=40,bypass=32,cap=7800,hot=<project>/logs/pelias_hot_set_b7.5.txt) ===
+  binary: /home/user/llama-pelias-tier-iso/nodedup/build-wsl/bin/llama-server
+  reference command: the production command saved 2026-10-21 12:18:38
+  changed  --model: <project>/gguf/test-model-Q4_K_M.gguf  ->  ~/models/test-model-Q4_K_M.gguf
+  added    --fit off
+  added    --load-mode none
+  added    --n-cpu-moe 40
+  added    --threads 6
+  added    --threads-batch 8
+  added    --ubatch-size 2048
+  added    --verbosity 4
+  removed  --override-tensor .ffn_.*_exps.=CPU
+  unchanged: 18 flags
+  note: Phase 6: the expert files stay in RAM exactly as in the control; the bank is an extra copy of the hot experts in VRAM (cap 7800 MiB). Batches of fewer than 32 tokens use bank + RAM, larger ones take the stock path
+  note: the log line 'pelias-tier: hot bank active for N layers' proves the bank exists; 'running without a hot bank' means it was refused and the run is a plain control
+  env: PELIAS_HOT_SET=<project>/logs/pelias_hot_set_b7.5.txt PELIAS_TIER_BYPASS_N=32 PELIAS_TIER_MAX_MIB=7800 PELIAS_TIER_VERBOSE=1
+  asking the binary which flags it knows ...
+  stopping the production server (this frees the GPU) ...
+  server healthy after 26 s; GPU memory in use 10687 MiB
+  hot bank active: 40 layers, 7607 MiB
+[check] /health -> HTTP 200 {"status": "ok"}
+[check] n_ctx 32768; chat template present: True
+STOP: cannot reach http://127.0.0.1:8012/v1/chat/completions (Remote end closed connection without response).  Is the server running (the serve stage prints the command)?
+  the server does not answer properly; not speed-testing it
+
+The production server is STOPPED. Start it again with:  llama --serve --stuart-creator --bg
+
+variant                                        status              gen  gen12k  pre12k   VRAM    P1    G3        KL   top1
+--------------------------------------------------------------------------------------------------------------------------
+prod-n28                                       measured           41.9    41.8    1253   8.60  PASS    no         -      -
+tier-n38-hotashotsetb7.0-by32                  measured           16.5    16.0    1729  11.14    no    no         -      -
+tier-n39-hotashotsetb7.0-by32                  measured           24.1    22.9    1705  10.66    no    no         -      -
+tier-n40-hot-by32                              check failed          -       -       -      -     -     -         -      -
+tier-n40-hot-by9                               measured           44.7    47.3     300   8.85    no    no         -      -
+tier-n40-hotashotsetb7.0-by32                  measured           47.1    49.6    1683  10.06  PASS    no         -      -
+tier-n40-hotashotsetb7.0-by9                   measured           49.1    45.9     296   9.76    no    no         -      -
+tier-n40-hotashotsetb7.5-by32                  check failed          -       -       -      -     -     -         -      -
+tier-n40-hotashotsetb7.5-by32-cp2              measured           47.3    46.5    1658  10.67  PASS    no         -      -
+tier-n40-hotashotsetb7.5-by32-cp8              measured           46.8    46.8    1660  10.68  PASS    no         -      -
+tier-n40-hotashotsetb7.5-by32-mtp2             measured           64.6    51.2    1529  11.59    no    no         -      -
+tier-n40-hotashotsetb7.5-by32-mtp3             measured           44.6    59.4    1593  11.62    no    no         -      -
+tier-n40-hotashotsetb7.5-by9                   measured           51.8    51.2     300  10.26    no    no         -      -
+tier-n40-hotashotsetb8.0-by32                  measured           52.7    51.3     842  11.01    no    no         -      -
+tier-n40-hotashotsetb8.0-by9                   measured           51.8    49.1     285  10.77    no    no         -      -
+tier-n40-hotashotsetb8.5-by9                   measured           51.8    50.7     299  11.28    no    no         -      -
+tier-n40-hoteasoningb7.5-by32                  measured           51.7    47.1    1686  10.53  PASS    no         -      -
+tier-n40-hothotagentb7.5-by32                  measured           48.6    42.7    1677  10.54  PASS    no         -      -
+tier-n40-hothotallb7.5-by32                    measured           51.4    49.7    1685  10.51  PASS    no         -      -
+tier-n40-hothotcodeb7.5-by32                   measured           50.0    49.1    1677  10.51  PASS    no         -      -
+tier-n40-hottpersonab7.5-by32                  measured           44.3    46.5    1679  10.58  PASS    no         -      -
+gen = tok/s short prompt, gen12k / pre12k = generation / prompt reading at 12k context; VRAM = GiB peak; KL from sim/kl_gate.py (blank until run)

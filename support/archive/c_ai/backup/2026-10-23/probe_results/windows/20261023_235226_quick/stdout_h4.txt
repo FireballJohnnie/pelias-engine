@@ -1,0 +1,2 @@
+[PASS ] P-H4   1.0 min, 587 cycles, 0 mismatches, thermal samples 0, throttle: gpu_idle
+        -> C:\AI\cl-sndbx-bkp\stuart-creator\2026-10-23\probe_results\windows\20261023_235226_quick\h4_soak.json

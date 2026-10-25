@@ -1,0 +1,7 @@
+﻿os_build=26300
+cpu=AMD Ryzen 7 5800X3D 8-Core Processor           
+mem_total_gib=63.9
+gpu=ERROR: Option driver_version is not recognized. Please run 'nvidia-smi -h' for help.
+tdr=HwSchMode=1;TdrDelay=;TdrLevel=
+nvcc=Build cuda_13.4.r13.4/compiler.38855100_0
+probe_sources_sha=c5e16c27b4f5049a

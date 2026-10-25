@@ -1,0 +1,18 @@
+{
+  "format": "pelias-5d",
+  "url": "http://127.0.0.1:8012",
+  "target_tokens": 8000,
+  "when": "2026-10-22 17:53:20",
+  "first_total_tokens": 8017,
+  "first_prompt_n": 8017,
+  "first_prompt_ms": 4332.344,
+  "second_total_tokens": 8018,
+  "second_prompt_n": 2049,
+  "second_cache_n": 5969,
+  "second_prompt_ms": 1279.614,
+  "full_reprocess_second_request": false,
+  "repeat_total_tokens": 8018,
+  "repeat_prompt_n": 4,
+  "repeat_cache_n": 8014,
+  "repeat_prompt_ms": 55.213
+}

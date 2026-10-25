@@ -1,0 +1,8 @@
+[check] /health -> HTTP 200 {"status": "ok"}
+[check] n_ctx 32768; chat template present: True
+[check] thinking off: finish=stop, 14 tokens, 38.0 tok/s, reasoning 0 chars, answer 44 chars
+        answer starts: [reply text removed]
+[check] thinking on : finish=stop, 181 tokens, 55.2 tok/s, reasoning 442 chars, answer 96 chars
+        answer starts: [reply text removed]
+
+check: the server answers in both modes and the template behaves

@@ -1,0 +1,6 @@
+variant                                        status              gen  gen12k  pre12k   VRAM    P1    G3        KL   top1
+--------------------------------------------------------------------------------------------------------------------------
+prod-n28                                       measured           41.9    41.8    1253   8.60  PASS    no         -      -
+tier-n40-hot-by32                              check failed          -       -       -      -     -     -         -      -
+tier-n40-hot-by9                               measured           44.2    44.8     306   9.02    no    no         -      -
+gen = tok/s short prompt, gen12k / pre12k = generation / prompt reading at 12k context; VRAM = GiB peak; KL from sim/kl_gate.py (blank until run)

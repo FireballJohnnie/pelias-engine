@@ -1,0 +1,44 @@
+## d3d12_bar_probe 2026-10-22T22:33:23-04:00  kernel 6.18.54.1-microsoft-standard-WSL2  headers 461ef51
+RESULT cuInit/primary context: cuInit code=0
+RESULT DXCoreCreateAdapterFactory hr=0x00000000
+RESULT CreateAdapterList hr=0x00000000 count=1
+   adapter 0: NVIDIA GeForce RTX 4070
+RESULT D3D12CreateDevice hr=0x00000000
+RESULT ARCHITECTURE1 hr=0x00000000 UMA=0 CacheCoherentUMA=0 IsolatedMMU=1
+RESULT OPTIONS16 hr=0x00000000 GPUUploadHeapSupported=0
+   BAR1 used [start]: 0 MiB
+
+=== DEFAULT (VRAM, control) ===
+RESULT DEFAULT (VRAM, control) / committed create resource hr=0x00000000
+RESULT DEFAULT (VRAM, control) / committed CreateSharedHandle hr=0x00000000 handle=0x28
+RESULT DEFAULT (VRAM, control) / committed cuImportExternalMemory type 5 flags 1: code=801 CUDA_ERROR_NOT_SUPPORTED
+RESULT DEFAULT (VRAM, control) / committed cuImportExternalMemory type 2 flags 1: code=801 CUDA_ERROR_NOT_SUPPORTED
+RESULT DEFAULT (VRAM, control) / heap+placed CreateHeap hr=0x00000000
+RESULT DEFAULT (VRAM, control) / heap+placed create resource hr=0x00000000
+RESULT DEFAULT (VRAM, control) / heap+placed CreateSharedHandle hr=0x00000000 handle=0x29
+RESULT DEFAULT (VRAM, control) / heap+placed cuImportExternalMemory type 4 flags 0: code=801 CUDA_ERROR_NOT_SUPPORTED
+RESULT DEFAULT (VRAM, control) / heap+placed cuImportExternalMemory type 2 flags 0: code=801 CUDA_ERROR_NOT_SUPPORTED
+
+=== UPLOAD (system RAM, control) ===
+RESULT UPLOAD (system RAM, control) / committed create resource hr=0x80070057
+RESULT UPLOAD (system RAM, control) / heap+placed CreateHeap hr=0x80070057
+RESULT UPLOAD (system RAM, control) / heap+placed create resource hr=0x80070057
+
+=== GPU_UPLOAD (CPU-visible VRAM) ===
+RESULT GPU_UPLOAD (CPU-visible VRAM) / committed create resource hr=0x80070057
+RESULT GPU_UPLOAD (CPU-visible VRAM) / heap+placed CreateHeap hr=0x80070057
+RESULT GPU_UPLOAD (CPU-visible VRAM) / heap+placed create resource hr=0x80070057
+
+=== CUSTOM L1 + WRITE_COMBINE (guide) ===
+RESULT CUSTOM L1 + WRITE_COMBINE (guide) / committed create resource hr=0x80070057
+RESULT CUSTOM L1 + WRITE_COMBINE (guide) / heap+placed CreateHeap hr=0x80070057
+RESULT CUSTOM L1 + WRITE_COMBINE (guide) / heap+placed create resource hr=0x80070057
+
+=== CUSTOM L0 + WRITE_COMBINE (host WC) ===
+RESULT CUSTOM L0 + WRITE_COMBINE (host WC) / committed create resource hr=0x80070057
+RESULT CUSTOM L0 + WRITE_COMBINE (host WC) / heap+placed CreateHeap hr=0x80070057
+RESULT CUSTOM L0 + WRITE_COMBINE (host WC) / heap+placed create resource hr=0x80070057
+
+DONE
+exit code 0
+## end

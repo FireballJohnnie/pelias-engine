@@ -1,0 +1,10 @@
+{"seq":0,"id":"agent-0030","domain":"agent","prompt_tokens":1380,"generated_tokens":144,"finish":"eog","prefill_s":1.902,"decode_s":4.274}
+{"seq":1,"id":"agent-0031","domain":"agent","prompt_tokens":2126,"generated_tokens":216,"finish":"eog","prefill_s":2.591,"decode_s":6.360}
+{"seq":2,"id":"agent-0032","domain":"agent","prompt_tokens":2822,"generated_tokens":174,"finish":"eog","prefill_s":3.200,"decode_s":5.111}
+{"seq":3,"id":"agent-0033","domain":"agent","prompt_tokens":2030,"generated_tokens":163,"finish":"eog","prefill_s":1.754,"decode_s":4.767}
+{"seq":4,"id":"agent-0034","domain":"agent","prompt_tokens":2979,"generated_tokens":199,"finish":"eog","prefill_s":3.224,"decode_s":5.867}
+{"seq":5,"id":"agent-0035","domain":"agent","prompt_tokens":1076,"generated_tokens":162,"finish":"eog","prefill_s":1.540,"decode_s":4.733}
+{"seq":6,"id":"agent-0036","domain":"agent","prompt_tokens":1918,"generated_tokens":208,"finish":"eog","prefill_s":1.710,"decode_s":6.155}
+{"seq":7,"id":"agent-0037","domain":"agent","prompt_tokens":1830,"generated_tokens":175,"finish":"eog","prefill_s":1.725,"decode_s":5.164}
+{"seq":8,"id":"agent-0038","domain":"agent","prompt_tokens":2351,"generated_tokens":177,"finish":"eog","prefill_s":2.884,"decode_s":5.229}
+{"seq":9,"id":"agent-0039","domain":"agent","prompt_tokens":937,"generated_tokens":136,"finish":"eog","prefill_s":1.476,"decode_s":4.025}

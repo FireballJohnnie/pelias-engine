@@ -1,0 +1,92 @@
+run: 20261023_213134_quick   machine_state_sha: 38549587f2aae7f8
+GPU temperature now: 44 C   |   free host memory: 46.0 GiB
+Close browsers, games, video and any other GPU or LLM program before this run.
+Note: PELIAS_GGUF is not set, so the model-file read test (m4) will be skipped.
+
+=== selftest  (21:31:35, timeout 300s)
+  [ok  ] cuda_init - NVIDIA GeForce RTX 4070, sm_89, 46 SMs, 11.99 GiB
+  [ok  ] empty_kernel
+  [ok  ] mma_bf16_fp32acc_m16n8k16 - 58.6 T(FL)OPS in a 20 ms burst (not a benchmark)
+  [ok  ] mma_fp16_fp32acc_m16n8k16 - 58.6 T(FL)OPS in a 19 ms burst (not a benchmark)
+  [ok  ] mma_int8_int32acc_m16n8k32 - 234.5 T(FL)OPS in a 20 ms burst (not a benchmark)
+  [ok  ] mma_fp8_e4m3_fp32acc_m16n8k32 - 117.3 T(FL)OPS in a 20 ms burst (not a benchmark)
+  [ok  ] canary_gemm - cpu-check error/tolerance 0.006 (must be <= 1), two runs identical: yes
+  [ok  ] streaming_kernels - write pattern ok, copy ok
+  [ok  ] spin_kernel - asked 100 ms, took 100 ms
+  [ok  ] graph_replay - counter 30 (expected 30)
+  [ok  ] pinned_roundtrip - 64 MiB host->device->host compared byte for byte
+  [ok  ] shared_memory_optin - 99 KiB dynamic shared memory per block: ok
+  [ok  ] cpu_checksum - AVX2 sum equals the plain 64-bit word sum
+  [ok  ] nvml - NVIDIA GeForce RTX 4070, driver 617.42
+[PASS ] SELFTEST all checks passed
+        -> /home/user/pelias_probe_results/20261023_213134_quick/selftest.json
+
+=== state  (21:31:36, timeout 60s)
+[REC  ] STATE  wsl2, 46.98 GiB RAM, driver 617.42
+        -> /home/user/pelias_probe_results/20261023_213134_quick/state.json
+
+=== h8  (21:31:36, timeout 120s)
+[FAIL ] P-H8   CUDA free 10.83 of 11.99 GiB (need >= 11.2)
+        -> /home/user/pelias_probe_results/20261023_213134_quick/h8_vram.json
+
+=== h1  (21:31:36, timeout 120s)
+[PASS ] P-H1   NVIDIA GeForce RTX 4070 sm=46 opt-in smem=101376 B ramp-ok=101376 B regs=64
+        -> /home/user/pelias_probe_results/20261023_213134_quick/h1_device.json
+
+=== h2  (21:31:36, timeout 300s)
+[REC  ] P-H2   VRAM read 524 / write 475 / copy 480 GB/s (median)
+        -> /home/user/pelias_probe_results/20261023_213134_quick/h2_bandwidth.json
+
+=== h3  (21:31:38, timeout 300s)
+[PASS ] P-H3   sustained TFLOPS/TOPS: bf16 64.7 int8 259.6 fp16 64.9 fp8 129.7 
+        -> /home/user/pelias_probe_results/20261023_213134_quick/h3_peak.json
+
+=== h10  (21:31:52, timeout 300s)
+[PASS ] P-H10  1000 runs, 0 mismatches, 1 distinct hashes, cpu-check ratio 0.006
+        -> /home/user/pelias_probe_results/20261023_213134_quick/h10_canary.json
+
+=== h4  (21:31:54, timeout 300s)
+[PASS ] P-H4   1.0 min, 590 cycles, 0 mismatches, thermal samples 0, throttle: gpu_idle
+        -> /home/user/pelias_probe_results/20261023_213134_quick/h4_soak.json
+
+=== h5  (21:32:55, timeout 300s)
+[PASS ] P-H5   at 256 MiB: pinned H2D 26.3 / pinned D2H 26.3 / pageable H2D 8.4 GB/s
+        -> /home/user/pelias_probe_results/20261023_213134_quick/h5_transfer.json
+
+=== h6  (21:32:57, timeout 300s)
+  readers= 0  h2d 25.9 GB/s  zero-copy 25.9 GB/s  cpu alone 0.0 / during h2d 0.0 GB/s
+  readers= 4  h2d 26.0 GB/s  zero-copy 21.3 GB/s  cpu alone 45.1 / during h2d 22.9 GB/s
+  readers= 8  h2d 25.2 GB/s  zero-copy 20.4 GB/s  cpu alone 42.6 / during h2d 23.0 GB/s
+  readers=16  h2d 22.4 GB/s  zero-copy 18.7 GB/s  cpu alone 40.6 / during h2d 24.4 GB/s
+[REC  ] P-H6   H2D 25.9 GB/s unloaded; worst loaded/unloaded ratio 0.86
+        -> /home/user/pelias_probe_results/20261023_213134_quick/h6_contention.json
+
+=== h12  (21:33:14, timeout 300s)
+[FAIL ] P-H12  overlap efficiency: tensor all-three 0.01  vram-read all-three 0.40  
+        -> /home/user/pelias_probe_results/20261023_213134_quick/h12_overlap.json
+
+=== h7  (21:33:19, timeout 600s)
+[START] P-H7   growing cudaHostAlloc in 1 GiB steps up to 6 GiB
+  pinned  1 GiB ok  alloc 0.94 s  host avail 44.9 GiB
+  pinned  2 GiB ok  alloc 0.99 s  host avail 43.9 GiB
+  pinned  3 GiB ok  alloc 0.99 s  host avail 42.9 GiB
+  pinned  4 GiB ok  alloc 0.99 s  host avail 41.9 GiB
+  pinned  5 GiB ok  alloc 0.98 s  host avail 40.9 GiB
+  pinned  6 GiB ok  alloc 0.99 s  host avail 39.8 GiB
+[REC  ] P-H7   held 6 GiB pinned (target 6), swap-in 0 MiB, integrity failures 0; reached_target
+        -> /home/user/pelias_probe_results/20261023_213134_quick/h7_pinned_limit.json
+
+=== m3  (21:33:28, timeout 600s)
+[START] P-M3   holding 6 GiB pinned + 2 GiB pageable for 1 min
+[REC  ] P-M3   held 6+2 GiB for 1.0 min, mismatches 0, swap-in 0 MiB, jitter p99 0.1 ms
+        -> /home/user/pelias_probe_results/20261023_213134_quick/m3_hold.json
+
+=== m4  (21:34:37, timeout 600s)
+[SKIP ] P-M4   no model file given: set PELIAS_GGUF or pass --gguf PATH (the path is never written to the results)
+        -> /home/user/pelias_probe_results/20261023_213134_quick/m4_modelfile.json
+
+=== h9  (21:34:38, timeout 300s)
+[PASS ] P-H9   eager 2.252 vs graph 0.722 us/kernel (saving 68%), exact=yes, param-update=ok
+        -> /home/user/pelias_probe_results/20261023_213134_quick/h9_graphs.json
+
+================ summary (20261023_213134_quick)

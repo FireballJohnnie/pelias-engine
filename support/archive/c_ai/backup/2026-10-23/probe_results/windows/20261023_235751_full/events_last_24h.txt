@@ -1,0 +1,15 @@
+﻿# System log events from: nvlddmkm, Display, Microsoft-Windows-WHEA-Logger, Microsoft-Windows-Kernel-Power, Microsoft-Windows-DxgKrnl
+# window: 10/22/2026 23:57:56  to  10/23/2026 23:57:56
+2026-10-23 01:41:50  id=109  Microsoft-Windows-Kernel-Power  [Information]  The kernel power manager has initiated a shutdown transition. Action: Power Action Shutdown Off Event Code: 0x0 Reason: Kernel API
+2026-10-23 01:41:51  id=577  Microsoft-Windows-Kernel-Power  [Information]  The system has prepared for a system initiated reboot from Active.
+2026-10-23 13:39:09  id=125  Microsoft-Windows-Kernel-Power  [Information]  ACPI thermal zone \_TZ.UAD0 has been enumerated. _PSV = 290K _TC1 = 0 _TC2 = 0 _TSP = 1000ms _AC0 = 0K _AC1 = 0K _AC2 = 0K _AC3 = 0K _AC4 = 0K _AC5 = 0K _AC6 = 0K _AC7 = 0K _AC8 = 0K _AC9 = 0K _CRT = 294K _HOT = 293K min
+2026-10-23 13:39:09  id=172  Microsoft-Windows-Kernel-Power  [Information]  Connectivity state in standby: Disconnected, Reason: NIC compliance
+2026-10-23 13:39:13  id=125  Microsoft-Windows-Kernel-Power  [Information]  ACPI thermal zone \_TZ.TZ10 has been enumerated. _PSV = 290K _TC1 = 0 _TC2 = 0 _TSP = 1000ms _AC0 = 0K _AC1 = 0K _AC2 = 0K _AC3 = 0K _AC4 = 0K _AC5 = 0K _AC6 = 0K _AC7 = 0K _AC8 = 0K _AC9 = 0K _CRT = 294K _HOT = 293K min
+2026-10-23 18:40:42  id=566  Microsoft-Windows-Kernel-Power  [Information]  The system session has transitioned from 0 to 1. Reason SessionUnlock BootId: 61
+2026-10-23 19:31:56  id=566  Microsoft-Windows-Kernel-Power  [Information]  The system session has transitioned from 1 to 3. Reason InputHid BootId: 61
+2026-10-23 22:15:32  id=109  Microsoft-Windows-Kernel-Power  [Information]  The kernel power manager has initiated a shutdown transition. Action: Power Action Reboot Event Code: 0x0 Reason: Kernel API
+2026-10-23 22:15:33  id=577  Microsoft-Windows-Kernel-Power  [Information]  The system has prepared for a system initiated reboot from Active.
+2026-10-23 22:15:42  id=125  Microsoft-Windows-Kernel-Power  [Information]  ACPI thermal zone \_TZ.UAD0 has been enumerated. _PSV = 290K _TC1 = 0 _TC2 = 0 _TSP = 1000ms _AC0 = 0K _AC1 = 0K _AC2 = 0K _AC3 = 0K _AC4 = 0K _AC5 = 0K _AC6 = 0K _AC7 = 0K _AC8 = 0K _AC9 = 0K _CRT = 294K _HOT = 293K min
+2026-10-23 22:15:42  id=172  Microsoft-Windows-Kernel-Power  [Information]  Connectivity state in standby: Disconnected, Reason: NIC compliance
+2026-10-23 22:15:46  id=125  Microsoft-Windows-Kernel-Power  [Information]  ACPI thermal zone \_TZ.TZ10 has been enumerated. _PSV = 290K _TC1 = 0 _TC2 = 0 _TSP = 1000ms _AC0 = 0K _AC1 = 0K _AC2 = 0K _AC3 = 0K _AC4 = 0K _AC5 = 0K _AC6 = 0K _AC7 = 0K _AC8 = 0K _AC9 = 0K _CRT = 294K _HOT = 293K min
+(query for Microsoft-Windows-DxgKrnl failed: The specified providers do not write events to any of the specified logs.)

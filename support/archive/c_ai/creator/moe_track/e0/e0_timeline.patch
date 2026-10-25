@@ -1,0 +1,203 @@
+diff --git a/ggml/src/ggml-backend.cpp b/ggml/src/ggml-backend.cpp
+index 5bdade6..0bc98d9 100644
+--- a/ggml/src/ggml-backend.cpp
++++ b/ggml/src/ggml-backend.cpp
+@@ -22,6 +22,35 @@
+ #include <algorithm>
+ #include <unordered_map>
+ #include <vector>
++#include <chrono>
++#include <string>
++
++// ---- PELIAS timeline (measurement build only; does nothing unless PELIAS_TIMELINE=<file prefix> is set) ----
++// Host-side lines go to <prefix>.host.tsv. Clock = std::chrono::steady_clock (CLOCK_MONOTONIC on Linux), the same clock ggml-cuda.cu uses.
++//   D <decode> <t_ns> <n_splits>                                         one line per graph computed by the scheduler
++//   S <decode> <split> <backend> <n_inputs> <n_nodes> <t_begin> <t_launch> <t_return>   one line per split
++//       t_launch - t_begin = input copies + waits (the hand-off); t_return - t_launch = the split's compute call (CPU: whole split; CUDA: launch cost only)
++static bool pelias_tl_on() {
++    static const bool on = getenv("PELIAS_TIMELINE") != nullptr;
++    return on;
++}
++static int64_t pelias_tl_ns() {
++    return std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::steady_clock::now().time_since_epoch()).count();
++}
++static FILE * pelias_tl_file() {
++    static FILE * f = nullptr;
++    static bool tried = false;
++    if (!tried) {
++        tried = true;
++        const char * pre = getenv("PELIAS_TIMELINE");
++        if (pre) {
++            std::string path = std::string(pre) + ".host.tsv";
++            f = fopen(path.c_str(), "w");
++        }
++    }
++    return f;
++}
++static int pelias_tl_decode = 0;
+ 
+ #ifdef __APPLE__
+ #include <sys/types.h>
+@@ -1802,6 +1831,13 @@ static bool ggml_backend_sched_alloc_splits(ggml_backend_sched_t sched) {
+ static enum ggml_status ggml_backend_sched_compute_splits(ggml_backend_sched_t sched) {
+     GGML_ASSERT(sched);
+     struct ggml_backend_sched_split * splits = sched->splits;
++    if (pelias_tl_on()) {
++        pelias_tl_decode++;
++        FILE * pf = pelias_tl_file();
++        if (pf) {
++            fprintf(pf, "D\t%d\t%lld\t%d\n", pelias_tl_decode, (long long) pelias_tl_ns(), sched->n_splits);
++        }
++    }
+ 
+     ggml_tensor * prev_ids_tensor = nullptr;
+     std::vector<int32_t> ids;
+@@ -1813,6 +1849,7 @@ static enum ggml_status ggml_backend_sched_compute_splits(ggml_backend_sched_t s
+         struct ggml_backend_sched_split * split = &splits[split_id];
+         int split_backend_id = split->backend_id;
+         ggml_backend_t split_backend = sched->backends[split_backend_id];
++        const int64_t pelias_t_begin = pelias_tl_on() ? pelias_tl_ns() : 0;
+ 
+         // ensure the previous split's async work has completed before we start
+         // this split, the allocator may have reused buffer regions across splits
+@@ -1952,7 +1989,15 @@ static enum ggml_status ggml_backend_sched_compute_splits(ggml_backend_sched_t s
+         }
+ 
+         if (!sched->callback_eval) {
++            const int64_t pelias_t_launch = pelias_tl_on() ? pelias_tl_ns() : 0;
+             enum ggml_status ec = ggml_backend_graph_compute_async(split_backend, &split->graph);
++            if (pelias_tl_on()) {
++                FILE * pf = pelias_tl_file();
++                if (pf) {
++                    fprintf(pf, "S\t%d\t%d\t%s\t%d\t%d\t%lld\t%lld\t%lld\n", pelias_tl_decode, split_id, ggml_backend_name(split_backend),
++                            split->n_inputs, split->graph.n_nodes, (long long) pelias_t_begin, (long long) pelias_t_launch, (long long) pelias_tl_ns());
++                }
++            }
+             if (ec != GGML_STATUS_SUCCESS) {
+                 return ec;
+             }
+@@ -1998,6 +2043,14 @@ static enum ggml_status ggml_backend_sched_compute_splits(ggml_backend_sched_t s
+         prev_backend_id = split_backend_id;
+     }
+ 
++    if (pelias_tl_on()) {
++        FILE * pf = pelias_tl_file();
++        if (pf) {
++            fprintf(pf, "E\t%d\t%lld\n", pelias_tl_decode, (long long) pelias_tl_ns());
++            fflush(pf);
++        }
++    }
++
+     return GGML_STATUS_SUCCESS;
+ }
+ 
+diff --git a/ggml/src/ggml-cuda/ggml-cuda.cu b/ggml/src/ggml-cuda/ggml-cuda.cu
+index 303c9f4..a3a9890 100644
+--- a/ggml/src/ggml-cuda/ggml-cuda.cu
++++ b/ggml/src/ggml-cuda/ggml-cuda.cu
+@@ -2596,11 +2596,64 @@ static bool ggml_backend_cuda_cpy_tensor_async(ggml_backend_t backend_src, ggml_
+     return true;
+ }
+ 
++// ---- PELIAS timeline (measurement build only; does nothing unless PELIAS_TIMELINE=<file prefix> is set) ----
++// Every graph_compute call on the CUDA backend is bracketed by two CUDA events (timing enabled). When the stream is synchronized, the pending
++// events are resolved and written to <prefix>.gpu.tsv:   G <seq> <t_start_ns> <t_launch_ns> <gpu_us> <n_nodes>
++//   gpu_us      = GPU time between the two events (includes any idle gap inside the call; the call is one scheduler split)
++//   t_start_ns  = the event's time on the host clock (steady_clock), anchored to the moment the stream synchronize returned: the LAST event of the batch
++//                 is taken to have completed at that host time, the others are placed before it by their measured GPU-side distance. [ESTIMATE: error = delay between GPU idle and the sync call returning]
++//   t_launch_ns = host time when the split was handed to the backend
++#include <chrono>
++struct pelias_tl_rec { cudaEvent_t t0; cudaEvent_t t1; int64_t host_launch_ns; int n_nodes; };
++static bool pelias_tl_on() {
++    static const bool on = getenv("PELIAS_TIMELINE") != nullptr;
++    return on;
++}
++static int64_t pelias_tl_ns() {
++    return std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::steady_clock::now().time_since_epoch()).count();
++}
++static std::vector<pelias_tl_rec> g_pelias_tl_pending;
++static std::vector<cudaEvent_t>   g_pelias_tl_free;
++static FILE * g_pelias_tl_file = nullptr;
++static long   g_pelias_tl_seq  = 0;
++
++static void pelias_tl_flush() {
++    if (g_pelias_tl_pending.empty()) {
++        return;
++    }
++    const int64_t h_sync = pelias_tl_ns();
++    if (!g_pelias_tl_file) {
++        const char * pre = getenv("PELIAS_TIMELINE");
++        std::string path = std::string(pre) + ".gpu.tsv";
++        g_pelias_tl_file = fopen(path.c_str(), "w");
++    }
++    cudaEvent_t last = g_pelias_tl_pending.back().t1;
++    for (const pelias_tl_rec & r : g_pelias_tl_pending) {
++        float ms_to_last = 0.0f, ms_dur = 0.0f;
++        cudaEventElapsedTime(&ms_to_last, r.t0, last);
++        cudaEventElapsedTime(&ms_dur, r.t0, r.t1);
++        if (g_pelias_tl_file) {
++            fprintf(g_pelias_tl_file, "G\t%ld\t%lld\t%lld\t%.1f\t%d\n", ++g_pelias_tl_seq,
++                    (long long) (h_sync - (int64_t) ((double) ms_to_last * 1.0e6)), (long long) r.host_launch_ns, (double) ms_dur * 1000.0, r.n_nodes);
++        }
++        g_pelias_tl_free.push_back(r.t0);
++        g_pelias_tl_free.push_back(r.t1);
++    }
++    g_pelias_tl_pending.clear();
++    if (g_pelias_tl_file) {
++        fflush(g_pelias_tl_file);
++    }
++}
++
+ static void ggml_backend_cuda_synchronize(ggml_backend_t backend) {
+     ggml_backend_cuda_context * cuda_ctx = (ggml_backend_cuda_context *)backend->context;
+ 
+     CUDA_CHECK(cudaStreamSynchronize(cuda_ctx->stream()));
+ 
++    if (pelias_tl_on()) {
++        pelias_tl_flush();
++    }
++
+     GGML_UNUSED(backend);
+ }
+ 
+@@ -4512,7 +4565,7 @@ static bool ggml_cuda_graph_set_enabled(ggml_backend_cuda_context * cuda_ctx, co
+ }
+ #endif // USE_CUDA_GRAPH
+ 
+-static enum ggml_status ggml_backend_cuda_graph_compute(ggml_backend_t backend, ggml_cgraph * cgraph) {
++static enum ggml_status ggml_backend_cuda_graph_compute_impl(ggml_backend_t backend, ggml_cgraph * cgraph) {
+     ggml_backend_cuda_context * cuda_ctx = (ggml_backend_cuda_context *) backend->context;
+ 
+     ggml_cuda_set_device(cuda_ctx->device);
+@@ -4571,6 +4624,31 @@ static enum ggml_status ggml_backend_cuda_graph_compute(ggml_backend_t backend,
+     return GGML_STATUS_SUCCESS;
+ }
+ 
++// PELIAS timeline wrapper: same behaviour as the stock call, plus two timing events around it when PELIAS_TIMELINE is set
++static enum ggml_status ggml_backend_cuda_graph_compute(ggml_backend_t backend, ggml_cgraph * cgraph) {
++    if (!pelias_tl_on() || g_pelias_tl_pending.size() >= 8192) {
++        return ggml_backend_cuda_graph_compute_impl(backend, cgraph);
++    }
++    ggml_backend_cuda_context * cuda_ctx = (ggml_backend_cuda_context *) backend->context;
++    ggml_cuda_set_device(cuda_ctx->device);
++    pelias_tl_rec r;
++    r.n_nodes = cgraph->n_nodes;
++    for (cudaEvent_t * e : { &r.t0, &r.t1 }) {
++        if (!g_pelias_tl_free.empty()) {
++            *e = g_pelias_tl_free.back();
++            g_pelias_tl_free.pop_back();
++        } else {
++            CUDA_CHECK(cudaEventCreate(e));
++        }
++    }
++    r.host_launch_ns = pelias_tl_ns();
++    CUDA_CHECK(cudaEventRecord(r.t0, cuda_ctx->stream()));
++    const enum ggml_status st = ggml_backend_cuda_graph_compute_impl(backend, cgraph);
++    CUDA_CHECK(cudaEventRecord(r.t1, cuda_ctx->stream()));
++    g_pelias_tl_pending.push_back(r);
++    return st;
++}
++
+ static void ggml_backend_cuda_event_record(ggml_backend_t backend, ggml_backend_event_t event) {
+     ggml_backend_cuda_context * cuda_ctx = (ggml_backend_cuda_context *)backend->context;
+ 

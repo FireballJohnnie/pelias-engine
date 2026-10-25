@@ -1,0 +1,500 @@
+﻿# Windows facts - read only - 2026-10-23T23:57:51.4457878-04:00
+### Operating system
+
+
+Caption        : Microsoft Windows 11 Pro
+Version        : 10.0.26300
+BuildNumber    : 26300
+OSArchitecture : 64-bit
+TotalMemoryGiB : 63.9
+FreeMemoryGiB  : 55.6
+
+### CPU
+
+
+Name                      : AMD Ryzen 7 5800X3D 8-Core Processor           
+NumberOfCores             : 8
+NumberOfLogicalProcessors : 16
+MaxClockSpeed             : 3401
+L2CacheSize               : 4096
+L3CacheSize               : 98304
+
+### Memory modules
+
+BankLabel    GiB Speed ConfiguredClockSpeed Manufacturer PartNumber      
+---------    --- ----- -------------------- ------------ ----------      
+P0 CHANNEL A  16  3200                 3200 Unknown      F4-3200C16-16GVK
+P0 CHANNEL A  16  3200                 3200 Unknown      F4-3200C16-16GVK
+P0 CHANNEL B  16  3200                 3200 Unknown      F4-3200C16-16GVK
+P0 CHANNEL B  16  3200                 3200 Unknown      F4-3200C16-16GVK
+
+### Graphics adapters
+
+
+Name               : NVIDIA GeForce RTX 4070
+DriverVersion      : 32.0.16.1742
+DriverDate         : 9/29/2026 8:00:00 PM
+CurrentRefreshRate : 119
+VideoProcessor     : NVIDIA GeForce RTX 4070
+
+### Page file
+
+
+Name              : C:\pagefile.sys
+AllocatedBaseSize : 32768
+CurrentUsage      : 266
+PeakUsage         : 15675
+
+
+
+
+
+AutomaticManagedPagefile : False
+TotalPhysicalGiB         : 63.9
+
+### Power plan
+Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Balanced)
+
+### Display-timeout (TDR) and GPU scheduling settings - read only; "(not set)" means the Windows default (TdrDelay default is 2 seconds)
+HwSchMode = 1
+TdrDelay = (not set)
+TdrLevel = (not set)
+TdrDdiDelay = (not set)
+TdrLimitTime = (not set)
+TdrLimitCount = (not set)
+
+### nvidia-smi (summary)
+Fri Oct 23 23:57:52 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 617.42                 KMD Version: 617.42        CUDA UMD Version: 13.4     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                  Driver-Model | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA GeForce RTX 4070      WDDM  |   00000000:07:00.0  On |                  N/A |
+| 58%   33C    P0             34W /  200W |     805MiB /  12282MiB |      1%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|    0   N/A  N/A            1308    C+G   C:\Windows\System32\dwm.exe           N/A      |
+|    0   N/A  N/A            3500    C+G   ....0.4283.62\msedgewebview2.exe      N/A      |
+|    0   N/A  N/A            4144    C+G   ..._pzs8sxrjxfjjc\app\claude.exe      N/A      |
+|    0   N/A  N/A            6588    C+G   ...y\StartMenuExperienceHost.exe      N/A      |
+|    0   N/A  N/A            6656    C+G   ..._pzs8sxrjxfjjc\app\claude.exe      N/A      |
+|    0   N/A  N/A            9968    C+G   ...indows\System32\ShellHost.exe      N/A      |
+|    0   N/A  N/A           10400    C+G   ...2txyewy\CrossDeviceResume.exe      N/A      |
+|    0   N/A  N/A           10900    C+G   C:\Windows\explorer.exe               N/A      |
+|    0   N/A  N/A           14252    C+G   ...App_cw5n1h2txyewy\LockApp.exe      N/A      |
+|    0   N/A  N/A           18100    C+G   ..._cw5n1h2txyewy\SearchHost.exe      N/A      |
++-----------------------------------------------------------------------------------------+
+
+### nvidia-smi (csv query)
+name, driver_version, pstate, clocks.current.sm [MHz], clocks.current.memory [MHz], clocks.max.sm [MHz], clocks.max.memory [MHz], power.draw [W], power.limit [W], temperature.gpu, pcie.link.gen.current, pcie.link.gen.max, pcie.link.width.current, pcie.link.width.max, memory.total [MiB], memory.used [MiB], memory.free [MiB], utilization.gpu [%]
+NVIDIA GeForce RTX 4070, 617.42, P0, 2490 MHz, 11501 MHz, 3120 MHz, 10501 MHz, 34.40 W, 200.00 W, 33, 4, 4, 16, 16, 12282 MiB, 805 MiB, 11206 MiB, 1 %
+
+### nvidia-smi -q (full, includes BAR1 and PCIe sections)
+
+==============NVSMI LOG==============
+
+Timestamp                                              : Fri Oct 23 23:57:53 2026
+Driver Version                                         : 617.42 [Deprecated; will be removed in CUDA 14.0. Use KMD Version instead]
+CUDA Version                                           : 13.4 [Deprecated; will be removed in CUDA 14.0. Use CUDA UMD Version instead]
+KMD Version                                            : 617.42
+CUDA UMD Version                                       : 13.4
+
+Attached GPUs                                          : 1
+GPU 00000000:07:00.0
+    Product Name                                       : NVIDIA GeForce RTX 4070
+    Product Brand                                      : GeForce
+    Product Architecture                               : Ada Lovelace
+    Display Mode                                       : Requested functionality has been deprecated
+    Display Attached                                   : Yes
+    Display Active                                     : Enabled
+    Persistence Mode                                   : N/A
+    Addressing Mode                                    : N/A
+    MIG Mode
+        Current                                        : N/A
+        Pending                                        : N/A
+    Accounting Mode                                    : Disabled
+    Accounting Mode Buffer Size                        : 4000
+    Driver Model
+        Current                                        : WDDM
+        Pending                                        : WDDM
+    Serial Number                                      : N/A
+    GPU UUID                                           : GPU-763e6fc9-75c4-d3ec-1d71-1525e153ec87
+    GPU PDI                                            : 0x86e34dc4fcbdc4da
+    Minor Number                                       : N/A
+    VBIOS Version                                      : 95.04.3e.08.be
+    MultiGPU Board                                     : No
+    Board ID                                           : 0x700
+    Board Part Number                                  : N/A
+    GPU Part Number                                    : 2786-251-A1
+    FRU Part Number                                    : N/A
+    Platform Info
+        Chassis Serial Number                          : N/A
+        Slot Number                                    : N/A
+        Tray Index                                     : N/A
+        Host ID                                        : N/A
+        Peer Type                                      : N/A
+        Module Id                                      : 1
+        GPU Fabric GUID                                : N/A
+    Inforom Version
+        Image Version                                  : G002.0000.00.03
+        OEM Object                                     : 2.0
+        ECC Object                                     : N/A
+        Power Management Object                        : N/A
+    Inforom BBX Object Flush
+        Latest Timestamp                               : N/A
+        Latest Duration                                : N/A
+    Inforom Time Data
+        Time Run                                       : N/A
+    GPU Operation Mode
+        Current                                        : N/A
+        Pending                                        : N/A
+    GPU C2C Mode                                       : N/A
+    GPU Virtualization Mode
+        Virtualization Mode                            : None
+        Host VGPU Mode                                 : N/A
+        vGPU Heterogeneous Mode                        : N/A
+    GPU Recovery Action                                : None
+    GSP Firmware Version                               : N/A
+    IBMNPU
+        Relaxed Ordering Mode                          : N/A
+    PCI
+        Bus                                            : 0x07
+        Device                                         : 0x00
+        Domain                                         : 0x0000
+        Device Id                                      : 0x278610DE
+        Bus Id                                         : 00000000:07:00.0
+        Sub System Id                                  : 0x40EE1458
+        GPU Link Info
+            PCIe Generation
+                Max                                    : 4
+                Current                                : 4
+                Device Current                         : 4
+                Device Max                             : 4
+                Host Max                               : 4
+            Link Width
+                Max                                    : 16x
+                Current                                : 16x
+        Bridge Chip
+            Type                                       : N/A
+            Firmware                                   : N/A
+        Replays Since Reset                            : 0
+        Replay Number Rollovers                        : 0
+        Tx Throughput                                  : 0 KB/s
+        Rx Throughput                                  : 11523 KB/s
+        Atomic Caps Outbound                           : N/A
+        Atomic Caps Inbound                            : N/A
+    Fan Speed                                          : 58 %
+    Performance State                                  : P0
+    Clocks Event Reasons
+        Idle                                           : Active
+        Applications Clocks Setting                    : Not Active
+        SW Power Cap                                   : Not Active
+        HW Slowdown                                    : Not Active
+            HW Thermal Slowdown                        : Not Active
+            HW Power Brake Slowdown                    : Not Active
+        Sync Boost                                     : Not Active
+        SW Thermal Slowdown                            : Not Active
+        Display Clock Setting                          : Not Active
+        Board Limit                                    : Not Active
+        Reliability                                    : Not Active
+    Clocks Event Reasons Counters
+        SW Power Capping                               : 0 us
+        Sync Boost                                     : 0 us
+        SW Thermal Slowdown                            : 0 us
+        HW Thermal Slowdown                            : 0 us
+        HW Power Braking                               : 0 us
+    Sparse Operation Mode                              : N/A
+    FB Memory Usage
+        Total                                          : 12282 MiB
+        Reserved                                       : 272 MiB
+        Used                                           : 805 MiB
+        Free                                           : 11206 MiB
+    BAR1 Memory Usage
+        Total                                          : 16384 MiB
+        Used                                           : 16355 MiB
+        Free                                           : 29 MiB
+    Conf Compute Protected Memory Usage
+        Total                                          : N/A
+        Used                                           : N/A
+        Free                                           : N/A
+    Compute Mode                                       : Default
+    Utilization
+        GPU                                            : 1 %
+        Memory                                         : 1 %
+        Encoder                                        : 0 %
+        Decoder                                        : 0 %
+        JPEG                                           : 0 %
+        OFA                                            : 0 %
+    Encoder Stats
+        Active Sessions                                : 0
+        Average FPS                                    : 0
+        Average Latency                                : 0
+    FBC Stats
+        Active Sessions                                : 0
+        Average FPS                                    : 0
+        Average Latency                                : 0
+    DRAM Encryption Mode
+        Current                                        : N/A
+        Pending                                        : N/A
+    ECC Mode
+        Current                                        : N/A
+        Pending                                        : N/A
+    ECC Errors
+        Volatile
+            SRAM Correctable                           : N/A
+            SRAM Uncorrectable Parity                  : N/A
+            SRAM Uncorrectable SEC-DED                 : N/A
+            DRAM Correctable                           : N/A
+            DRAM Uncorrectable                         : N/A
+        Aggregate
+            SRAM Correctable                           : N/A
+            SRAM Uncorrectable Parity                  : N/A
+            SRAM Uncorrectable SEC-DED                 : N/A
+            DRAM Correctable                           : N/A
+            DRAM Uncorrectable                         : N/A
+            SRAM Threshold Exceeded                    : N/A
+        Aggregate Uncorrectable SRAM Sources
+            SRAM L2                                    : N/A
+            SRAM SM                                    : N/A
+            SRAM Microcontroller                       : N/A
+            SRAM PCIE                                  : N/A
+            SRAM Other                                 : N/A
+        Channel Repair Pending                         : No
+        TPC Repair Pending                             : No
+        Unrepairable Memory                            : N/A
+    Retired Pages
+        Single Bit ECC                                 : N/A
+        Double Bit ECC                                 : N/A
+        Pending Page Blacklist                         : N/A
+    Remapped Rows
+        Correctable Error                              : 0
+        Inactive Correctable Error                     : 0
+        Uncorrectable Error                            : 0
+        Inactive Uncorrectable Error                   : 0
+        Pending                                        : No
+        Remapping Failure Occurred                     : No
+        Bank Remap Availability Histogram
+            Max                                        : 96 bank(s)
+            High                                       : 0 bank(s)
+            Partial                                    : 0 bank(s)
+            Low                                        : 0 bank(s)
+            None                                       : 0 bank(s)
+    Remapped Banks                                     : N/A
+    Temperature
+        GPU Current Temp                               : 33 C
+        GPU Current Max Temp                           : N/A
+        GPU Current T.Limit Temp                       : 51 C
+        GPU Shutdown T.Limit Temp Specification        : -7 C
+        GPU Slowdown T.Limit Temp Specification        : -2 C
+        GPU Max Operating T.Limit Temp Specification   : 0 C
+        GPU Target Temperature Specification           : 84 C
+        Memory Current Temp                            : N/A
+        Memory Max Operating T.Limit Temp Specification: N/A
+    GPU Power Readings
+        Average Power Draw                             : 34.40 W
+        Instantaneous Power Draw                       : 34.47 W
+        GPU Ceiling Power Limit
+            Current Power Limit                        : 200.00 W
+            Requested Power Limit                      : 200.00 W
+            Default Power Limit                        : 200.00 W
+        GPU Base Power
+            Current Base Power                         : N/A
+            Requested Base Power                       : N/A
+            Default Base Power                         : N/A
+            Adaptive TGP Adjusted Base Power           : N/A
+        Min Power Limit                                : 100.00 W
+        Max Power Limit                                : 216.00 W
+    GPU Memory Power Readings 
+        Average Power Draw                             : N/A
+        Instantaneous Power Draw                       : N/A
+    Module Power Readings
+        Average Power Draw                             : N/A
+        Instantaneous Power Draw                       : N/A
+        Current Power Limit                            : N/A
+        Requested Power Limit                          : N/A
+        Default Power Limit                            : N/A
+        Min Power Limit                                : N/A
+        Max Power Limit                                : N/A
+    Power Smoothing                                    : N/A
+    Workload Power Profiles
+        Requested Profiles                             : N/A
+        Enforced Profiles                              : N/A
+    EDPp Multiplier                                    : N/A
+    Clocks
+        Graphics                                       : 2490 MHz
+        SM                                             : 2490 MHz
+        Memory                                         : 11501 MHz
+        Video                                          : 2025 MHz
+    Applications Clocks
+        Graphics                                       : Requested functionality has been deprecated
+        Memory                                         : Requested functionality has been deprecated
+    Default Applications Clocks
+        Graphics                                       : Requested functionality has been deprecated
+        Memory                                         : Requested functionality has been deprecated
+    Deferred Clocks
+        Memory                                         : N/A
+    Max Clocks
+        Graphics                                       : 3120 MHz
+        SM                                             : 3120 MHz
+        Memory                                         : 10501 MHz
+        Video                                          : 2415 MHz
+    Max Customer Boost Clocks
+        Graphics                                       : N/A
+    Clock Policy
+        Auto Boost                                     : N/A
+        Auto Boost Default                             : N/A
+    DLA Clocks
+        Engine                                         : N/A
+        Max Engine                                     : N/A
+    Fabric
+        State                                          : N/A
+        Status                                         : N/A
+        CliqueId                                       : N/A
+        ClusterUUID                                    : N/A
+        Health
+            Summary                                    : N/A
+            Bandwidth                                  : N/A
+            Route Recovery in progress                 : N/A
+            Route Unhealthy                            : N/A
+            Access Timeout Recovery                    : N/A
+            Incorrect Configuration                    : N/A
+            Partition Assigned                         : N/A
+            Global Fabric Manager State                : N/A
+        Cliques                                        : 
+    Processes
+        GPU instance ID                   : N/A
+        Compute instance ID               : N/A
+        Process ID                        : 1308
+            Type                          : C+G
+            Name                          : C:\Windows\System32\dwm.exe
+            Used GPU Memory               : Not available in WDDM driver model
+        GPU instance ID                   : N/A
+        Compute instance ID               : N/A
+        Process ID                        : 3500
+            Type                          : C+G
+            Name                          : C:\Program Files (x86)\Microsoft\EdgeWebView\Application\155.0.4283.62\msedgewebview2.exe
+            Used GPU Memory               : Not available in WDDM driver model
+        GPU instance ID                   : N/A
+        Compute instance ID               : N/A
+        Process ID                        : 4144
+            Type                          : C+G
+            Name                          : C:\Program Files\WindowsApps\Claude_3.6556.2.0_x64__pzs8sxrjxfjjc\app\claude.exe
+            Used GPU Memory               : Not available in WDDM driver model
+        GPU instance ID                   : N/A
+        Compute instance ID               : N/A
+        Process ID                        : 6588
+            Type                          : C+G
+            Name                          : C:\Windows\SystemApps\Microsoft.Windows.StartMenuExperienceHost_cw5n1h2txyewy\StartMenuExperienceHost.exe
+            Used GPU Memory               : Not available in WDDM driver model
+        GPU instance ID                   : N/A
+        Compute instance ID               : N/A
+        Process ID                        : 6656
+            Type                          : C+G
+            Name                          : C:\Program Files\WindowsApps\Claude_3.6556.2.0_x64__pzs8sxrjxfjjc\app\claude.exe
+            Used GPU Memory               : Not available in WDDM driver model
+        GPU instance ID                   : N/A
+        Compute instance ID               : N/A
+        Process ID                        : 9968
+            Type                          : C+G
+            Name                          : C:\Windows\System32\ShellHost.exe
+            Used GPU Memory               : Not available in WDDM driver model
+        GPU instance ID                   : N/A
+        Compute instance ID               : N/A
+        Process ID                        : 10400
+            Type                          : C+G
+            Name                          : C:\Windows\SystemApps\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\CrossDeviceResume.exe
+            Used GPU Memory               : Not available in WDDM driver model
+        GPU instance ID                   : N/A
+        Compute instance ID               : N/A
+        Process ID                        : 10900
+            Type                          : C+G
+            Name                          : C:\Windows\explorer.exe
+            Used GPU Memory               : Not available in WDDM driver model
+        GPU instance ID                   : N/A
+        Compute instance ID               : N/A
+        Process ID                        : 14252
+            Type                          : C+G
+            Name                          : C:\Windows\SystemApps\Microsoft.LockApp_cw5n1h2txyewy\LockApp.exe
+            Used GPU Memory               : Not available in WDDM driver model
+        GPU instance ID                   : N/A
+        Compute instance ID               : N/A
+        Process ID                        : 18100
+            Type                          : C+G
+            Name                          : C:\Windows\SystemApps\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\SearchHost.exe
+            Used GPU Memory               : Not available in WDDM driver model
+    Capabilities
+        EGM                                            : disabled
+
+### nvidia-smi compute apps
+pid, process_name, used_gpu_memory [MiB]
+1308, C:\Windows\System32\dwm.exe, [N/A]
+9968, C:\Windows\System32\ShellHost.exe, [N/A]
+10400, C:\Windows\SystemApps\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\CrossDeviceResume.exe, [N/A]
+14252, C:\Windows\SystemApps\Microsoft.LockApp_cw5n1h2txyewy\LockApp.exe, [N/A]
+6656, C:\Program Files\WindowsApps\Claude_3.6556.2.0_x64__pzs8sxrjxfjjc\app\claude.exe, [N/A]
+4144, C:\Program Files\WindowsApps\Claude_3.6556.2.0_x64__pzs8sxrjxfjjc\app\claude.exe, [N/A]
+10900, C:\Windows\explorer.exe, [N/A]
+6588, C:\Windows\SystemApps\Microsoft.Windows.StartMenuExperienceHost_cw5n1h2txyewy\StartMenuExperienceHost.exe, [N/A]
+18100, C:\Windows\SystemApps\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\SearchHost.exe, [N/A]
+3500, C:\Program Files (x86)\Microsoft\EdgeWebView\Application\155.0.4283.62\msedgewebview2.exe, [N/A]
+
+### GPU memory by process (Windows performance counters - shows who holds VRAM right now)
+
+  PID Process                 DedicatedMiB SharedMiB
+  --- -------                 ------------ ---------
+ 1308 dwm                            920.6       3.4
+ 6656 claude                         221.8      12.4
+10900 explorer                        89.2       1.7
+ 1464 csrss                           71.1      63.3
+ 3500 msedgewebview2                  20.6       0.2
+ 6588 StartMenuExperienceHost         14.2       0.1
+14252 LockApp                         13.7         0
+18100 SearchHost                        13       0.2
+ 4144 claude                           8.9       0.2
+10400 CrossDeviceResume                8.1       0.9
+ 9968 ShellHost                        8.1       0.9
+    4 System                             4       0.3
+
+### GPU adapter memory totals (counters)
+
+Adapter                           DedicatedMiB
+-------                           ------------
+luid_0x00000000_0x00010152_phys_0          810
+luid_0x00000000_0x0001144e_phys_0            0
+
+### WSL version
+WSL version: 3.0.4.0
+Kernel version: 6.18.54.1-1
+WSLg version: 1.0.79
+MSRDC version: 1.2.7391
+Direct3D version: 1.611.1-81528511
+DXCore version: 10.0.26100.1-240331-1435.ge-release
+Windows version: 10.0.26300.9711
+
+### .wslconfig (read only)
+[wsl2]
+memory=48GB
+processors=16
+swap=48GB
+swapFile=<project>\\wsl_swap.vhdx
+localhostForwarding=true
+kernelCommandLine=transparent_hugepage=always swiotlb=65536
+virtiofs=true
+
+[experimental]
+autoMemoryReclaim=disabled
+sparseVhd=false
+
+### Build tools
+nvcc: C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.4\bin\nvcc.exe
+VsDevCmd: C:\Program Files\Microsoft Visual Studio\18\Professional\Common7\Tools\VsDevCmd.bat
+

@@ -1,0 +1,11 @@
+tokens: fit 84,503, held-out 36,657; all experts 18.164 GiB, bank 6.0998 GiB (3426 experts)
+static bank at 6.1 GiB: in-sample hit 0.760, HELD-OUT hit 0.765  (count-based 0.766)
+budget curve (GiB: in-sample / held-out): 2.0: 0.42/0.43  3.0: 0.53/0.54  4.0: 0.62/0.63  5.0: 0.69/0.70  5.6: 0.73/0.74  6.0: 0.75/0.76  8.0: 0.85/0.85
+held-out layer steps with 0 misses 25%, 1 miss 27%, 2 misses 19%, any miss 75%
+   domain agent      held-out hit with bank from all fit 0.790, from other domains only 0.783, from its own 0.833
+   domain code       held-out hit with bank from all fit 0.753, from other domains only 0.739, from its own 0.761
+   domain persona    held-out hit with bank from all fit 0.799, from other domains only 0.765, from its own 0.812
+   domain reasoning  held-out hit with bank from all fit 0.674, from other domains only 0.651, from its own 0.739
+dynamic caches, same budget: global LRU 0.865, per-layer LRU 0.862, hybrid 0.858
+wrote sim/sim_result_6p1_lru.json
+next:  python lib/gates.py g2

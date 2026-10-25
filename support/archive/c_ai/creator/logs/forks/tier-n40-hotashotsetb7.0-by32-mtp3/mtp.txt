@@ -1,0 +1,14 @@
+5e: wrote <project>/logs/forks/tier-n40-hotashotsetb7.0-by32-mtp3/mtp_5e.json
+    (drafting could not be switched off per request on this server; the speed file below is the baseline instead)
+    persona     45.6 tok/s  accepted 102/357 (  29%)  Tell me, in your own voice, what you like most about helping
+    persona     44.3 tok/s  accepted 111/450 (  25%)  I had a rough day and I do not want advice. Just talk with m
+    agent       52.3 tok/s  accepted 75/240 (  31%)  You can call tools. The user says: find the three largest fi
+    agent       56.4 tok/s  accepted 190/385 (  49%)  Plan, step by step, how you would back up a project folder, 
+    code        56.1 tok/s  accepted 173/432 (  40%)  Write a Python function that merges overlapping intervals in
+    code        55.0 tok/s  accepted 132/354 (  37%)  Write a C function that reverses a singly linked list in pla
+    reasoning   50.9 tok/s  accepted 116/291 (  40%)  A train leaves at 9:40 and travels 195 km at 78 km/h, then r
+    reasoning   51.9 tok/s  accepted 182/409 (  44%)  Explain why the sum of the first n odd numbers is n squared,
+[gate MTP] FAIL
+   draft acceptance 37.0% (1081/2918 drafted tokens)
+   generation 52.07 tok/s vs baseline 41.14 (1.27x)
+   low acceptance: find out why (recurrent-state rollback vs head misalignment) before building on MTP

@@ -1,0 +1,5 @@
+﻿[PASS ] P-H13  stage 2s: wall 2.00 s (asked 2), completed=yes, device usable after=yes
+[PASS ] P-H13  stage 5s: wall 5.00 s (asked 5), completed=yes, device usable after=yes
+[PASS ] P-H13  stage 30s: wall 30.00 s (asked 30), completed=yes, device usable after=yes
+[PASS ] P-H13  stage queued: wall 10.00 s (asked 10), completed=yes, device usable after=yes
+[PASS ] P-H13  stage graph: wall 10.00 s (asked 10), completed=yes, device usable after=yes

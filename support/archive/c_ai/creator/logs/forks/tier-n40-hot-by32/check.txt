@@ -1,0 +1,3 @@
+[check] /health -> HTTP 200 {"status": "ok"}
+[check] n_ctx 32768; chat template present: True
+STOP: cannot reach http://127.0.0.1:8012/v1/chat/completions (Remote end closed connection without response).  Is the server running (the serve stage prints the command)?
