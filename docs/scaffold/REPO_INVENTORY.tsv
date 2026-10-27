@@ -3,7 +3,7 @@ path	group	bytes	lines	sha256	vs_34f744f	note
 .gitignore	root	166	3	cedcb9772b3d843e40c7e50a61e98af5bf940cf914315c1ca065fcd9813235cc	new	Withholds support/local_only/ from git
 CITATIONS.md	root	6842	51	6b7071d09e07541d780575f0226b00518dd9c5281399729c3ff47fcbecc47e0a	unchanged	Verified citations
 LICENSE	root	11358	202	cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30	unchanged	Apache-2.0 standard text
-README.md	root	42253	368	6503e995bec017bafb2c15e628d3da0a2343c5dd3d288129a7a1a966e7b9ea47	modified	Front page: what the engine is, measured results, plan, layout; 9.0 lists what the repository holds today (updated 2026-10-25)
+README.md	root	42620	370	319c9fe63cb5f85a6b24a83a593b41032ed2213b4f3ec28d55c7b60763299c70	modified	Front page: what the engine is, measured results, plan, layout; 9.0 lists what the repository holds today (updated 2026-10-25; status note 2026-10-27)
 benchmarks/RESULTS.md	benchmarks	34573	293	0ca612dd4c6b36bdb6d15a738bd0d9fbad87cb3870d89fd9bf08a197324c66c9	unchanged	Claim-to-log ledger of the engine
 benchmarks/raw/cold-path-tests/cold_path_run1_one_failure.txt	benchmarks/raw/cold-path-tests	5418	26	1a391be322a948e1385941ffe3f189d10ab10f3f596382e893fb14409ae5ce8f	unchanged	Cold-path kernel test runs (one failure, then all pass)
 benchmarks/raw/cold-path-tests/cold_path_run2_all_pass.txt	benchmarks/raw/cold-path-tests	5157	25	a798235a6f8b77c80c31125734a38d84cac45b148db4a4333a42f20f9d36cffc	unchanged	Cold-path kernel test runs (one failure, then all pass)
