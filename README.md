@@ -15,6 +15,8 @@
 > One machine has been measured. A first llama.cpp patch (a static bank of hot experts in VRAM, the rest on the CPU; called the "tier" here) now decodes on that machine and is **measured** at about +5 to +7% over the best stock layout with the 6.1 GiB bank, and up to about +17% at 12k context and +28% at short context with a 7.5 GiB bank at bypass 32 against the matched stock run (derived from single launches; section 4.5; `benchmarks/RESULTS.md` sections 8.2, 8.6). The zero-copy cold-path pieces are built and verified separately and are **not yet integrated into llama.cpp**. The hit rate is **simulated** (0.765 for a static bank at 6.1 GiB), not yet counted in a live run. The strict accuracy limits are **not met** by the tier, nor by stock at another batch size; the tier is inside that spread at batch 8 and 16 (section 7). The crash for batches of 9 or more tokens is **fixed** (cause: a signed/unsigned mix in one CUDA kernel; `benchmarks/RESULTS.md` section 8.4). The loose patches and raw logs are in `patches/stage2-tier-cuda/` and `benchmarks/raw/stage2-tier-cuda/`; the base tier patch and the engine source are **not** in this repository.
 > Every number in this file carries one label: **measured** (run on the test machine, with a log), **published** (vendor or standard specification), **derived** (arithmetic on paper from labelled inputs), **estimate** (derived for hardware that has not been tested), or **unverified**.
 > No "first ever" claim is made. See *Related work*.
+>
+> **The test machine's tuning, disclosed (author-stated; confirmed by nvidia-smi on 2026-10-29):** the RTX 4070's memory runs a +1000 MHz overclock in MSI Afterburner (11,501 MHz vs 10,501 stock, about 552 GB/s peak instead of 504), the core about 2,790 MHz undervolted (2.774 GHz measured inside a kernel run), Windows hardware-accelerated GPU scheduling off. Every measured speed here comes from that one machine in that state; numbers for any other hardware are estimates for others to test.
 
 ---
 
@@ -171,7 +173,7 @@ How each ceiling is derived (same inputs as §4.3: spine 7.73 ms, 608 MB of cold
 
 ## 5. Applying it to other hardware (theory and estimates)
 
-**Everything in this section other than the test machine is an estimate or unverified.** It is a map of what would have to hold, and a model for what it would be worth.
+**Everything in this section other than the test machine is an estimate or unverified.** It is a map of what would have to hold, and a model for what it would be worth. If you have one of these machines, the measurements that would replace a row are listed in [§12](#12-roadmap-and-how-to-help); raw logs are welcome.
 
 ### 5.1 What the method needs
 
